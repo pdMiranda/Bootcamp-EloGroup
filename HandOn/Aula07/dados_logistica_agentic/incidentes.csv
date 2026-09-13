@@ -1,0 +1,71 @@
+incident_id,started_at,hub,route_id,incident_type,severity,duration_hours,impacted_shipments
+INC-0001,2026-07-31 20:00:00,HUB-RJ,R-SP-BH,Bloqueio rodoviário,Alta,11.3,108
+INC-0002,2026-07-21 18:00:00,HUB-GO,R-PR-CO,Chuva severa,Baixa,2.1,21
+INC-0003,2026-07-09 22:00:00,HUB-GO,R-SP-BH,Avaria em veículo,Média,15.2,116
+INC-0004,2026-07-23 07:00:00,HUB-GO,R-SP-RJ,Bloqueio rodoviário,Média,20.0,174
+INC-0005,2026-07-19 16:00:00,HUB-PR,R-BH-GO,Falha de esteira,Média,13.0,19
+INC-0006,2026-07-30 15:00:00,HUB-PR,R-SP-RJ,Avaria em veículo,Média,19.0,163
+INC-0007,2026-07-14 01:00:00,HUB-BH,R-SP-RJ,Bloqueio rodoviário,Baixa,3.6,141
+INC-0008,2026-07-04 08:00:00,HUB-PR,R-RJ-NE,Bloqueio rodoviário,Média,14.0,175
+INC-0009,2026-07-19 01:00:00,HUB-PR,R-BH-GO,Chuva severa,Média,11.8,155
+INC-0010,2026-07-18 16:00:00,HUB-PR,R-SP-RJ,Bloqueio rodoviário,Alta,1.9,37
+INC-0011,2026-07-08 09:00:00,HUB-BH,R-SP-BH,Bloqueio rodoviário,Média,16.2,86
+INC-0012,2026-07-29 22:00:00,HUB-GO,R-PR-CO,Falha de esteira,Média,6.5,159
+INC-0013,2026-07-27 09:00:00,HUB-GO,R-BH-GO,Avaria em veículo,Alta,1.1,148
+INC-0014,2026-07-03 15:00:00,HUB-GO,R-BH-GO,Ausência de equipe,Média,2.1,105
+INC-0015,2026-07-04 08:00:00,HUB-RJ,R-PR-CO,Indisponibilidade de sistema,Média,13.0,92
+INC-0016,2026-07-16 07:00:00,HUB-SP,R-SP-BH,Indisponibilidade de sistema,Média,17.2,165
+INC-0017,2026-07-08 12:00:00,HUB-PR,R-PR-CO,Indisponibilidade de sistema,Baixa,19.7,157
+INC-0018,2026-07-14 17:00:00,HUB-BH,R-SP-BH,Ausência de equipe,Média,5.9,96
+INC-0019,2026-07-28 18:00:00,HUB-PR,R-PR-CO,Indisponibilidade de sistema,Média,3.4,172
+INC-0020,2026-07-04 13:00:00,HUB-SP,R-SP-RJ,Falha de esteira,Baixa,3.3,115
+INC-0021,2026-07-22 21:00:00,HUB-RJ,R-RJ-NE,Bloqueio rodoviário,Alta,10.7,89
+INC-0022,2026-07-21 22:00:00,HUB-RJ,R-RJ-NE,Bloqueio rodoviário,Baixa,12.7,29
+INC-0023,2026-07-31 20:00:00,HUB-BH,R-SP-RJ,Bloqueio rodoviário,Alta,20.0,151
+INC-0024,2026-07-13 07:00:00,HUB-BH,R-BH-GO,Bloqueio rodoviário,Alta,1.5,20
+INC-0025,2026-07-05 11:00:00,HUB-SP,R-SP-BH,Ausência de equipe,Baixa,1.9,124
+INC-0026,2026-07-07 21:00:00,HUB-SP,R-RJ-NE,Chuva severa,Média,16.6,178
+INC-0027,2026-07-27 11:00:00,HUB-SP,R-PR-CO,Falha de esteira,Média,15.6,62
+INC-0028,2026-07-24 07:00:00,HUB-PR,R-BH-GO,Avaria em veículo,Baixa,18.3,56
+INC-0029,2026-07-16 07:00:00,HUB-RJ,R-RJ-NE,Ausência de equipe,Baixa,7.2,89
+INC-0030,2026-07-18 00:00:00,HUB-BH,R-BH-GO,Avaria em veículo,Alta,8.4,221
+INC-0031,2026-07-14 16:00:00,HUB-BH,R-SP-PR,Bloqueio rodoviário,Média,19.6,40
+INC-0032,2026-07-30 05:00:00,HUB-RJ,R-SP-BH,Falha de esteira,Alta,5.1,126
+INC-0033,2026-07-05 17:00:00,HUB-BH,R-BH-GO,Avaria em veículo,Baixa,1.9,29
+INC-0034,2026-07-23 11:00:00,HUB-SP,R-PR-CO,Ausência de equipe,Alta,19.0,34
+INC-0035,2026-07-24 04:00:00,HUB-PR,R-SP-PR,Indisponibilidade de sistema,Alta,4.9,7
+INC-0036,2026-07-30 10:00:00,HUB-BH,R-SP-BH,Indisponibilidade de sistema,Alta,26.3,301
+INC-0037,2026-07-01 18:00:00,HUB-GO,R-RJ-NE,Indisponibilidade de sistema,Alta,12.4,104
+INC-0038,2026-07-26 16:00:00,HUB-PR,R-SP-RJ,Avaria em veículo,Baixa,17.9,178
+INC-0039,2026-07-27 18:00:00,HUB-PR,R-SP-BH,Indisponibilidade de sistema,Média,10.3,92
+INC-0040,2026-07-02 17:00:00,HUB-BH,R-SP-RJ,Bloqueio rodoviário,Alta,16.1,57
+INC-0041,2026-07-21 21:00:00,HUB-SP,R-SP-PR,Falha de esteira,Alta,8.8,154
+INC-0042,2026-07-22 22:00:00,HUB-GO,R-RJ-NE,Bloqueio rodoviário,Média,7.5,67
+INC-0043,2026-07-09 04:00:00,HUB-BH,R-SP-BH,Avaria em veículo,Baixa,14.9,151
+INC-0044,2026-07-30 12:00:00,HUB-GO,R-SP-BH,Indisponibilidade de sistema,Crítica,17.5,100
+INC-0045,2026-07-30 23:00:00,HUB-BH,R-BH-GO,Chuva severa,Alta,15.5,269
+INC-0046,2026-07-13 12:00:00,HUB-SP,R-PR-CO,Avaria em veículo,Média,1.0,76
+INC-0047,2026-07-29 00:00:00,HUB-RJ,R-PR-CO,Ausência de equipe,Baixa,0.6,87
+INC-0048,2026-07-27 18:00:00,HUB-BH,R-RJ-NE,Avaria em veículo,Alta,12.6,159
+INC-0049,2026-07-18 00:00:00,HUB-RJ,R-SP-RJ,Falha de esteira,Média,8.8,71
+INC-0050,2026-07-10 18:00:00,HUB-RJ,R-PR-CO,Falha de esteira,Baixa,2.7,42
+INC-0051,2026-07-09 16:00:00,HUB-BH,R-BH-GO,Avaria em veículo,Baixa,15.2,58
+INC-0052,2026-07-22 16:00:00,HUB-PR,R-SP-PR,Falha de esteira,Média,16.4,92
+INC-0053,2026-07-27 15:00:00,HUB-BH,R-SP-RJ,Falha de esteira,Alta,18.1,313
+INC-0054,2026-07-01 05:00:00,HUB-SP,R-SP-RJ,Chuva severa,Crítica,9.9,132
+INC-0055,2026-07-10 13:00:00,HUB-PR,R-SP-BH,Chuva severa,Alta,5.2,53
+INC-0056,2026-07-19 19:00:00,HUB-PR,R-RJ-NE,Avaria em veículo,Média,7.8,169
+INC-0057,2026-07-13 03:00:00,HUB-SP,R-SP-RJ,Chuva severa,Baixa,12.0,117
+INC-0058,2026-07-06 14:00:00,HUB-RJ,R-SP-PR,Chuva severa,Alta,10.5,113
+INC-0059,2026-07-04 21:00:00,HUB-BH,R-RJ-NE,Indisponibilidade de sistema,Alta,16.2,11
+INC-0060,2026-07-21 14:00:00,HUB-GO,R-SP-BH,Avaria em veículo,Alta,3.1,161
+INC-0061,2026-07-29 08:00:00,HUB-GO,R-BH-GO,Bloqueio rodoviário,Média,0.9,162
+INC-0062,2026-07-14 14:00:00,HUB-GO,R-RJ-NE,Indisponibilidade de sistema,Média,2.0,136
+INC-0063,2026-07-16 16:00:00,HUB-GO,R-SP-BH,Avaria em veículo,Baixa,14.9,167
+INC-0064,2026-07-15 00:00:00,HUB-SP,R-SP-PR,Ausência de equipe,Média,13.2,97
+INC-0065,2026-07-13 10:00:00,HUB-SP,R-RJ-NE,Chuva severa,Média,15.0,19
+INC-0066,2026-07-17 21:00:00,HUB-BH,R-RJ-NE,Chuva severa,Crítica,10.7,335
+INC-0067,2026-07-06 14:00:00,HUB-PR,R-SP-RJ,Bloqueio rodoviário,Alta,4.9,95
+INC-0068,2026-07-02 14:00:00,HUB-PR,R-SP-BH,Ausência de equipe,Média,7.8,72
+INC-0069,2026-07-28 23:00:00,HUB-PR,R-PR-CO,Falha de esteira,Baixa,1.2,46
+INC-0070,2026-07-17 22:00:00,HUB-SP,R-SP-BH,Avaria em veículo,Média,0.8,32

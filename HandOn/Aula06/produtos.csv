@@ -1,0 +1,51 @@
+produto_id,nome_produto,categoria,preco_lista,margem_percentual
+P001,Whey Protein - SKU 1,Whey Protein,174.77,0.4
+P002,Whey Protein - SKU 2,Whey Protein,215.31,0.36
+P003,Whey Protein - SKU 3,Whey Protein,149.99,0.32
+P004,Whey Protein - SKU 4,Whey Protein,138.89,0.39
+P005,Whey Protein - SKU 5,Whey Protein,200.47,0.37
+P006,Whey Protein - SKU 6,Whey Protein,134.63,0.4
+P007,Whey Protein - SKU 7,Whey Protein,226.7,0.32
+P008,Whey Protein - SKU 8,Whey Protein,152.92,0.32
+P009,Creatina - SKU 1,Creatina,113.85,0.4
+P010,Creatina - SKU 2,Creatina,123.73,0.38
+P011,Creatina - SKU 3,Creatina,137.66,0.36
+P012,Creatina - SKU 4,Creatina,112.91,0.39
+P013,Creatina - SKU 5,Creatina,125.6,0.43
+P014,Vitaminas - SKU 1,Vitaminas,48.37,0.5
+P015,Vitaminas - SKU 2,Vitaminas,62.27,0.45
+P016,Vitaminas - SKU 3,Vitaminas,62.81,0.47
+P017,Vitaminas - SKU 4,Vitaminas,43.6,0.54
+P018,Vitaminas - SKU 5,Vitaminas,75.48,0.53
+P019,Vitaminas - SKU 6,Vitaminas,52.08,0.46
+P020,Vitaminas - SKU 7,Vitaminas,65.52,0.49
+P021,Vitaminas - SKU 8,Vitaminas,45.62,0.5
+P022,Vitaminas - SKU 9,Vitaminas,42.52,0.54
+P023,Vitaminas - SKU 10,Vitaminas,50.46,0.52
+P024,Vitaminas - SKU 11,Vitaminas,52.33,0.5
+P025,Vitaminas - SKU 12,Vitaminas,60.65,0.47
+P026,Barras e Snacks - SKU 1,Barras e Snacks,23.07,0.48
+P027,Barras e Snacks - SKU 2,Barras e Snacks,22.75,0.49
+P028,Barras e Snacks - SKU 3,Barras e Snacks,19.06,0.49
+P029,Barras e Snacks - SKU 4,Barras e Snacks,13.56,0.42
+P030,Barras e Snacks - SKU 5,Barras e Snacks,13.09,0.43
+P031,Barras e Snacks - SKU 6,Barras e Snacks,16.8,0.43
+P032,Barras e Snacks - SKU 7,Barras e Snacks,21.55,0.44
+P033,Barras e Snacks - SKU 8,Barras e Snacks,15.63,0.45
+P034,Barras e Snacks - SKU 9,Barras e Snacks,14.12,0.48
+P035,Barras e Snacks - SKU 10,Barras e Snacks,13.41,0.5
+P036,Barras e Snacks - SKU 11,Barras e Snacks,20.94,0.42
+P037,Barras e Snacks - SKU 12,Barras e Snacks,12.66,0.48
+P038,Barras e Snacks - SKU 13,Barras e Snacks,20.23,0.47
+P039,Barras e Snacks - SKU 14,Barras e Snacks,20.93,0.41
+P040,Barras e Snacks - SKU 15,Barras e Snacks,16.47,0.41
+P041,Bebidas Funcionais - SKU 1,Bebidas Funcionais,14.61,0.56
+P042,Bebidas Funcionais - SKU 2,Bebidas Funcionais,10.78,0.51
+P043,Bebidas Funcionais - SKU 3,Bebidas Funcionais,10.64,0.53
+P044,Bebidas Funcionais - SKU 4,Bebidas Funcionais,13.65,0.56
+P045,Bebidas Funcionais - SKU 5,Bebidas Funcionais,14.79,0.55
+P046,Bebidas Funcionais - SKU 6,Bebidas Funcionais,9.26,0.57
+P047,Bebidas Funcionais - SKU 7,Bebidas Funcionais,13.88,0.56
+P048,Bebidas Funcionais - SKU 8,Bebidas Funcionais,13.95,0.55
+P049,Bebidas Funcionais - SKU 9,Bebidas Funcionais,12.16,0.54
+P050,Bebidas Funcionais - SKU 10,Bebidas Funcionais,8.58,0.51

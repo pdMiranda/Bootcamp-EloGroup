@@ -1,0 +1,61 @@
+mes,canal_marketing,investimento_rs,tem_cupom_desconto,desconto_medio_percentual
+2025-07,Busca Paga,2408.58,False,0.05
+2025-07,Instagram Ads,6086.63,False,0.04
+2025-07,Influencer,13798.36,False,0.02
+2025-07,CRM/Email,7334.98,False,0.09
+2025-07,Orgânico,3000.74,False,0.02
+2025-08,Busca Paga,4095.88,False,0.07
+2025-08,Instagram Ads,12505.56,False,0.05
+2025-08,Influencer,13328.99,False,0.06
+2025-08,CRM/Email,4425.41,True,0.09
+2025-08,Orgânico,12496.72,False,0.07
+2025-09,Busca Paga,6134.05,False,0.01
+2025-09,Instagram Ads,4963.16,False,0.03
+2025-09,Influencer,12634.19,False,0.07
+2025-09,CRM/Email,2090.38,False,0.08
+2025-09,Orgânico,4887.4,False,0.01
+2025-10,Busca Paga,6389.0,False,0.08
+2025-10,Instagram Ads,6201.64,False,0.04
+2025-10,Influencer,11139.25,False,0.03
+2025-10,CRM/Email,14633.17,False,0.1
+2025-10,Orgânico,8464.23,False,0.02
+2025-11,Busca Paga,5702.93,False,0.0
+2025-11,Instagram Ads,9924.34,False,0.04
+2025-11,Influencer,2669.22,False,0.02
+2025-11,CRM/Email,13807.46,False,0.06
+2025-11,Orgânico,8362.89,False,0.08
+2025-12,Busca Paga,5146.72,False,0.05
+2025-12,Instagram Ads,11901.05,False,0.02
+2025-12,Influencer,11466.81,False,0.03
+2025-12,CRM/Email,10219.98,True,0.08
+2025-12,Orgânico,3173.77,False,0.07
+2026-01,Busca Paga,6170.14,False,0.01
+2026-01,Instagram Ads,4554.14,True,0.24
+2026-01,Influencer,19455.01,True,0.15
+2026-01,CRM/Email,8657.21,True,0.06
+2026-01,Orgânico,4266.76,False,0.06
+2026-02,Busca Paga,7027.56,False,0.07
+2026-02,Instagram Ads,6817.99,True,0.2
+2026-02,Influencer,6255.28,True,0.29
+2026-02,CRM/Email,13405.41,True,0.06
+2026-02,Orgânico,12623.89,False,0.04
+2026-03,Busca Paga,8885.46,False,0.02
+2026-03,Instagram Ads,5778.6,True,0.28
+2026-03,Influencer,24669.78,True,0.24
+2026-03,CRM/Email,6407.39,True,0.07
+2026-03,Orgânico,13662.43,False,0.07
+2026-04,Busca Paga,12138.38,False,0.05
+2026-04,Instagram Ads,5568.88,True,0.17
+2026-04,Influencer,24626.17,True,0.24
+2026-04,CRM/Email,2119.56,True,0.06
+2026-04,Orgânico,2065.8,False,0.01
+2026-05,Busca Paga,9133.54,False,0.06
+2026-05,Instagram Ads,18855.89,True,0.18
+2026-05,Influencer,20264.99,True,0.19
+2026-05,CRM/Email,6230.2,True,0.09
+2026-05,Orgânico,13039.9,False,0.05
+2026-06,Busca Paga,9388.01,False,0.01
+2026-06,Instagram Ads,12204.55,True,0.19
+2026-06,Influencer,9309.36,True,0.3
+2026-06,CRM/Email,7110.27,True,0.09
+2026-06,Orgânico,12332.55,False,0.04
