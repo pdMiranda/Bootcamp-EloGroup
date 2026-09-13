@@ -1,303 +1,476 @@
-/** Dashboard Executivo - Lógica JavaScript */
+/**
+ * Dashboard Executivo - JavaScript
+ * Gerencia gráficos, dados e interações
+ */
 
-let currentPeriod = 'dia';
-let currentKpi = 'receita_bruta';
-let useLatestData = false;
+// Estado global
 let mainChart = null;
 let roasChart = null;
 let segmentosChart = null;
+let produtosChart = null;
+let canalChart = null;
 
-const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-const formatNumber = (value, decimals = 0) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
+let currentKPI = 'receita_bruta';
+let currentGranularity = 'day';
+let recentMode = false;
 
-const updateKpiValue = (id, value) => {
-    const element = document.getElementById(`kpi-${id}`);
-    if (element) element.textContent = value;
-};
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    initializeEventListeners();
+    loadDashboardData();
+});
 
-const createDeltaElement = (delta) => {
-    if (delta === null || delta === undefined) return '';
-    const sign = delta >= 0 ? '+' : '';
-    const className = delta >= 0 ? 'positive' : 'negative';
-    return `<span class="kpi-delta ${className}">${sign}${formatNumber(delta, 1)}%</span>`;
-};
+// Inicializa event listeners
+function initializeEventListeners() {
+    // Seletor de KPI
+    document.getElementById('kpiSelect').addEventListener('change', function(e) {
+        currentKPI = e.target.value;
+        updateMainChart();
+    });
 
-const updateKpis = (data) => {
-    const kpis = data.kpis;
-    
+    // Seletor de granularidade
+    document.getElementById('granularitySelect').addEventListener('change', function(e) {
+        currentGranularity = e.target.value;
+        loadDashboardData();
+    });
+
+    // Toggle de dados recentes
+    document.getElementById('recentToggle').addEventListener('change', function(e) {
+        recentMode = e.target.checked;
+        loadDashboardData();
+    });
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.dataset.tab;
+            
+            // Remove active de todos
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            
+            // Adiciona active no selecionado
+            this.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        });
+    });
+}
+
+// Carrega dados do dashboard
+async function loadDashboardData() {
+    try {
+        const params = new URLSearchParams({
+            recent: recentMode,
+            granularity: currentGranularity,
+            kpi: currentKPI
+        });
+
+        const response = await fetch(`/api/dashboard-data?${params}`);
+        const data = await response.json();
+
+        updateKPIs(data.kpis);
+        updateHighlightCards(data);
+        updateMainChart(data.chart_data);
+        updateSecondaryCharts(data);
+        updateDetailTabs(data.kpis);
+        updateInsights(data.insights);
+        updatePeriodInfo(data.periodo);
+        updateWarning(data.data_warning);
+
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
+
+// Atualiza KPIs principais
+function updateKPIs(kpis) {
     // Comercial
-    updateKpiValue('receita-bruta', formatCurrency(kpis.comercial.receita_bruta));
-    updateKpiValue('pedidos', formatNumber(kpis.comercial.pedidos));
-    updateKpiValue('ticket-medio', formatCurrency(kpis.comercial.ticket_medio));
-    updateKpiValue('conversao', `${formatNumber(kpis.comercial.conversao, 1)}%`);
+    updateKPIValue('receita_bruta', kpis.comercial.receita_bruta, 'currency');
+    updateKPIVariation('receita_bruta', kpis.comercial.receita_bruta_var);
+    
+    updateKPIValue('pedidos', kpis.comercial.pedidos, 'number');
+    updateKPIVariation('pedidos', kpis.comercial.pedidos_var);
+    
+    updateKPIValue('ticket_medio', kpis.comercial.ticket_medio, 'currency');
+    updateKPIVariation('ticket_medio', kpis.comercial.ticket_medio_var);
+    
+    updateKPIValue('conversao', kpis.comercial.conversao, 'percent');
+    updateKPIVariation('conversao', kpis.comercial.conversao_var);
     
     // Margem
-    updateKpiValue('margem-contribuicao', formatCurrency(kpis.margem.margem_contribuicao));
-    updateKpiValue('desconto-medio', formatCurrency(kpis.margem.desconto_medio));
-    updateKpiValue('frete-medio', formatCurrency(kpis.margem.frete_medio));
-    if (kpis.margem.rentabilidade_por_sku && kpis.margem.rentabilidade_por_sku.length > 0) {
-        const topSku = kpis.margem.rentabilidade_por_sku[0];
-        document.getElementById('kpi-rentabilidade-sku').textContent = `${topSku.sku_id}: ${formatNumber(topSku.rentabilidade_pct, 1)}%`;
-    }
+    updateKPIValue('margem_contribuicao', kpis.margem.margem_contribuicao, 'currency');
+    updateKPIVariation('margem_contribuicao', kpis.margem.margem_contribuicao_var);
     
-    // Marketing
-    updateKpiValue('cac', formatCurrency(kpis.marketing.cac));
-    updateKpiValue('roas', formatNumber(kpis.marketing.roas, 2));
-    updateKpiValue('conversoes-marketing', formatNumber(kpis.marketing.conversoes));
-    if (kpis.marketing.margem_por_canal && kpis.marketing.margem_por_canal.length > 0) {
-        const melhorCanal = kpis.marketing.margem_por_canal.reduce((prev, current) => (current.margem_canal > prev.margem_canal) ? current : prev);
-        document.getElementById('kpi-melhor-canal').textContent = melhorCanal.canal;
-    }
-    
-    // Cliente
-    updateKpiValue('recompra', `${formatNumber(kpis.cliente.recompra, 1)}%`);
-    updateKpiValue('ltv', formatCurrency(kpis.cliente.ltv));
-    updateKpiValue('churn', `${formatNumber(kpis.cliente.churn, 1)}%`);
-    if (kpis.cliente.segmentos && Object.keys(kpis.cliente.segmentos).length > 0) {
-        const topSegmento = Object.entries(kpis.cliente.segmentos).sort((a, b) => b[1] - a[1])[0];
-        document.getElementById('kpi-top-segmento').textContent = topSegmento[0];
-    }
-    
-    // Operações
-    updateKpiValue('taxa-devolucao', `${formatNumber(kpis.operacoes.taxa_devolucao, 1)}%`);
-    updateKpiValue('ruptura', `${formatNumber(kpis.operacoes.ruptura, 1)}%`);
-    updateKpiValue('giro-estoque', formatNumber(kpis.operacoes.giro_estoque, 2));
-    updateKpiValue('lead-time', `${kpis.operacoes.lead_time} dias`);
-    
-    // Atendimento
-    updateKpiValue('volume-tickets', formatNumber(kpis.atendimento.volume_tickets));
-    updateKpiValue('sla', `${formatNumber(kpis.atendimento.sla, 1)}%`);
-    updateKpiValue('sentimento', `${formatNumber(kpis.atendimento.sentimento, 1)}/5`);
-    updateKpiValue('custo-ticket', formatCurrency(kpis.atendimento.custo_por_ticket));
-    
-    // Produtividade
-    updateKpiValue('horas-economizadas', formatNumber(kpis.produtividade.horas_economizadas, 1));
-    updateKpiValue('automacao-potencial', `${formatNumber(kpis.produtividade.automacao_potencial, 1)}%`);
-    updateKpiValue('retrabalho-reduzido', formatNumber(kpis.produtividade.retrabalho_reduzido));
-    updateKpiValue('tempo-resposta', `${formatNumber(kpis.produtividade.tempo_resposta, 0)} min`);
-    
-    // Impacto
-    updateKpiValue('ebitda-potencial', formatCurrency(kpis.impacto.ebitda_potencial));
-    updateKpiValue('economia-estimada', formatCurrency(kpis.impacto.economia_estimada));
-    updateKpiValue('receita-protegida', formatCurrency(kpis.impacto.receita_protegida));
-    updateKpiValue('payback', `${formatNumber(kpis.impacto.payback, 1)} meses`);
-};
+    updateKPIValue('margem_percentual', kpis.margem.margem_percentual, 'percent');
+    updateKPIVariation('margem_percentual', kpis.margem.margem_percentual_var);
+}
 
-const updateMainChart = (chartData) => {
-    const ctx = document.getElementById('main-chart').getContext('2d');
-    const labels = chartData.data.map(d => {
-        const date = new Date(d.periodo);
-        if (currentPeriod === 'dia') return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-        else if (currentPeriod === 'semana') return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-        else return date.toLocaleDateString('pt-BR', { month: '2-digit', year: '2-digit' });
-    });
-    const values = chartData.data.map(d => d.valor || d.receita_bruta);
+// Atualiza cards de destaque
+function updateHighlightCards(data) {
+    document.getElementById('melhor_canal_nome').textContent = data.melhor_canal.canal;
+    document.getElementById('melhor_canal_roas').textContent = data.melhor_canal.roas.toFixed(2);
     
-    const kpiLabels = {
-        'receita_bruta': 'Receita Bruta (R$)',
-        'margem_contribuicao': 'Margem de Contribuição (R$)',
-        'pedidos': 'Pedidos',
-        'ticket_medio': 'Ticket Médio (R$)',
-        'conversao': 'Conversão (%)'
-    };
+    document.getElementById('top_segmento_nome').textContent = data.top_segmento.segmento;
+    document.getElementById('top_segmento_clientes').textContent = data.top_segmento.clientes.toLocaleString('pt-BR');
+}
+
+// Atualiza gráfico principal
+function updateMainChart(chartData = null) {
+    const ctx = document.getElementById('mainChart').getContext('2d');
     
-    if (mainChart) mainChart.destroy();
-    
+    if (mainChart) {
+        mainChart.destroy();
+    }
+
+    const labels = chartData.map(d => d.data);
+    const receitaData = chartData.map(d => d.receita_bruta);
+    const margemData = chartData.map(d => d.margem_contribuicao);
+
     mainChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
+            datasets: [
+                {
+                    label: 'Receita Bruta',
+                    data: receitaData,
+                    borderColor: '#4299e1',
+                    backgroundColor: 'rgba(66, 153, 225, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Margem de Contribuição',
+                    data: margemData,
+                    borderColor: '#38a169',
+                    backgroundColor: 'rgba(56, 161, 105, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            return `${context.dataset.label}: R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Receita Bruta (R$)'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Margem (R$)'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Atualiza gráficos secundários
+function updateSecondaryCharts(data) {
+    // ROAS por Canal
+    const roasCtx = document.getElementById('roasChart').getContext('2d');
+    if (roasChart) roasChart.destroy();
+    
+    roasChart = new Chart(roasCtx, {
+        type: 'bar',
+        data: {
+            labels: data.roas_por_canal.map(d => d.canal),
             datasets: [{
-                label: kpiLabels[currentKpi] || currentKpi,
-                data: values,
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 3,
-                pointHoverRadius: 5
+                label: 'ROAS',
+                data: data.roas_por_canal.map(d => d.roas),
+                backgroundColor: '#d69e2e',
+                borderRadius: 4
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: true, labels: { color: '#f1f5f9', font: { size: 11 } } },
-                tooltip: {
-                    backgroundColor: '#1e293b',
-                    titleColor: '#f1f5f9',
-                    bodyColor: '#94a3b8',
-                    callbacks: {
-                        label: (ctx) => {
-                            let value = ctx.parsed.y;
-                            if (['receita_bruta', 'ticket_medio', 'margem_contribuicao'].includes(currentKpi)) return formatCurrency(value);
-                            if (currentKpi === 'conversao') return `${formatNumber(value, 2)}%`;
-                            return formatNumber(value);
-                        }
-                    }
-                }
+                legend: { display: false }
             },
             scales: {
-                x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', maxRotation: 45 } },
-                y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'ROAS'
+                    }
+                }
             }
         }
     });
-};
 
-const updateRoasChart = (roasData) => {
-    const ctx = document.getElementById('roas-chart').getContext('2d');
-    if (roasChart) roasChart.destroy();
-    
-    const labels = roasData.map(d => d.canal);
-    const roasValues = roasData.map(d => d.roas);
-    const investimentoValues = roasData.map(d => d.investimento_reais);
-    
-    roasChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'ROAS', data: roasValues, backgroundColor: '#10b981', yAxisID: 'y' },
-                { label: 'Investimento (R$)', data: investimentoValues, backgroundColor: '#3b82f6', yAxisID: 'y1' }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: true, labels: { color: '#f1f5f9', font: { size: 10 } } } },
-            scales: {
-                x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: { size: 9 } } },
-                y: { type: 'linear', display: true, position: 'left', grid: { color: '#334155' }, ticks: { color: '#10b981', font: { size: 9 } } },
-                y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, ticks: { color: '#3b82f6', font: { size: 9 } } }
-            }
-        }
-    });
-};
-
-const updateSegmentosChart = (segmentosData) => {
-    const ctx = document.getElementById('segmentos-chart').getContext('2d');
+    // Segmentos
+    const segCtx = document.getElementById('segmentosChart').getContext('2d');
     if (segmentosChart) segmentosChart.destroy();
     
-    const labels = segmentosData.map(d => d.segmento);
-    const counts = segmentosData.map(d => d.count);
-    const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
-    
-    segmentosChart = new Chart(ctx, {
+    segmentosChart = new Chart(segCtx, {
         type: 'doughnut',
         data: {
-            labels: labels,
-            datasets: [{ data: counts, backgroundColor: colors.slice(0, labels.length), borderWidth: 0 }]
+            labels: data.segmentos.map(d => d.segmento),
+            datasets: [{
+                data: data.segmentos.map(d => d.clientes),
+                backgroundColor: [
+                    '#4299e1',
+                    '#38a169',
+                    '#d69e2e',
+                    '#805ad5',
+                    '#ed64a6'
+                ],
+                borderWidth: 0
+            }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: true, position: 'right', labels: { color: '#f1f5f9', font: { size: 9 } } }
+                legend: {
+                    position: 'right'
+                }
             }
         }
     });
-};
 
-const updateTopProducts = (products) => {
-    const tbody = document.querySelector('#top-products-table tbody');
-    if (!products || products.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5">Nenhum dado disponível</td></tr>';
-        return;
-    }
-    tbody.innerHTML = products.map(p => `
-        <tr>
-            <td>${p.produto}</td>
-            <td>${p.categoria}</td>
-            <td>${formatNumber(p.quantidade)}</td>
-            <td>${formatCurrency(p.receita_bruta)}</td>
-            <td>${formatCurrency(p.margem)}</td>
-        </tr>
-    `).join('');
-};
+    // Top Produtos
+    const prodCtx = document.getElementById('produtosChart').getContext('2d');
+    if (produtosChart) produtosChart.destroy();
+    
+    produtosChart = new Chart(prodCtx, {
+        type: 'bar',
+        data: {
+            labels: data.top_produtos.map(d => d.produto.substring(0, 20) + '...'),
+            datasets: [{
+                label: 'Quantidade Vendida',
+                data: data.top_produtos.map(d => d.quantidade),
+                backgroundColor: '#319795',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 
-const updateInsights = (insights) => {
-    const container = document.getElementById('insights-container');
-    if (!insights || insights.length === 0) {
-        container.innerHTML = '<div class="loading">Nenhum insight gerado</div>';
-        return;
-    }
-    const priorityLabels = { alta: 'Alta', media: 'Média', baixa: 'Baixa' };
-    container.innerHTML = insights.map(insight => `
-        <div class="insight-card ${insight.tipo}">
+    // Receita por Canal
+    const canCtx = document.getElementById('canalChart').getContext('2d');
+    if (canalChart) canalChart.destroy();
+    
+    canalChart = new Chart(canCtx, {
+        type: 'pie',
+        data: {
+            labels: data.vendas_por_canal.map(d => d.canal),
+            datasets: [{
+                data: data.vendas_por_canal.map(d => d.receita),
+                backgroundColor: [
+                    '#4299e1',
+                    '#38a169',
+                    '#d69e2e',
+                    '#805ad5',
+                    '#ed64a6',
+                    '#319795',
+                    '#9f7aea'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+}
+
+// Atualiza abas de detalhes
+function updateDetailTabs(kpis) {
+    // Comercial
+    updateDetailValue('receita_bruta', kpis.comercial.receita_bruta, 'currency');
+    updateDetailValue('pedidos', kpis.comercial.pedidos, 'number');
+    updateDetailValue('ticket_medio', kpis.comercial.ticket_medio, 'currency');
+    updateDetailValue('conversao', kpis.comercial.conversao, 'percent');
+    
+    // Margem
+    updateDetailValue('margem_contribuicao', kpis.margem.margem_contribuicao, 'currency');
+    updateDetailValue('margem_percentual', kpis.margem.margem_percentual, 'percent');
+    updateDetailValue('desconto_medio', kpis.margem.desconto_medio, 'currency');
+    updateDetailValue('frete_medio', kpis.margem.frete_medio, 'currency');
+    updateDetailValue('rentabilidade_sku', kpis.margem.rentabilidade_sku, 'currency');
+    
+    // Marketing
+    updateDetailValue('cac_medio', kpis.marketing.cac_medio, 'currency');
+    updateDetailValue('roas_medio', kpis.marketing.roas_medio, 'number');
+    updateDetailValue('conversoes_marketing', kpis.marketing.conversoes_marketing, 'number');
+    
+    // Cliente
+    updateDetailValue('recompra', kpis.cliente.recompra, 'percent');
+    updateDetailValue('ltv_medio', kpis.cliente.ltv_medio, 'currency');
+    updateDetailValue('churn_rate', kpis.cliente.churn_rate, 'percent');
+    updateDetailValue('top_segmento', kpis.cliente.top_segmento, 'text');
+    
+    // Operações
+    updateDetailValue('taxa_devolucao', kpis.operacoes.taxa_devolucao, 'percent');
+    updateDetailValue('taxa_ruptura', kpis.operacoes.taxa_ruptura, 'percent');
+    updateDetailValue('giro_estoque', kpis.operacoes.giro_estoque, 'number');
+    updateDetailValue('lead_time_medio', kpis.operacoes.lead_time_medio, 'number');
+    
+    // Atendimento
+    updateDetailValue('volume_tickets', kpis.atendimento.volume_tickets, 'number');
+    updateDetailValue('sla_rate', kpis.atendimento.sla_rate, 'percent');
+    updateDetailValue('csat_medio', kpis.atendimento.csat_medio, 'number');
+    updateDetailValue('custo_por_ticket', kpis.atendimento.custo_por_ticket, 'currency');
+    
+    // Produtividade
+    updateDetailValue('horas_economizadas', kpis.produtividade.horas_economizadas, 'number');
+    updateDetailValue('automacao_potencial', kpis.produtividade.automacao_potencial, 'percent');
+    updateDetailValue('retrabalho_horas', kpis.produtividade.retrabalho_horas, 'number');
+    updateDetailValue('tempo_resposta_medio_min', kpis.produtividade.tempo_resposta_medio_min, 'number');
+    
+    // Impacto
+    updateDetailValue('ebitda_potencial', kpis.impacto.ebitda_potencial, 'currency');
+    updateDetailValue('economia_estimada', kpis.impacto.economia_estimada, 'currency');
+    updateDetailValue('receita_protegida', kpis.impacto.receita_protegida, 'currency');
+    updateDetailValue('payback_meses', kpis.impacto.payback_meses, 'number');
+}
+
+// Atualiza insights
+function updateInsights(insights) {
+    const container = document.getElementById('insightsContainer');
+    container.innerHTML = '';
+    
+    insights.forEach(insight => {
+        const card = document.createElement('div');
+        card.className = `insight-card ${insight.tipo}`;
+        
+        card.innerHTML = `
             <div class="insight-header">
                 <span class="insight-title">${insight.titulo}</span>
-                <span class="insight-priority ${insight.prioridade}">${priorityLabels[insight.prioridade]}</span>
+                <span class="insight-priority ${insight.prioridade}">${insight.prioridade}</span>
             </div>
             <p class="insight-description">${insight.descricao}</p>
-        </div>
-    `).join('');
-};
+            <span class="insight-impact">💡 ${insight.impacto}</span>
+        `;
+        
+        container.appendChild(card);
+    });
+}
 
-const updatePeriodDisplay = (periodo) => {
-    const display = document.getElementById('period-display');
-    const startDate = new Date(periodo.inicio);
-    const endDate = new Date(periodo.fim);
-    const startStr = startDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const endStr = endDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    display.textContent = `${startStr} a ${endStr}`;
+// Atualiza informações de período
+function updatePeriodInfo(periodo) {
+    const start = new Date(periodo.inicio).toLocaleDateString('pt-BR');
+    const end = new Date(periodo.fim).toLocaleDateString('pt-BR');
+    const modeText = periodo.recent_mode ? '(Últimos 7 dias)' : '(Últimos 30 dias)';
     
-    const warningBanner = document.getElementById('data-gap-warning');
-    const warningMessage = document.getElementById('data-gap-message');
-    if (periodo.data_gap_warning) {
-        warningMessage.textContent = periodo.data_gap_warning;
-        warningBanner.style.display = 'flex';
+    document.getElementById('periodRange').textContent = 
+        `Período: ${start} a ${end} ${modeText}`;
+}
+
+// Atualiza warning de lacuna de dados
+function updateWarning(warning) {
+    const warningBox = document.getElementById('dataWarning');
+    const warningText = document.getElementById('warningText');
+    
+    if (warning.has_gap) {
+        warningBox.style.display = 'flex';
+        warningText.textContent = warning.message;
     } else {
-        warningBanner.style.display = 'none';
+        warningBox.style.display = 'none';
     }
-};
+}
 
-const loadDashboardData = async () => {
-    try {
-        const params = new URLSearchParams({ period: currentPeriod, kpi: currentKpi, latest: useLatestData });
-        const response = await fetch(`/api/dashboard?${params}`);
-        const data = await response.json();
-        
-        updatePeriodDisplay(data.periodo);
-        updateKpis(data);
-        updateMainChart(data.chart);
-        updateRoasChart(data.roas_canais);
-        updateSegmentosChart(data.segmentos_distribuicao);
-        updateTopProducts(data.top_produtos);
-        updateInsights(data.insights);
-        
-        const now = new Date();
-        document.getElementById('last-update').textContent = `Última atualização: ${now.toLocaleTimeString('pt-BR')}`;
-    } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        document.getElementById('insights-container').innerHTML = '<div class="insight-card alerta"><p class="insight-description">Erro ao carregar dados. Verifique a conexão.</p></div>';
+// Helpers
+function updateKPIValue(key, value, format) {
+    const element = document.getElementById(`kpi_${key}`);
+    if (element) {
+        element.textContent = formatValue(value, format);
     }
-};
+}
 
-const initEventListeners = () => {
-    document.getElementById('kpi-selector').addEventListener('change', (e) => {
-        currentKpi = e.target.value;
-        loadDashboardData();
-    });
-    
-    document.querySelectorAll('.btn-period').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.btn-period').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentPeriod = btn.dataset.period;
-            loadDashboardData();
-        });
-    });
-    
-    document.getElementById('latest-data-toggle').addEventListener('change', (e) => {
-        useLatestData = e.target.checked;
-        loadDashboardData();
-    });
-};
+function updateKPIVariation(key, variation) {
+    const element = document.getElementById(`var_${key}`);
+    if (element && variation !== undefined) {
+        const signal = variation > 0 ? '+' : '';
+        element.textContent = `${signal}${variation.toFixed(1)}%`;
+        element.className = `kpi-variation ${variation > 0 ? 'positive' : variation < 0 ? 'negative' : 'neutral'}`;
+    } else if (element) {
+        element.textContent = '';
+    }
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    initEventListeners();
-    loadDashboardData();
-    setInterval(loadDashboardData, 60000);
-});
+function updateDetailValue(key, value, format) {
+    const element = document.getElementById(`det_${key}`);
+    if (element) {
+        element.textContent = formatValue(value, format);
+    }
+}
+
+function formatValue(value, format) {
+    if (value === undefined || value === null) return '-';
+    
+    switch (format) {
+        case 'currency':
+            return `R$ ${value.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        case 'percent':
+            return `${value.toFixed(2)}%`;
+        case 'number':
+            return value.toLocaleString('pt-BR');
+        default:
+            return value.toString();
+    }
+}
