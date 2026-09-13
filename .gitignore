@@ -9,8 +9,7 @@ env/
 venv/
 .venv/
 .ENV
-.ENV.*
-.python-version
+.ENV.local
 
 # Build artifacts
 build/
@@ -20,27 +19,15 @@ dist/
 # Logs
 *.log
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Environment variables
-.env
-.env.local
-*.env
-*.env.*
-
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Coverage
 .coverage

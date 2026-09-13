@@ -36,21 +36,17 @@
             <div class="control-group">
                 <label>KPI Principal:</label>
                 <select id="kpi-selector">
-                    <optgroup label="Comercial">
-                        <option value="receita_bruta" selected>Receita Bruta</option>
-                        <option value="pedidos">Pedidos</option>
-                        <option value="ticket_medio">Ticket Médio</option>
-                        <option value="conversao">Conversão</option>
-                    </optgroup>
-                    <optgroup label="Margem">
-                        <option value="margem_contribuicao">Margem de Contribuição</option>
-                    </optgroup>
+                    <option value="receita_bruta" selected>Receita Bruta</option>
+                    <option value="margem_contribuicao">Margem de Contribuição</option>
+                    <option value="pedidos">Pedidos</option>
+                    <option value="ticket_medio">Ticket Médio</option>
+                    <option value="conversao">Conversão</option>
                 </select>
             </div>
             <div class="control-group">
                 <label>Granularidade:</label>
                 <div class="btn-group">
-                    <button class="btn-period" data-period="dia">Dia</button>
+                    <button class="btn-period active" data-period="dia">Dia</button>
                     <button class="btn-period" data-period="semana">Semana</button>
                     <button class="btn-period" data-period="mes">Mês</button>
                 </div>
@@ -64,257 +60,125 @@
             </div>
         </section>
 
+        <!-- Additional Charts Row -->
+        <section class="charts-row">
+            <div class="chart-panel">
+                <h3>📈 ROAS por Canal</h3>
+                <div class="chart-small-container">
+                    <canvas id="roas-chart"></canvas>
+                </div>
+            </div>
+            <div class="chart-panel">
+                <h3>👥 Segmentos de Clientes</h3>
+                <div class="chart-small-container">
+                    <canvas id="segmentos-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
         <!-- KPI Cards Grid -->
         <section class="kpi-grid">
             <!-- Comercial -->
             <div class="kpi-card comercial">
-                <div class="kpi-header">
-                    <span class="kpi-icon">💰</span>
-                    <h3>Comercial</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">💰</span><h3>Comercial</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Receita Bruta</span>
-                        <span class="kpi-value" id="kpi-receita-bruta">-</span>
-                        <span class="kpi-delta" id="delta-receita-bruta"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Pedidos</span>
-                        <span class="kpi-value" id="kpi-pedidos">-</span>
-                        <span class="kpi-delta" id="delta-pedidos"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Ticket Médio</span>
-                        <span class="kpi-value" id="kpi-ticket-medio">-</span>
-                        <span class="kpi-delta" id="delta-ticket-medio"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Conversão</span>
-                        <span class="kpi-value" id="kpi-conversao">-</span>
-                        <span class="kpi-delta" id="delta-conversao"></span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Receita Bruta</span><span class="kpi-value" id="kpi-receita-bruta">-</span><span class="kpi-delta" id="delta-receita-bruta"></span></div>
+                    <div class="kpi-item"><span class="kpi-label">Pedidos</span><span class="kpi-value" id="kpi-pedidos">-</span><span class="kpi-delta" id="delta-pedidos"></span></div>
+                    <div class="kpi-item"><span class="kpi-label">Ticket Médio</span><span class="kpi-value" id="kpi-ticket-medio">-</span><span class="kpi-delta" id="delta-ticket-medio"></span></div>
+                    <div class="kpi-item"><span class="kpi-label">Conversão</span><span class="kpi-value" id="kpi-conversao">-</span><span class="kpi-delta" id="delta-conversao"></span></div>
                 </div>
             </div>
 
             <!-- Margem -->
             <div class="kpi-card margem">
-                <div class="kpi-header">
-                    <span class="kpi-icon">📈</span>
-                    <h3>Margem</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">📈</span><h3>Margem</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Margem Contrib.</span>
-                        <span class="kpi-value" id="kpi-margem-contribuicao">-</span>
-                        <span class="kpi-delta" id="delta-margem-contribuicao"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Desconto Médio</span>
-                        <span class="kpi-value" id="kpi-desconto-medio">-</span>
-                        <span class="kpi-delta" id="delta-desconto-medio"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Frete Médio</span>
-                        <span class="kpi-value" id="kpi-frete-medio">-</span>
-                        <span class="kpi-delta" id="delta-frete-medio"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Rentabilidade SKU</span>
-                        <span class="kpi-value small" id="kpi-rentabilidade-sku">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Margem Contrib.</span><span class="kpi-value" id="kpi-margem-contribuicao">-</span><span class="kpi-delta" id="delta-margem-contribuicao"></span></div>
+                    <div class="kpi-item"><span class="kpi-label">Desconto Médio</span><span class="kpi-value" id="kpi-desconto-medio">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Frete Médio</span><span class="kpi-value" id="kpi-frete-medio">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Top SKU Rentável</span><span class="kpi-value small" id="kpi-rentabilidade-sku">-</span></div>
                 </div>
             </div>
 
             <!-- Marketing -->
             <div class="kpi-card marketing">
-                <div class="kpi-header">
-                    <span class="kpi-icon">🎯</span>
-                    <h3>Marketing</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">🎯</span><h3>Marketing</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">CAC</span>
-                        <span class="kpi-value" id="kpi-cac">-</span>
-                        <span class="kpi-delta" id="delta-cac"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">ROAS</span>
-                        <span class="kpi-value" id="kpi-roas">-</span>
-                        <span class="kpi-delta" id="delta-roas"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Conversões</span>
-                        <span class="kpi-value" id="kpi-conversoes-marketing">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Melhor Canal</span>
-                        <span class="kpi-value small" id="kpi-melhor-canal">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">CAC</span><span class="kpi-value" id="kpi-cac">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">ROAS</span><span class="kpi-value" id="kpi-roas">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Conversões</span><span class="kpi-value" id="kpi-conversoes-marketing">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Melhor Canal</span><span class="kpi-value small" id="kpi-melhor-canal">-</span></div>
                 </div>
             </div>
 
             <!-- Cliente -->
             <div class="kpi-card cliente">
-                <div class="kpi-header">
-                    <span class="kpi-icon">👥</span>
-                    <h3>Cliente</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">👥</span><h3>Cliente</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Recompra</span>
-                        <span class="kpi-value" id="kpi-recompra">-</span>
-                        <span class="kpi-delta" id="delta-recompra"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">LTV</span>
-                        <span class="kpi-value" id="kpi-ltv">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Churn</span>
-                        <span class="kpi-value" id="kpi-churn">-</span>
-                        <span class="kpi-delta" id="delta-churn"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Top Segmento</span>
-                        <span class="kpi-value small" id="kpi-top-segmento">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Recompra</span><span class="kpi-value" id="kpi-recompra">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">LTV</span><span class="kpi-value" id="kpi-ltv">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Churn</span><span class="kpi-value" id="kpi-churn">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Top Segmento</span><span class="kpi-value small" id="kpi-top-segmento">-</span></div>
                 </div>
             </div>
 
             <!-- Operações -->
             <div class="kpi-card operacoes">
-                <div class="kpi-header">
-                    <span class="kpi-icon">⚙️</span>
-                    <h3>Operações</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">⚙️</span><h3>Operações</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Taxa Devolução</span>
-                        <span class="kpi-value" id="kpi-taxa-devolucao">-</span>
-                        <span class="kpi-delta" id="delta-taxa-devolucao"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Ruptura</span>
-                        <span class="kpi-value" id="kpi-ruptura">-</span>
-                        <span class="kpi-delta" id="delta-ruptura"></span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Giro Estoque</span>
-                        <span class="kpi-value" id="kpi-giro-estoque">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Lead Time</span>
-                        <span class="kpi-value" id="kpi-lead-time">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Taxa Devolução</span><span class="kpi-value" id="kpi-taxa-devolucao">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Ruptura</span><span class="kpi-value" id="kpi-ruptura">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Giro Estoque</span><span class="kpi-value" id="kpi-giro-estoque">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Lead Time</span><span class="kpi-value" id="kpi-lead-time">-</span></div>
                 </div>
             </div>
 
             <!-- Atendimento -->
             <div class="kpi-card atendimento">
-                <div class="kpi-header">
-                    <span class="kpi-icon">🎧</span>
-                    <h3>Atendimento</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">🎧</span><h3>Atendimento</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Volume Tickets</span>
-                        <span class="kpi-value" id="kpi-volume-tickets">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">SLA</span>
-                        <span class="kpi-value" id="kpi-sla">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Sentimento (CSAT)</span>
-                        <span class="kpi-value" id="kpi-sentimento">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Custo/Ticket</span>
-                        <span class="kpi-value" id="kpi-custo-ticket">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Volume Tickets</span><span class="kpi-value" id="kpi-volume-tickets">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">SLA</span><span class="kpi-value" id="kpi-sla">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Sentimento (CSAT)</span><span class="kpi-value" id="kpi-sentimento">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Custo/Ticket</span><span class="kpi-value" id="kpi-custo-ticket">-</span></div>
                 </div>
             </div>
 
             <!-- Produtividade -->
             <div class="kpi-card produtividade">
-                <div class="kpi-header">
-                    <span class="kpi-icon">🚀</span>
-                    <h3>Produtividade</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">🚀</span><h3>Produtividade</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item">
-                        <span class="kpi-label">Horas Economizadas</span>
-                        <span class="kpi-value" id="kpi-horas-economizadas">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Automação Potencial</span>
-                        <span class="kpi-value" id="kpi-automacao-potencial">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Retrabalho Reduzido</span>
-                        <span class="kpi-value" id="kpi-retrabalho-reduzido">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Tempo Resposta</span>
-                        <span class="kpi-value" id="kpi-tempo-resposta">-</span>
-                    </div>
+                    <div class="kpi-item"><span class="kpi-label">Horas Economizadas</span><span class="kpi-value" id="kpi-horas-economizadas">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Automação Potencial</span><span class="kpi-value" id="kpi-automacao-potencial">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Retrabalho Reduzido</span><span class="kpi-value" id="kpi-retrabalho-reduzido">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Tempo Resposta</span><span class="kpi-value" id="kpi-tempo-resposta">-</span></div>
                 </div>
             </div>
 
             <!-- Impacto -->
             <div class="kpi-card impacto">
-                <div class="kpi-header">
-                    <span class="kpi-icon">💎</span>
-                    <h3>Impacto Financeiro</h3>
-                </div>
+                <div class="kpi-header"><span class="kpi-icon">💎</span><h3>Impacto Financeiro</h3></div>
                 <div class="kpi-body">
-                    <div class="kpi-item highlight">
-                        <span class="kpi-label">EBITDA Potencial</span>
-                        <span class="kpi-value large" id="kpi-ebitda-potencial">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Economia Estimada</span>
-                        <span class="kpi-value" id="kpi-economia-estimada">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Receita Protegida</span>
-                        <span class="kpi-value" id="kpi-receita-protegida">-</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-label">Payback (meses)</span>
-                        <span class="kpi-value" id="kpi-payback">-</span>
-                    </div>
+                    <div class="kpi-item highlight"><span class="kpi-label">EBITDA Potencial</span><span class="kpi-value large" id="kpi-ebitda-potencial">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Economia Estimada</span><span class="kpi-value" id="kpi-economia-estimada">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Receita Protegida</span><span class="kpi-value" id="kpi-receita-protegida">-</span></div>
+                    <div class="kpi-item"><span class="kpi-label">Payback (meses)</span><span class="kpi-value" id="kpi-payback">-</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- Bottom Section: Top Products + Insights -->
+        <!-- Bottom Section -->
         <section class="bottom-grid">
-            <!-- Top Produtos -->
             <div class="panel top-products">
                 <h3>🏆 Top 10 Produtos Mais Vendidos</h3>
                 <table id="top-products-table">
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Categoria</th>
-                            <th>Qtd</th>
-                            <th>Receita</th>
-                            <th>Margem</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td colspan="5">Carregando...</td></tr>
-                    </tbody>
+                    <thead><tr><th>Produto</th><th>Categoria</th><th>Qtd</th><th>Receita</th><th>Margem</th></tr></thead>
+                    <tbody><tr><td colspan="5">Carregando...</td></tr></tbody>
                 </table>
             </div>
-
-            <!-- Insights & Ações -->
             <div class="panel insights-panel">
                 <h3>💡 Insights & Ações Prioritárias</h3>
-                <div id="insights-container">
-                    <div class="loading">Carregando insights...</div>
-                </div>
+                <div id="insights-container"><div class="loading">Carregando insights...</div></div>
             </div>
         </section>
 
