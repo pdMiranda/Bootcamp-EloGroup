@@ -95,7 +95,7 @@
 
         <!-- Tabela Produtos -->
         <div class="card overflow-y-auto h-96">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">Top 10 Produtos (Sugestão de Bundles)</h2>
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Top 10 Produtos</h2>
             <table class="min-w-full text-left text-sm whitespace-nowrap">
                 <thead class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500">
                     <tr>
@@ -142,13 +142,43 @@
             // 1. Render KPIs
             const kpis = data.kpis;
             const cards = [
+                // Comercial
                 ['Receita Bruta', formatBRL(kpis.comercial.receita_bruta), 'text-slate-800'],
+                ['Pedidos Aprovados', formatNum(kpis.comercial.pedidos_aprovados), 'text-slate-800'],
+                ['Ticket Médio', formatBRL(kpis.comercial.ticket_medio), 'text-slate-800'],
+                ['Taxa Conversao', formatPct(kpis.comercial.taxa_conversao), 'text-slate-800'],
+
+                // Margem
                 ['Margem de Contribuição', formatBRL(kpis.margem.margem_contribuicao), 'text-slate-800'],
+                ['Margem PCT', formatPct(kpis.margem.margem_pct), 'text-slate-800'],
+                ['Desconto Medio PCT', formatPct(kpis.margem.desconto_medio_pct), 'text-slate-800'],
+                ['Custo de Frete Medio', formatBRL(kpis.margem.frete_medio), 'text-slate-800'],
+
+                // Marketing
                 ['CAC Ponderado', formatBRL(kpis.marketing.cac_ponderado), 'text-slate-800'],
+                ['ROAS Consolidado', formatNum(kpis.marketing.roas_consolidado), 'text-slate-800'],
+                ['Conversões Totais', formatBRL(kpis.marketing.conversoes_totais), 'text-slate-800'],
+
+                // Clientes
+                ['LTV Medio', formatNum(kpis.clientes.ltv_medio), 'text-slate-800'],
                 ['LTV em Risco', formatBRL(kpis.clientes.ltv_risco), 'text-red-600'],
+                ['Porcentagem Recompras', formatPct(kpis.clientes.recompra_pct), 'text-slate-800'],
+                ['Porcentagem Churn', formatPct(kpis.clientes.churn_pct), 'text-red-600'],
+
+                // Operações
                 ['Taxa de Devolução', formatPct(kpis.operacoes.taxa_devolucao), 'text-amber-600'],
                 ['Ruptura', formatPct(kpis.operacoes.ruptura_pct), 'text-amber-600'],
+                ['Giro de Estoque', formatNum(kpis.operacoes.giro_estoque), 'text-slate-800'],
+                ['Lead Time Medio', formatBRL(kpis.operacoes.lead_time_medio), 'text-slate-800'],
+
+                // Atendimento
+                ['Atendimento Totais', formatNum(kpis.atendimento.volume_total), 'text-slate-800'],
+                ['Porcentagem SLA', formatPct(kpis.atendimento.sla_pct), 'text-slate-800'],
                 ['CSAT Médio', kpis.atendimento.csat_medio.toFixed(2), 'text-slate-800'],
+                ['Custo Atendimento Medio', formatBRL(kpis.atendimento.custo_medio_ticket), 'text-slate-800'],
+
+                // Produtividade
+                
                 ['WISMO', `${formatNum(data.hipoteses.atendimento_h5_h6.wismo_qtd)} tickets`, 'text-slate-800']
             ];
             document.getElementById('kpi-container').innerHTML = cards.map(([label, value, color]) => `
@@ -201,7 +231,7 @@
                 type: 'doughnut',
                 data: {
                     labels: data.rfm.map(d => d.segmento),
-                    datasets: [{ data: data.rfm.map(d => d.quantidade), backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'] }]
+                    datasets: [{ data: data.rfm.map(d => d.quantidade), backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#c4a484'] }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
             });
