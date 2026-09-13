@@ -1,1 +1,1 @@
-Nothing needs to be added to .gitignore since the changes only include source/config files (.py, .md) without any build artifacts, dependencies, or temporary files.
+__pycache__
