@@ -2,6 +2,8 @@ import pandas as pd
 from flask import Flask, jsonify, request, render_template
 from datetime import datetime, timedelta
 import os
+import warnings
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
@@ -12,179 +14,146 @@ DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'data')
 _data_cache = {}
 
 def load_csv(filename):
-    """Carrega CSV com cache simples"""
+    """Carrega CSV com cache"""
     if filename not in _data_cache:
         filepath = os.path.join(DATA_PATH, filename)
         _data_cache[filename] = pd.read_csv(filepath)
-    return _data_cache[filename]
+    return _data_cache[filename].copy()
 
-def get_data_dates():
-    """Retorna datas disponíveis nos dados"""
+def get_data_info():
+    """Retorna informacoes sobre os dados disponiveis"""
     vendas = load_csv('vendas.csv')
     vendas['data_pedido'] = pd.to_datetime(vendas['data_pedido'])
     
     atendimento = load_csv('atendimento.csv')
     atendimento['data_abertura'] = pd.to_datetime(atendimento['data_abertura'])
     
-    max_vendas = vendas['data_pedido'].max()
-    max_atendimento = atendimento['data_abertura'].max()
+    min_vendas = vendas['data_pedido'].min()
+    max_atend = atendimento['data_abertura'].max()
     
-    # Data mais recente válida (26/01/2024 para vendas)
-    latest_date = min(max_vendas, datetime(2024, 1, 26))
+    latest_valid = datetime(2024, 1, 26)
     
     return {
-        'latest_date': latest_date.strftime('%Y-%m-%d'),
-        'min_date': vendas['data_pedido'].min().strftime('%Y-%m-%d'),
-        'data_gap_days': (datetime.now() - latest_date).days
+        'latest_date': latest_valid.strftime('%Y-%m-%d'),
+        'min_date': min_vendas.strftime('%Y-%m-%d'),
+        'max_atendimento': max_atend.strftime('%Y-%m-%d'),
+        'data_gap_days': (datetime.now() - latest_valid).days,
+        'warning': 'Dados de vendas tem lacuna temporal significativa. Ultimos dados validos: 26/01/2024'
     }
 
-def filter_period(df, date_col, end_date, days):
-    """Filtra dataframe por período"""
-    start_date = end_date - timedelta(days=days)
-    mask = (df[date_col] >= start_date) & (df[date_col] <= end_date)
-    return df[mask].copy()
-
-def calculate_kpis(end_date_str, days, use_recent=False):
-    """Calcula todos os KPIs para o período"""
+def calculate_all_kpis(end_date_str, days):
+    """Calcula todos os KPIs de forma simples e direta"""
     
-    # Carregar dados
-    vendas = load_csv('vendas.csv').copy()
-    clientes = load_csv('clientes.csv').copy()
-    marketing = load_csv('marketing.csv').copy()
-    estoque = load_csv('estoque.csv').copy()
-    atendimento = load_csv('atendimento.csv').copy()
+    vendas = load_csv('vendas.csv')
+    clientes = load_csv('clientes.csv')
+    marketing = load_csv('marketing.csv')
+    estoque = load_csv('estoque.csv')
+    atendimento = load_csv('atendimento.csv')
     
-    # Converter datas
     vendas['data_pedido'] = pd.to_datetime(vendas['data_pedido'])
     atendimento['data_abertura'] = pd.to_datetime(atendimento['data_abertura'])
+    marketing['data_inicio'] = pd.to_datetime(marketing['data_inicio'])
+    marketing['data_fim'] = pd.to_datetime(marketing['data_fim'])
     
-    # Determinar data final e período
-    if use_recent:
-        end_date = pd.to_datetime(end_date_str)
-        # Período recente: últimos 7 dias disponíveis
-        days = 7
-    else:
-        end_date = pd.to_datetime(end_date_str)
-        days = days if days else 30
+    max_valid_date = pd.Timestamp('2024-01-26')
+    vendas = vendas[vendas['data_pedido'] <= max_valid_date].copy()
     
-    start_date = end_date - timedelta(days=days)
+    end_date = pd.Timestamp(end_date_str)
+    start_date = end_date - timedelta(days=int(days))
     
-    # Filtrar vendas no período
     mask_vendas = (vendas['data_pedido'] >= start_date) & (vendas['data_pedido'] <= end_date)
-    vendas_periodo = vendas[mask_vendas]
+    vendas_p = vendas[mask_vendas]
     
-    # === KPIs COMERCIAIS ===
-    receita_bruta = vendas_periodo['receita_bruta'].sum()
-    pedidos = vendas_periodo['order_id'].nunique()
+    receita_bruta = vendas_p['receita_bruta'].sum()
+    pedidos = vendas_p['order_id'].nunique()
     ticket_medio = receita_bruta / pedidos if pedidos > 0 else 0
     
-    # Conversão: pedidos únicos / sessões estimadas (impressões marketing)
-    marketing_periodo = marketing[(pd.to_datetime(marketing['data_inicio']) <= end_date) & 
-                                   (pd.to_datetime(marketing['data_fim']) >= start_date)]
-    impressoes = marketing_periodo['cliques'].sum() if len(marketing_periodo) > 0 else 1
-    conversao = (pedidos / impressoes * 100) if impressoes > 0 else 0
+    mask_mkt = (marketing['data_inicio'] <= end_date) & (marketing['data_fim'] >= start_date)
+    mkt_p = marketing[mask_mkt]
+    total_cliques = mkt_p['cliques'].sum() if len(mkt_p) > 0 else 1
+    conversao = (pedidos / total_cliques * 100) if total_cliques > 0 else 0
     
-    # === KPIs MARGEM ===
-    receita_liquida = vendas_periodo['receita_liquida'].sum()
-    custo_produto = vendas_periodo['custo_produto'].sum()
-    custo_frete = vendas_periodo['custo_frete'].sum()
-    margem_contribuicao = receita_liquida - custo_produto - custo_frete
-    desconto_medio = (vendas_periodo['desconto_reais'].sum() / len(vendas_periodo)) if len(vendas_periodo) > 0 else 0
-    frete_medio = custo_frete / len(vendas_periodo) if len(vendas_periodo) > 0 else 0
+    receita_liquida = vendas_p['receita_liquida'].sum()
+    custo_prod = vendas_p['custo_produto'].sum()
+    custo_frete = vendas_p['custo_frete'].sum()
+    margem_contribuicao = receita_liquida - custo_prod - custo_frete
+    desconto_medio = vendas_p['desconto_reais'].mean() if len(vendas_p) > 0 else 0
+    frete_medio = custo_frete / len(vendas_p) if len(vendas_p) > 0 else 0
     rentabilidade = (margem_contribuicao / receita_liquida * 100) if receita_liquida > 0 else 0
     
-    # === KPIs MARKETING ===
-    investimento_total = marketing_periodo['investimento_reais'].sum()
-    receita_marketing = marketing_periodo['receita_gerada'].sum()
-    roas = (receita_marketing / investimento_total) if investimento_total > 0 else 0
-    cac = investimento_total / marketing_periodo['conversoes'].sum() if marketing_periodo['conversoes'].sum() > 0 else 0
+    investimento = mkt_p['investimento_reais'].sum() if len(mkt_p) > 0 else 0
+    receita_mkt = mkt_p['receita_gerada'].sum() if len(mkt_p) > 0 else 0
+    roas = (receita_mkt / investimento) if investimento > 0 else 0
+    total_conversoes_mkt = mkt_p['conversoes'].sum() if len(mkt_p) > 0 else 1
+    cac = investimento / total_conversoes_mkt if total_conversoes_mkt > 0 else 0
     
-    # Canal com melhor ROAS
-    roas_por_canal = marketing_periodo.groupby('canal')['roas'].mean()
-    melhor_canal = roas_por_canal.idxmax() if len(roas_por_canal) > 0 else 'N/A'
-    melhor_roas = roas_por_canal.max() if len(roas_por_canal) > 0 else 0
+    roas_canal = mkt_p.groupby('canal')['roas'].mean() if len(mkt_p) > 0 else pd.Series()
+    melhor_canal = roas_canal.idxmax() if len(roas_canal) > 0 else 'N/A'
+    melhor_roas = roas_canal.max() if len(roas_canal) > 0 else 0
     
-    # === KPIs CLIENTE ===
-    clientes_compra = vendas_periodo['customer_id'].unique()
-    clientes_df = clientes[clientes['customer_id'].isin(clientes_compra)]
+    clientes_compra = set(vendas_p['customer_id'].unique())
+    clientes_p = clientes[clientes['customer_id'].isin(clientes_compra)]
     
-    # Recompra: clientes com mais de 1 pedido no histórico
-    recompra = (clientes_df['total_pedidos_historico'] > 1).sum() / len(clientes_df) * 100 if len(clientes_df) > 0 else 0
-    ltv_medio = clientes_df['ltv_acumulado'].mean() if len(clientes_df) > 0 else 0
+    recompra = (clientes_p['total_pedidos_historico'] > 1).sum() / len(clientes_p) * 100 if len(clientes_p) > 0 else 0
+    ltv_medio = clientes_p['ltv_acumulado'].mean() if len(clientes_p) > 0 else 0
+    churn = (clientes_p['segmento_rfm'] == 'Churn').sum() / len(clientes_p) * 100 if len(clientes_p) > 0 else 0
     
-    # Churn: clientes no segmento Churn
-    churn = (clientes_df['segmento_rfm'] == 'Churn').sum() / len(clientes_df) * 100 if len(clientes_df) > 0 else 0
-    
-    # Top segmento
-    segmento_count = clientes_df['segmento_rfm'].value_counts()
+    segmento_count = clientes_p['segmento_rfm'].value_counts() if len(clientes_p) > 0 else pd.Series()
     top_segmento = segmento_count.index[0] if len(segmento_count) > 0 else 'N/A'
     
-    # === KPIs OPERAÇÕES ===
-    total_pedidos = len(vendas_periodo)
-    devolvidos = vendas_periodo['devolvido'].sum()
-    taxa_devolucao = (devolvidos / total_pedidos * 100) if total_pedidos > 0 else 0
+    total_itens = len(vendas_p)
+    devolvidos = vendas_p['devolvido'].sum()
+    taxa_devolucao = (devolvidos / total_itens * 100) if total_itens > 0 else 0
     
-    # Ruptura: produtos com estoque_disponivel < ponto_pedido
-    ruptura = (estoque['estoque_disponivel'] < estoque['ponto_pedido']).sum() / len(estoque) * 100
+    ruptura = (estoque['estoque_disponivel'] < estoque['ponto_pedido']).sum() / len(estoque) * 100 if len(estoque) > 0 else 0
     
-    # Giro de estoque: vendas / estoque médio (simplificado)
-    giro_estoque = (vendas_periodo['quantidade'].sum() / estoque['estoque_disponivel'].mean()) if estoque['estoque_disponivel'].mean() > 0 else 0
+    qtd_vendida = vendas_p['quantidade'].sum()
+    estoque_medio = estoque['estoque_disponivel'].mean() if len(estoque) > 0 else 1
+    giro_estoque = qtd_vendida / estoque_medio if estoque_medio > 0 else 0
     
-    # Lead time médio
-    lead_time_medio = vendas_periodo['tempo_entrega_real'].mean() if 'tempo_entrega_real' in vendas_periodo.columns else 0
+    lead_time = vendas_p['tempo_entrega_real'].mean() if 'tempo_entrega_real' in vendas_p.columns and len(vendas_p) > 0 else 0
     
-    # === KPIs ATENDIMENTO ===
-    tickets_periodo = atendimento[(atendimento['data_abertura'] >= start_date) & 
-                                    (atendimento['data_abertura'] <= end_date)]
-    volume_tickets = len(tickets_periodo)
+    atend_p = atendimento[(atendimento['data_abertura'] >= start_date) & 
+                           (atendimento['data_abertura'] <= end_date)].copy()
     
-    # SLA: tickets resolvidos dentro de 24h
-    if len(tickets_periodo) > 0 and 'data_fechamento' in tickets_periodo.columns:
-        tickets_periodo['data_fechamento'] = pd.to_datetime(tickets_periodo['data_fechamento'])
-        tempo_resolucao = (tickets_periodo['data_fechamento'] - tickets_periodo['data_abertura']).dt.total_seconds() / 3600
-        sla = (tempo_resolucao <= 24).sum() / len(tickets_periodo) * 100
+    volume_tickets = len(atend_p)
+    
+    if len(atend_p) > 0:
+        atend_p['data_fechamento'] = pd.to_datetime(atend_p['data_fechamento'], errors='coerce')
+        tempo_res = (atend_p['data_fechamento'] - atend_p['data_abertura']).dt.total_seconds() / 3600
+        sla = (tempo_res <= 24).sum() / len(atend_p) * 100
+        csat = atend_p['nota_csat'].mean() if 'nota_csat' in atend_p.columns else 0
+        custo_total = atend_p['custo_operacional_ticket'].sum() if 'custo_operacional_ticket' in atend_p.columns else 0
     else:
         sla = 0
+        csat = 0
+        custo_total = 0
     
-    # CSAT médio
-    csat_medio = tickets_periodo['nota_csat'].mean() if 'nota_csat' in tickets_periodo.columns and len(tickets_periodo) > 0 else 0
+    custo_por_ticket = custo_total / volume_tickets if volume_tickets > 0 else 0
     
-    # Custo por ticket
-    custo_ticket = tickets_periodo['custo_operacional_ticket'].sum() if 'custo_operacional_ticket' in tickets_periodo.columns else 0
-    custo_por_ticket = custo_ticket / volume_tickets if volume_tickets > 0 else 0
+    horas_economizadas = volume_tickets * 0.5
+    automacao_potencial = 65
+    retrabalho = (atend_p['status_atendimento'] == 'Reaberto').sum() / len(atend_p) * 100 if len(atend_p) > 0 else 0
+    tempo_resposta = atend_p['tempo_primeira_resposta_minutos'].mean() if len(atend_p) > 0 and 'tempo_primeira_resposta_minutos' in atend_p.columns else 0
     
-    # === KPIs PRODUTIVIDADE ===
-    horas_economizadas = volume_tickets * 0.5  # Estimativa: 30 min por ticket automatizado
-    automacao_potencial = 65  # % estimado
-    retrabalho = (tickets_periodo['status_atendimento'] == 'Reaberto').sum() / len(tickets_periodo) * 100 if len(tickets_periodo) > 0 else 0
-    tempo_resposta_medio = tickets_periodo['tempo_primeira_resposta_minutos'].mean() if 'tempo_primeira_resposta_minutos' in tickets_periodo.columns and len(tickets_periodo) > 0 else 0
-    
-    # === KPIs IMPACTO ===
-    ebitda_potencial = margem_contribuicao * 0.15  # 15% da margem como potencial
-    economia_estimada = custo_ticket * (automacao_potencial / 100)
+    ebitda_potencial = margem_contribuicao * 0.15
+    economia_estimada = custo_total * (automacao_potencial / 100)
     receita_protegida = receita_bruta * (1 - taxa_devolucao / 100)
-    payback = investimento_total / ebitda_potencial if ebitda_potencial > 0 else 0
+    payback = investimento / ebitda_potencial if ebitda_potencial > 0 else 0
     
-    # === TOP PRODUTOS ===
-    top_produtos = vendas_periodo.groupby('produto')['quantidade'].sum().nlargest(10).to_dict()
+    top_produtos = vendas_p.groupby('produto')['quantidade'].sum().nlargest(10).to_dict()
     
-    # === DADOS TEMPORAIS PARA GRÁFICO ===
-    vendas_diarias = vendas_periodo.groupby(vendas_periodo['data_pedido'].dt.date)['receita_bruta'].sum()
-    margem_diaria = vendas_periodo.groupby(vendas_periodo['data_pedido'].dt.date).apply(
+    vendas_diarias = vendas_p.groupby(vendas_p['data_pedido'].dt.date)['receita_bruta'].sum()
+    margem_diaria = vendas_p.groupby(vendas_p['data_pedido'].dt.date).apply(
         lambda x: x['receita_liquida'].sum() - x['custo_produto'].sum() - x['custo_frete'].sum()
     )
     
-    serie_receita = vendas_diarias.to_dict()
-    serie_margem = margem_diaria.to_dict()
+    serie_receita = [{'data': str(k), 'valor': round(v, 2)} for k, v in vendas_diarias.to_dict().items()]
+    serie_margem = [{'data': str(k), 'valor': round(v, 2)} for k, v in margem_diaria.to_dict().items()]
     
-    # === ROAS POR CANAL ===
-    roas_canal = marketing_periodo.groupby('canal')['roas'].mean().to_dict()
-    
-    # === SEGMENTOS ===
-    segmentos = clientes_df['segmento_rfm'].value_counts().to_dict()
-    
-    # === RECEITA POR CANAL DE VENDA ===
-    receita_canal = vendas_periodo.groupby('canal')['receita_bruta'].sum().to_dict()
+    roas_por_canal = mkt_p.groupby('canal')['roas'].mean().to_dict() if len(mkt_p) > 0 else {}
+    segmentos = clientes_p['segmento_rfm'].value_counts().to_dict() if len(clientes_p) > 0 else {}
+    receita_por_canal = vendas_p.groupby('canal')['receita_bruta'].sum().to_dict()
     
     return {
         'kpis': {
@@ -203,32 +172,32 @@ def calculate_kpis(end_date_str, days, use_recent=False):
             'marketing': {
                 'cac': round(cac, 2),
                 'roas': round(roas, 2),
-                'melhor_canal': melhor_canal,
-                'melhor_roas': round(melhor_roas, 2)
+                'melhor_canal': str(melhor_canal),
+                'melhor_roas': round(float(melhor_roas), 2)
             },
             'cliente': {
                 'recompra': round(recompra, 2),
                 'ltv': round(ltv_medio, 2),
                 'churn': round(churn, 2),
-                'top_segmento': top_segmento
+                'top_segmento': str(top_segmento)
             },
             'operacoes': {
                 'taxa_devolucao': round(taxa_devolucao, 2),
                 'ruptura': round(ruptura, 2),
-                'giro_estoque': round(giro_estoque, 2),
-                'lead_time': round(lead_time_medio, 2)
+                'giro_estoque': round(giro_estoque, 4),
+                'lead_time': round(lead_time, 2)
             },
             'atendimento': {
                 'volume_tickets': int(volume_tickets),
                 'sla': round(sla, 2),
-                'csat': round(csat_medio, 2),
+                'csat': round(csat, 2),
                 'custo_por_ticket': round(custo_por_ticket, 2)
             },
             'produtividade': {
                 'horas_economizadas': round(horas_economizadas, 2),
                 'automacao_potencial': automacao_potencial,
                 'retrabalho': round(retrabalho, 2),
-                'tempo_resposta': round(tempo_resposta_medio, 2)
+                'tempo_resposta': round(tempo_resposta, 2)
             },
             'impacto': {
                 'ebitda_potencial': round(ebitda_potencial, 2),
@@ -238,138 +207,125 @@ def calculate_kpis(end_date_str, days, use_recent=False):
             }
         },
         'serie_temporal': {
-            'receita': [{'data': str(k), 'valor': round(v, 2)} for k, v in serie_receita.items()],
-            'margem': [{'data': str(k), 'valor': round(v, 2)} for k, v in serie_margem.items()]
+            'receita': serie_receita,
+            'margem': serie_margem
         },
         'top_produtos': [{'produto': k, 'quantidade': int(v)} for k, v in top_produtos.items()],
-        'roas_canal': [{'canal': k, 'roas': round(v, 2)} for k, v in roas_canal.items()],
+        'roas_canal': [{'canal': k, 'roas': round(float(v), 2)} for k, v in roas_por_canal.items()],
         'segmentos': [{'segmento': k, 'count': int(v)} for k, v in segmentos.items()],
-        'receita_canal': [{'canal': k, 'receita': round(v, 2)} for k, v in receita_canal.items()],
+        'receita_canal': [{'canal': k, 'receita': round(float(v), 2)} for k, v in receita_por_canal.items()],
         'periodo_info': {
             'start_date': start_date.strftime('%Y-%m-%d'),
             'end_date': end_date.strftime('%Y-%m-%d'),
-            'days': days,
-            'use_recent': use_recent
+            'days': int(days)
         }
     }
 
-def generate_insights(current_kpis, prev_kpis):
-    """Gera insights baseados em comparação temporal"""
+def generate_insights(current, previous):
+    """Gera insights baseados em comparacao de periodos"""
     insights = []
     
-    # Análise Comercial
-    rec_atual = current_kpis['comercial']['receita_bruta']
-    rec_anterior = prev_kpis['comercial']['receita_bruta']
-    var_rec = ((rec_atual - rec_anterior) / rec_anterior * 100) if rec_anterior > 0 else 0
+    rec_atual = current['comercial']['receita_bruta']
+    rec_prev = previous['comercial']['receita_bruta']
+    var_rec = ((rec_atual - rec_prev) / rec_prev * 100) if rec_prev > 0 else 0
     
-    if var_rec < -10:
+    if var_rec < -5:
         insights.append({
             'prioridade': 'ALTA',
             'area': 'Comercial',
-            'problema': f'Receita caiu {abs(var_rec):.1f}% vs período anterior',
-            'acao': 'Revisar estratégia de preços e promoções; intensificar campanhas nos canais de maior conversão',
-            'impacto': f'R$ {abs(rec_atual - rec_anterior):,.2f} em receita perdida'
+            'problema': f'Receita caiu {abs(var_rec):.1f}% vs periodo anterior',
+            'acao': 'Revisar estrategia de precos e promocoes; intensificar campanhas nos canais de maior conversao',
+            'impacto': f'R$ {abs(rec_atual - rec_prev):,.2f} em receita perdida'
         })
     
-    # Análise Margem
-    margem_atual = current_kpis['margem']['margem_contribuicao']
-    margem_anterior = prev_kpis['margem']['margem_contribuicao']
-    var_margem = ((margem_atual - margem_anterior) / margem_anterior * 100) if margem_anterior > 0 else 0
+    margem_atual = current['margem']['margem_contribuicao']
+    margem_prev = previous['margem']['margem_contribuicao']
+    var_margem = ((margem_atual - margem_prev) / margem_prev * 100) if margem_prev > 0 else 0
     
     if var_margem < -5:
         insights.append({
             'prioridade': 'ALTA',
             'area': 'Margem',
-            'problema': f'Margem de contribuição reduziu {abs(var_margem):.1f}%',
-            'acao': 'Negociar custos com fornecedores; revisar política de descontos e fretes',
-            'impacto': f'R$ {abs(margem_atual - margem_anterior):,.2f} em margem perdida'
+            'problema': f'Margem de contribuicao reduziu {abs(var_margem):.1f}%',
+            'acao': 'Negociar custos com fornecedores; revisar politica de descontos e fretes',
+            'impacto': f'R$ {abs(margem_atual - margem_prev):,.2f} em margem perdida'
         })
     
-    # Análise Atendimento - CRÍTICO
-    vol_atual = current_kpis['atendimento']['volume_tickets']
-    vol_anterior = prev_kpis['atendimento']['volume_tickets']
-    var_vol = ((vol_atual - vol_anterior) / vol_anterior * 100) if vol_anterior > 0 else 0
+    vol_atual = current['atendimento']['volume_tickets']
+    vol_prev = previous['atendimento']['volume_tickets']
+    csat_atual = current['atendimento']['csat']
+    sla_atual = current['atendimento']['sla']
     
-    csat_atual = current_kpis['atendimento']['csat']
-    sla_atual = current_kpis['atendimento']['sla']
-    
-    if vol_atual > vol_anterior * 1.2 or csat_atual < 3.5:
+    if vol_atual > 0 and (vol_atual > vol_prev * 1.1 or csat_atual < 4.0 or sla_atual < 80):
         insights.append({
-            'prioridade': 'CRÍTICA',
+            'prioridade': 'CRITICA',
             'area': 'Atendimento',
-            'problema': f'Volume de tickets aumentou {var_vol:.1f}% | CSAT: {csat_atual:.1f}/5 | SLA: {sla_atual:.1f}%',
-            'acao': 'Expandir equipe de atendimento; implementar chatbot para questões repetitivas; criar base de autoatendimento',
-            'impacto': f'Potencial de reduzir {vol_atual * 0.3:.0f} tickets com automação | Economia: R$ {current_kpis["impacto"]["economia_estimada"]:,.2f}'
+            'problema': f'Volume: {vol_atual} tickets | CSAT: {csat_atual:.1f}/5 | SLA: {sla_atual:.1f}%',
+            'acao': 'Expandir equipe imediatamente; implementar chatbot para questoes repetitivas; criar base de autoatendimento',
+            'impacto': f'Potencial de reduzir {int(vol_atual * 0.3)} tickets com automacao | Economia: R$ {current["impacto"]["economia_estimada"]:,.2f}'
         })
     
-    # Análise Operações
-    devolucao_atual = current_kpis['operacoes']['taxa_devolucao']
-    if devolucao_atual > 5:
+    devolucao = current['operacoes']['taxa_devolucao']
+    if devolucao > 3:
         insights.append({
-            'prioridade': 'MÉDIA',
-            'area': 'Operações',
-            'problema': f'Taxa de devolução em {devolucao_atual:.1f}% (acima do benchmark de 5%)',
-            'acao': 'Investigar motivos de devolução; melhorar descrição de produtos; revisar controle de qualidade',
-            'impacto': f'R$ {current_kpis["comercial"]["receita_bruta"] * devolucao_atual / 100:,.2f} em devoluções'
+            'prioridade': 'MEDIA',
+            'area': 'Operacoes',
+            'problema': f'Taxa de devolucao em {devolucao:.1f}%',
+            'acao': 'Investigar motivos de devolucao; melhorar descricao de produtos; revisar controle de qualidade',
+            'impacto': f'R$ {current["comercial"]["receita_bruta"] * devolucao / 100:,.2f} em devolucoes'
         })
     
-    # Análise Marketing
-    roas_atual = current_kpis['marketing']['roas']
-    if roas_atual < 2:
+    roas_atual = current['marketing']['roas']
+    if roas_atual < 3:
         insights.append({
-            'prioridade': 'MÉDIA',
+            'prioridade': 'MEDIA',
             'area': 'Marketing',
-            'problema': f'ROAS médio de {roas_atual:.2f} abaixo do ideal (2.0+)',
-            'acao': f'Realocar budget para canal {current_kpis["marketing"]["melhor_canal"]} (ROAS: {current_kpis["marketing"]["melhor_roas"]:.2f})',
-            'impacto': f'Potencial de +{((2.0 - roas_atual) * current_kpis["marketing"]["cac"] * 100):.0f}% em eficiência'
+            'problema': f'ROAS medio de {roas_atual:.2f}',
+            'acao': f'Realocar budget para canal {current["marketing"]["melhor_canal"]} (ROAS: {current["marketing"]["melhor_roas"]:.2f})',
+            'impacto': f'Potencial de +{((3.0 - roas_atual) * 100):.0f}% em eficiencia'
         })
     
-    # Análise Cliente
-    churn_atual = current_kpis['cliente']['churn']
-    if churn_atual > 20:
+    churn = current['cliente']['churn']
+    if churn > 15:
         insights.append({
             'prioridade': 'ALTA',
             'area': 'Cliente',
-            'problema': f'{churn_atual:.1f}% da base em risco de churn',
-            'acao': 'Criar campanha de reativação; oferecer benefícios para segmento em risco; melhorar pós-venda',
-            'impacto': f'R$ {current_kpis["cliente"]["ltv"] * churn_atual / 100 * 100:,.2f} em LTV em risco'
+            'problema': f'{churn:.1f}% da base em risco de churn',
+            'acao': 'Criar campanha de reativacao; oferecer beneficios para segmento em risco',
+            'impacto': f'R$ {current["cliente"]["ltv"] * churn / 100 * 10:,.2f} em LTV em risco'
         })
     
-    # Ordenar por prioridade
-    ordem_prioridade = {'CRÍTICA': 0, 'ALTA': 1, 'MÉDIA': 2, 'BAIXA': 3}
-    insights.sort(key=lambda x: ordem_prioridade.get(x['prioridade'], 4))
+    ordem = {'CRITICA': 0, 'ALTA': 1, 'MEDIA': 2, 'BAIXA': 3}
+    insights.sort(key=lambda x: ordem.get(x['prioridade'], 4))
     
-    return insights[:5]  # Top 5 insights
+    return insights[:5]
 
 @app.route('/api/dates')
 def api_dates():
-    """Retorna informações sobre datas disponíveis"""
-    return jsonify(get_data_dates())
+    """Retorna informacoes sobre datas disponiveis"""
+    return jsonify(get_data_info())
 
 @app.route('/api/kpis')
 def api_kpis():
-    """Retorna KPIs para o período selecionado"""
-    end_date = request.args.get('end_date', get_data_dates()['latest_date'])
-    days = int(request.args.get('days', 30))
-    use_recent = request.args.get('recent', 'false').lower() == 'true'
+    """Retorna KPIs para o periodo selecionado"""
+    end_date = request.args.get('end_date', '2024-01-26')
+    days = request.args.get('days', '30')
+    recent = request.args.get('recent', 'false').lower() == 'true'
     
-    kpis = calculate_kpis(end_date, days, use_recent)
+    data = calculate_all_kpis(end_date, days)
     
-    # Calcular período anterior para comparação
-    end_date_dt = pd.to_datetime(end_date)
-    prev_end = end_date_dt - timedelta(days=days)
-    prev_start = prev_end - timedelta(days=days)
+    end_date_dt = pd.Timestamp(end_date)
+    prev_end = end_date_dt - timedelta(days=int(days))
+    prev_data = calculate_all_kpis(prev_end.strftime('%Y-%m-%d'), days)
     
-    kpis_prev = calculate_kpis(prev_end.strftime('%Y-%m-%d'), days, False)
+    data['insights'] = generate_insights(data['kpis'], prev_data['kpis'])
+    data['data_warning'] = get_data_info()['warning']
     
-    # Gerar insights
-    kpis['insights'] = generate_insights(kpis['kpis'], kpis_prev['kpis'])
-    
-    return jsonify(kpis)
+    return jsonify(data)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, host='0.0.0.0')
