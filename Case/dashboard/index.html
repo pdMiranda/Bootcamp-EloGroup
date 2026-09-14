@@ -52,10 +52,36 @@
         </div>
     </div>
 
-    <!-- KPIs Principais -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6" id="kpi-container">
-        <!-- Injetados via JS -->
-    </div>
+    <!-- KPIs por área -->
+    <section id="area-section" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="card">
+            <div class="flex justify-between items-center mb-4 gap-3">
+                <div>
+                    <p class="text-xs text-slate-500 uppercase font-semibold">Painel de decisão</p>
+                    <h2 class="text-lg font-bold text-slate-800">KPIs por área</h2>
+                </div>
+                <select class="border border-slate-300 rounded px-3 py-2 bg-white text-sm" id="area_toggle" aria-label="Área de KPIs">
+                    <option value="comercial">Comercial</option>
+                    <option value="margem">Margem</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="clientes">Cliente</option>
+                    <option value="operacoes">Operações</option>
+                    <option value="atendimento">Atendimento</option>
+                    <option value="impacto">Impacto</option>
+                </select>
+            </div>
+            <div id="kpi-container" class="divide-y divide-slate-100"></div>
+        </div>
+        <div id="area-visual-card" class="card flex flex-col min-h-80">
+            <div class="mb-4">
+                <p class="text-xs text-slate-500 uppercase font-semibold">Leitura visual</p>
+                <h2 id="area-chart-title" class="text-lg font-bold text-slate-800">Comercial</h2>
+            </div>
+            <div class="flex-1 relative min-h-64">
+                <canvas id="areaChart"></canvas>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Charts Layout -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -85,30 +111,21 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Margem Real por Canal -->
+        <!-- Investimento e retorno por canal -->
         <div class="card h-96 flex flex-col">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">Margem Real por Canal</h2>
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Investimento e retorno por canal</h2>
             <div class="flex-1 relative">
                 <canvas id="canalChart"></canvas>
             </div>
         </div>
 
-        <!-- Tabela Produtos -->
+        <!-- Lista de Produtos -->
         <div class="card overflow-y-auto h-96">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">Top 10 Produtos</h2>
-            <table class="min-w-full text-left text-sm whitespace-nowrap">
-                <thead class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500">
-                    <tr>
-                        <th class="px-2 py-2">Produto</th>
-                        <th class="px-2 py-2 text-right">Faturamento</th>
-                        <th class="px-2 py-2 text-right">Margem</th>
-                        <th class="px-2 py-2 text-right">Estoque</th>
-                    </tr>
-                </thead>
-                <tbody id="top-produtos-body" class="text-slate-700">
-                    <!-- JS Injected -->
-                </tbody>
-            </table>
+            <div class="flex items-center justify-between gap-3 mb-4">
+                <h2 class="text-lg font-bold text-slate-800">Produtos por rentabilidade</h2>
+                <span id="product-count" class="text-xs font-mono text-slate-500"></span>
+            </div>
+            <ol id="products-list" class="space-y-2 text-sm text-slate-700"></ol>
         </div>
     </div>
 
@@ -121,6 +138,91 @@
         let charts = {};
         let selectedMode = 'integrado';
         let selectedGranularity = 'mes';
+        let selectedArea = 'comercial';
+
+        const areaTitles = {
+            comercial: 'Comercial', margem: 'Margem', marketing: 'Marketing', clientes: 'Cliente',
+            operacoes: 'Operações', atendimento: 'Atendimento', impacto: 'Impacto'
+        };
+
+        function renderArea(data, area) {
+            const kpis = data.kpis;
+            const impact = data.impacto;
+            const hasAreaVisual = area === 'margem' || area === 'impacto';
+            const areaSection = document.getElementById('area-section');
+            const areaVisualCard = document.getElementById('area-visual-card');
+            areaSection.classList.toggle('lg:grid-cols-2', hasAreaVisual);
+            areaSection.classList.toggle('lg:grid-cols-1', !hasAreaVisual);
+            areaVisualCard.classList.toggle('hidden', !hasAreaVisual);
+            const rows = {
+                comercial: [
+                    ['Receita bruta', formatBRL(kpis.comercial.receita_bruta)],
+                    ['Pedidos', formatNum(kpis.comercial.pedidos_aprovados)],
+                    ['Ticket médio', formatBRL(kpis.comercial.ticket_medio)],
+                    ['Conversão', formatPct(kpis.comercial.taxa_conversao)]
+                ],
+                margem: [
+                    ['Margem de contribuição', formatBRL(kpis.margem.margem_contribuicao)],
+                    ['Desconto médio', formatPct(kpis.margem.desconto_medio_pct)],
+                    ['Frete médio', formatBRL(kpis.margem.frete_medio)],
+                    ['Rentabilidade por SKU', kpis.margem.rentabilidade_por_sku.length ? `${kpis.margem.rentabilidade_por_sku[0].produto} · ${formatPct(kpis.margem.rentabilidade_por_sku[0].rentabilidade)}` : 'Sem dados']
+                ],
+                marketing: [
+                    ['CAC', formatBRL(kpis.marketing.cac_ponderado)],
+                    ['ROAS', kpis.marketing.roas_consolidado.toFixed(2)],
+                    ['Conversões', formatNum(kpis.marketing.conversoes_totais)],
+                    ['Margem por canal', formatBRL(data.canais.reduce((sum, channel) => sum + channel.receita_bruta, 0))]
+                ],
+                clientes: [
+                    ['Recompra', formatPct(kpis.clientes.recompra_pct)],
+                    ['LTV', formatBRL(kpis.clientes.ltv_medio)],
+                    ['Churn', formatPct(kpis.clientes.churn_pct)],
+                    ['Segmentos', formatNum(kpis.clientes.segmentos.length)]
+                ],
+                operacoes: [
+                    ['Taxa de devolução', formatPct(kpis.operacoes.taxa_devolucao)],
+                    ['Ruptura', formatPct(kpis.operacoes.ruptura_pct)],
+                    ['Giro de estoque', kpis.operacoes.giro_estoque.toFixed(2)],
+                    ['Lead time', `${kpis.operacoes.lead_time_medio.toFixed(1)} dias`]
+                ],
+                atendimento: [
+                    ['Volume de tickets', formatNum(kpis.atendimento.volume_total)],
+                    ['SLA', formatPct(kpis.atendimento.sla_pct)],
+                    ['Sentimento positivo', formatPct(kpis.atendimento.sentimento_positivo_pct)],
+                    ['Custo por ticket', formatBRL(kpis.atendimento.custo_medio_ticket)]
+                ],
+                impacto: [
+                    ['EBITDA potencial', formatBRL(impact.recuperacao_ebitda)],
+                    ['Economia estimada', formatBRL(impact.economia_estimada)],
+                    ['Receita protegida', formatBRL(impact.receita_protegida)],
+                    ['Payback', `${impact.payback_meses.toFixed(1)} meses`]
+                ]
+            }[area];
+            document.getElementById('area-chart-title').textContent = areaTitles[area];
+            document.getElementById('kpi-container').innerHTML = rows.map(([label, value]) => `
+                <div class="flex items-center justify-between gap-4 py-3">
+                    <span class="text-sm text-slate-500">${label}</span>
+                    <strong class="font-mono text-sm text-slate-800 text-right">${value}</strong>
+                </div>`).join('');
+
+            if (!hasAreaVisual) return;
+
+            if (charts.area) charts.area.destroy();
+            const chartData = {
+                comercial: { labels: ['Receita', 'Pedidos', 'Ticket', 'Conversão'], values: [kpis.comercial.receita_bruta, kpis.comercial.pedidos_aprovados, kpis.comercial.ticket_medio, kpis.comercial.taxa_conversao * 100], color: '#2563eb' },
+                margem: { labels: kpis.margem.rentabilidade_por_sku.map(sku => sku.produto), values: kpis.margem.rentabilidade_por_sku.map(sku => sku.rentabilidade * 100), color: '#059669', label: 'Rentabilidade por SKU (%)' },
+                marketing: { labels: data.canais.map(channel => channel.canal), values: data.canais.map(channel => channel.margem_liquida_real), color: '#d97706' },
+                clientes: { labels: kpis.clientes.segmentos.map(segment => segment.segmento), values: kpis.clientes.segmentos.map(segment => segment.clientes), color: '#db2777' },
+                operacoes: { labels: ['Devolução %', 'Ruptura %', 'Giro', 'Lead time'], values: [kpis.operacoes.taxa_devolucao * 100, kpis.operacoes.ruptura_pct * 100, kpis.operacoes.giro_estoque, kpis.operacoes.lead_time_medio], color: '#7c3aed' },
+                atendimento: { labels: ['Tickets', 'SLA %', 'Sentimento %', 'Custo/ticket'], values: [kpis.atendimento.volume_total, kpis.atendimento.sla_pct * 100, kpis.atendimento.sentimento_positivo_pct * 100, kpis.atendimento.custo_medio_ticket], color: '#0891b2' },
+                impacto: { labels: impact.acoes.map(action => action.nome), values: impact.acoes.map(action => action.valor), color: '#dc2626', label: 'Economia estimada (R$)' }
+            }[area];
+            charts.area = new Chart(document.getElementById('areaChart').getContext('2d'), {
+                type: 'bar',
+                data: { labels: chartData.labels, datasets: [{ label: chartData.label || areaTitles[area], data: chartData.values, backgroundColor: chartData.color, borderRadius: 3 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+        }
 
         async function init() {
             try {
@@ -139,66 +241,22 @@
             selectedGranularity = granularity;
             const data = dashboardData[`modo_${mode}`];
 
+            // Destruir gráficos antigos antes de criar os novos.
+            Object.values(charts).forEach(c => c.destroy());
+            charts = {};
+
             // 1. Render KPIs
-            const kpis = data.kpis;
-            const cards = [
-                // Comercial
-                ['Receita Bruta', formatBRL(kpis.comercial.receita_bruta), 'text-slate-800'],
-                ['Pedidos Aprovados', formatNum(kpis.comercial.pedidos_aprovados), 'text-slate-800'],
-                ['Ticket Médio', formatBRL(kpis.comercial.ticket_medio), 'text-slate-800'],
-                ['Taxa Conversao', formatPct(kpis.comercial.taxa_conversao), 'text-slate-800'],
-
-                // Margem
-                ['Margem de Contribuição', formatBRL(kpis.margem.margem_contribuicao), 'text-slate-800'],
-                ['Margem PCT', formatPct(kpis.margem.margem_pct), 'text-slate-800'],
-                ['Desconto Medio PCT', formatPct(kpis.margem.desconto_medio_pct), 'text-slate-800'],
-                ['Custo de Frete Medio', formatBRL(kpis.margem.frete_medio), 'text-slate-800'],
-
-                // Marketing
-                ['CAC Ponderado', formatBRL(kpis.marketing.cac_ponderado), 'text-slate-800'],
-                ['ROAS Consolidado', formatNum(kpis.marketing.roas_consolidado), 'text-slate-800'],
-                ['Conversões Totais', formatBRL(kpis.marketing.conversoes_totais), 'text-slate-800'],
-
-                // Clientes
-                ['LTV Medio', formatNum(kpis.clientes.ltv_medio), 'text-slate-800'],
-                ['LTV em Risco', formatBRL(kpis.clientes.ltv_risco), 'text-red-600'],
-                ['Porcentagem Recompras', formatPct(kpis.clientes.recompra_pct), 'text-slate-800'],
-                ['Porcentagem Churn', formatPct(kpis.clientes.churn_pct), 'text-red-600'],
-
-                // Operações
-                ['Taxa de Devolução', formatPct(kpis.operacoes.taxa_devolucao), 'text-amber-600'],
-                ['Ruptura', formatPct(kpis.operacoes.ruptura_pct), 'text-amber-600'],
-                ['Giro de Estoque', formatNum(kpis.operacoes.giro_estoque), 'text-slate-800'],
-                ['Lead Time Medio', formatBRL(kpis.operacoes.lead_time_medio), 'text-slate-800'],
-
-                // Atendimento
-                ['Atendimento Totais', formatNum(kpis.atendimento.volume_total), 'text-slate-800'],
-                ['Porcentagem SLA', formatPct(kpis.atendimento.sla_pct), 'text-slate-800'],
-                ['CSAT Médio', kpis.atendimento.csat_medio.toFixed(2), 'text-slate-800'],
-                ['Custo Atendimento Medio', formatBRL(kpis.atendimento.custo_medio_ticket), 'text-slate-800'],
-
-                // Produtividade
-                
-                ['WISMO', `${formatNum(data.hipoteses.atendimento_h5_h6.wismo_qtd)} tickets`, 'text-slate-800']
-            ];
-            document.getElementById('kpi-container').innerHTML = cards.map(([label, value, color]) => `
-                <div class="card p-4">
-                    <p class="text-xs text-slate-500 uppercase font-semibold">${label}</p>
-                    <p class="text-xl font-bold font-mono ${color} mt-1">${value}</p>
-                </div>`).join('');
+            renderArea(data, selectedArea);
 
             // 2. Tabela Top Produtos
-            document.getElementById('top-produtos-body').innerHTML = data.top_produtos.map(p => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50">
-                    <td class="px-2 py-3 truncate max-w-[200px]" title="${p.produto}">${p.produto}</td>
-                    <td class="px-2 py-3 text-right font-mono">${formatBRL(p.faturamento)}</td>
-                    <td class="px-2 py-3 text-right font-mono">${formatBRL(p.margem)}</td>
-                    <td class="px-2 py-3 text-right">${p.status_estoque || 'Sem venda'}</td>
-                </tr>
+            const products = data.produtos_ordenados || [];
+            document.getElementById('product-count').textContent = `${formatNum(products.length)} produtos`;
+            document.getElementById('products-list').innerHTML = products.map((product, index) => `
+                <li class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2">
+                    <span class="min-w-0 truncate" title="${product.produto}"><span class="mr-2 font-mono text-xs text-slate-400">${index + 1}</span>${product.produto}</span>
+                    <span class="shrink-0 font-mono ${product.rentabilidade < 0 ? 'text-red-600' : 'text-emerald-700'}">${formatPct(product.rentabilidade)}</span>
+                </li>
             `).join('');
-
-            // Destruir gráficos antigos
-            Object.values(charts).forEach(c => c.destroy());
 
             // 3. Gráfico Temporal Principal
             const ctxMain = document.getElementById('mainChart').getContext('2d');
@@ -243,13 +301,18 @@
                 data: {
                     labels: data.canais.map(d => d.canal),
                     datasets: [
-                        { label: 'Margem Líquida Real (R$)', data: data.canais.map(d => d.margem_liquida_real), backgroundColor: '#8b5cf6' }
+                        { label: 'Investimento (R$)', data: data.canais.map(d => d.investimento), backgroundColor: '#f59e0b' },
+                        { label: 'Receita Bruta (R$)', data: data.canais.map(d => d.receita_bruta), backgroundColor: '#2563eb' },
                     ]
                 },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
             });
         }
 
+        document.getElementById('area_toggle').addEventListener('change', (event) => {
+            selectedArea = event.target.value;
+            if (dashboardData) renderDashboard(selectedMode, selectedGranularity);
+        });
         document.getElementById('modo_toggle').addEventListener('change', (event) => renderDashboard(event.target.value, selectedGranularity));
         document.getElementById('gran_toggle').addEventListener('change', (event) => renderDashboard(selectedMode, event.target.value));
         document.getElementById('secondary_toggle').addEventListener('change', () => renderDashboard(selectedMode, selectedGranularity));

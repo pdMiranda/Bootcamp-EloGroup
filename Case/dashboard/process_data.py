@@ -86,6 +86,7 @@ def temporal_series(vendas, marketing, atendimento):
 def channel_analysis(vendas, marketing):
     sales = vendas.groupby("canal").agg(
         receita=("receita_liquida", "sum"),
+        receita_bruta=("receita_bruta", "sum"),
         margem_vendas=("margem_contribuicao", "sum"),
         pedidos=("order_id", "nunique"),
         pedidos_unico=("quantidade", lambda values: (values == 1).sum()),
@@ -102,11 +103,20 @@ def channel_analysis(vendas, marketing):
 
 
 def stock_and_bundles(vendas, estoque):
-    top = (
+    produtos = (
         vendas.groupby(["sku_id", "produto"])
-        .agg(faturamento=("receita_liquida", "sum"), margem=("margem_contribuicao", "sum"), unidades=("quantidade", "sum"))
+        .agg(
+            faturamento=("receita_liquida", "sum"),
+            margem=("margem_contribuicao", "sum"),
+            receita_bruta=("receita_bruta", "sum"),
+            unidades=("quantidade", "sum"),
+        )
         .reset_index()
-        .nlargest(10, "faturamento")
+    )
+    produtos = produtos[produtos["receita_bruta"] > 0].copy()
+    produtos["rentabilidade"] = produtos["margem"] / produtos["receita_bruta"]
+    produtos = (
+        produtos.sort_values(["rentabilidade", "faturamento"], ascending=[False, False])
         .merge(estoque[["sku_id", "estoque_disponivel", "status_disponibilidade"]], on="sku_id", how="left")
         .rename(columns={"status_disponibilidade": "status_estoque"})
     )
@@ -127,7 +137,7 @@ def stock_and_bundles(vendas, estoque):
             "racional": "Bundle cross-category para elevar a densidade do carrinho",
         })
     excess = moda_excesso[["sku_id", "nome_produto", "estoque_disponivel"]].to_dict("records")
-    return top.to_dict("records"), excess, bundles
+    return produtos.to_dict("records"), excess, bundles
 
 
 def build_kpis(vendas, clientes, estoque, marketing, atendimento):
@@ -138,18 +148,44 @@ def build_kpis(vendas, clientes, estoque, marketing, atendimento):
     sales_quantity = vendas["quantidade"].sum()
     stock_quantity = estoque["estoque_fisico"].sum()
     resolved = (atendimento["status_atendimento"] == "Resolvido").sum()
+    sku_profitability = (
+        vendas.groupby(["sku_id", "produto"])
+        .agg(receita_bruta=("receita_bruta", "sum"), margem_contribuicao=("margem_contribuicao", "sum"))
+        .reset_index()
+    )
+    sku_profitability["rentabilidade"] = np.where(
+        sku_profitability["receita_bruta"] > 0,
+        sku_profitability["margem_contribuicao"] / sku_profitability["receita_bruta"],
+        0,
+    )
+    sku_profitability = sku_profitability[sku_profitability["receita_bruta"] > 0]
+    best_skus = sku_profitability.nlargest(5, "rentabilidade")
+    worst_skus = sku_profitability.nsmallest(5, "rentabilidade")
+    sku_profitability = pd.concat([best_skus, worst_skus])
+    segments = clientes["segmento_rfm"].value_counts().rename_axis("segmento").reset_index(name="clientes")
+    positive_sentiment = (atendimento["nota_csat"] >= 4).mean()
     return {
         "comercial": {
             "receita_bruta": safe_float(receita),
             "pedidos_aprovados": safe_int(aprovados),
             "ticket_medio": safe_float(receita / pedidos) if pedidos else 0.0,
-            "taxa_conversao": safe_float(aprovados / marketing["cliques"].sum()) if marketing["cliques"].sum() else 0.0,
+            "taxa_conversao": safe_float(marketing["conversoes"].sum() / marketing["cliques"].sum()) if marketing["cliques"].sum() else 0.0,
         },
         "margem": {
             "margem_contribuicao": safe_float(vendas["margem_contribuicao"].sum()),
             "margem_pct": safe_float(vendas["margem_contribuicao"].sum() / receita) if receita else 0.0,
             "desconto_medio_pct": safe_float(vendas["desconto_reais"].sum() / receita) if receita else 0.0,
             "frete_medio": safe_float(vendas["custo_frete"].mean()),
+            "rentabilidade_por_sku": [
+                {
+                    "sku_id": row["sku_id"],
+                    "produto": row["produto"],
+                    "receita_bruta": safe_float(row["receita_bruta"]),
+                    "margem_contribuicao": safe_float(row["margem_contribuicao"]),
+                    "rentabilidade": safe_float(row["rentabilidade"]),
+                }
+                for row in sku_profitability.to_dict("records")
+            ],
         },
         "marketing": {
             "cac_ponderado": safe_float(marketing["investimento_reais"].sum() / marketing["conversoes"].sum()) if marketing["conversoes"].sum() else 0.0,
@@ -161,6 +197,7 @@ def build_kpis(vendas, clientes, estoque, marketing, atendimento):
             "ltv_risco": safe_float(clientes.loc[clientes["segmento_rfm"] == "Em Risco", "ltv_acumulado"].sum()),
             "recompra_pct": safe_float((clientes["total_pedidos_historico"] > 1).mean()),
             "churn_pct": safe_float(clientes["segmento_rfm"].isin(["Em Risco", "Hibernando"]).mean()),
+            "segmentos": segments.to_dict("records"),
         },
         "operacoes": {
             "taxa_devolucao": safe_float(vendas["devolvido"].mean()) if len(vendas) else 0.0,
@@ -172,6 +209,7 @@ def build_kpis(vendas, clientes, estoque, marketing, atendimento):
             "volume_total": safe_int(len(atendimento)),
             "sla_pct": safe_float(resolved / len(atendimento)) if len(atendimento) else 0.0,
             "csat_medio": safe_float(atendimento["nota_csat"].mean()),
+            "sentimento_positivo_pct": safe_float(positive_sentiment),
             "custo_medio_ticket": safe_float(atendimento["custo_operacional_ticket"].mean()),
         },
         "produtividade": {
@@ -194,8 +232,16 @@ def build_mode(data, integrated):
     ).reset_index()
     h3["peso_frete_pct"] = np.where(h3["receita_bruta"] > 0, h3["custo_frete"] / h3["receita_bruta"], 0)
     h3["peso_desconto_pct"] = np.where(h3["receita_bruta"] > 0, h3["desconto"] / h3["receita_bruta"], 0)
-    top, excess, bundles = stock_and_bundles(vendas, data["estoque"])
+    produtos, excess, bundles = stock_and_bundles(vendas, data["estoque"])
     wismo = atendimento[atendimento["categoria_problema"] == "Onde está meu pedido?"]
+    devolvidos = data["vendas"][data["vendas"]["devolvido"].fillna(False)]
+    impact_actions = [
+        {"nome": "Automação WISMO", "valor": 127728.00},
+        {"nome": "Realocação Marketing", "valor": 246855.00},
+        {"nome": "Redução Devoluções", "valor": 304637.00},
+        {"nome": "Reposição Rupturas", "valor": 75557.00},
+    ]
+    impact_total = sum(action["valor"] for action in impact_actions)
     return {
         "kpis": build_kpis(vendas, data["clientes"], data["estoque"], marketing, atendimento),
         "temporal": temporal_series(vendas, marketing, atendimento),
@@ -214,14 +260,12 @@ def build_mode(data, integrated):
         },
         "impacto": {
             "recuperacao_ebitda": 754778.81,
-            "acoes": [
-                {"nome": "Automação WISMO", "valor": 127728.00},
-                {"nome": "Realocação Marketing", "valor": 246855.00},
-                {"nome": "Redução Devoluções", "valor": 304637.00},
-                {"nome": "Reposição Rupturas", "valor": 75557.00},
-            ],
+            "economia_estimada": impact_total,
+            "receita_protegida": safe_float(devolvidos["receita_bruta"].sum()),
+            "payback_meses": 2.6,
+            "acoes": impact_actions,
         },
-        "top_produtos": top,
+        "produtos_ordenados": produtos,
         "rfm": data["clientes"]["segmento_rfm"].value_counts().rename_axis("segmento").reset_index(name="quantidade").to_dict("records"),
         "vendas_encerradas_em": "2024-01-26" if not integrated else None,
     }
