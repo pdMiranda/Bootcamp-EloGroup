@@ -36,7 +36,7 @@
         </div>
         <div class="card border-l-4 border-l-red-500">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Ação 2: Logística</h3>
-            <p class="text-sm font-medium">Corte de frete grátis em item único < R$ 199 &rarr; Elimina <span class="font-mono text-red-600 font-bold">491</span> pedidos de margem negativa.</p>
+            <p class="text-sm font-medium">Corte de frete grátis em item único &lt; R$ 199 &rarr; Elimina <span class="font-mono text-red-600 font-bold">491</span> pedidos de margem negativa.</p>
         </div>
         <div class="card border-l-4 border-l-green-500">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Ação 3: Marketing</h3>
@@ -84,9 +84,10 @@
         <!-- Gráfico Temporal -->
         <div class="card md:col-span-2 flex flex-col h-96">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-bold text-slate-800">Receita Bruta vs Margem de Contribuição</h2>
+                <h2 id="main-chart-title" class="text-lg font-bold text-slate-800">Receita Bruta vs Margem de Contribuição</h2>
                 <select class="border border-slate-300 rounded px-2 py-1 text-xs bg-white" id="secondary_toggle">
                     <option value="margem">Receita vs Margem</option>
+                    <option value="receita_liquida_perdida">Receita Líquida vs Receita Perdida</option>
                     <option value="ticket">Receita vs Ticket Médio</option>
                     <option value="cac_roas">CAC vs ROAS</option>
                     <option value="volume_csat">Volume vs CSAT</option>
@@ -149,7 +150,7 @@
             </div>
         </div>
 
-        <!--Fretes e Pedidos -->
+        <!-- Fretes e Pedidos -->
         <div class="card flex flex-col h-[420px]">
             <div class="flex justify-between items-center mb-4">
                 <div>
@@ -159,10 +160,8 @@
             <div class="flex-1 relative">
                 <canvas id="fretePedidoChart"></canvas>
             </div>    
+        </div>
     </div>
-
-
-
 
     <script>
         const formatBRL = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -300,25 +299,107 @@
             const ctxMain = document.getElementById('mainChart').getContext('2d');
             const periods = data.temporal[granularity] || [];
             const labelsMain = periods.map(d => d.periodo);
-            const dataReceita = periods.map(d => d.receita_bruta);
             const secondary = document.getElementById('secondary_toggle').value;
-            const secondaryConfig = {
-                margem: ['Margem de Contribuição', periods.map(d => d.margem_contribuicao), '#10b981'],
-                ticket: ['Ticket Médio', periods.map(d => d.ticket_medio), '#f59e0b'],
-                cac_roas: ['CAC', periods.map(d => d.cac), '#ef4444'],
-                volume_csat: ['Volume de Tickets', periods.map(d => d.volume_tickets), '#8b5cf6']
-            }[secondary];
+
+            const titlesMap = {
+                margem: 'Receita Bruta vs Margem de Contribuição',
+                receita_liquida_perdida: 'Margem de Contribuição vs Receita Perdida (Devoluções + Frete Reverso)',
+                ticket: 'Receita Bruta vs Ticket Médio',
+                cac_roas: 'CAC vs ROAS',
+                volume_csat: 'Volume vs CSAT'
+            };
+            document.getElementById('main-chart-title').textContent = titlesMap[secondary] || 'Análise Temporal';
+
+            let mainDatasets = [];
+            if (secondary === 'receita_liquida_perdida') {
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'Receita Perdida (Devoluções + Frete)',
+                        data: periods.map(d => d.receita_perdida || 0),
+                        borderColor: '#ef4444',
+                        backgroundColor: '#ef4444',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Margem de Contribuição',
+                        data: periods.map(d => d.margem_contribuicao || 0),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 3,
+                        yAxisID: 'y',
+                        order: 2
+                    }
+                ];
+            } else {
+                const secondaryConfig = {
+                    margem: ['Margem de Contribuição', periods.map(d => d.margem_contribuicao), '#10b981'],
+                    ticket: ['Ticket Médio', periods.map(d => d.ticket_medio), '#f59e0b'],
+                    cac_roas: ['CAC', periods.map(d => d.cac), '#ef4444'],
+                    volume_csat: ['Volume de Tickets', periods.map(d => d.volume_tickets), '#8b5cf6']
+                }[secondary];
+
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: secondaryConfig[0],
+                        data: secondaryConfig[1],
+                        borderColor: secondaryConfig[2],
+                        backgroundColor: secondaryConfig[2],
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Receita Bruta',
+                        data: periods.map(d => d.receita_bruta),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 3,
+                        yAxisID: 'y',
+                        order: 2
+                    }
+                ];
+            }
 
             charts.main = new Chart(ctxMain, {
                 type: 'bar',
                 data: {
                     labels: labelsMain,
-                    datasets: [
-                        { type: 'line', label: secondaryConfig[0], data: secondaryConfig[1], borderColor: secondaryConfig[2], borderWidth: 2, tension: 0.3, yAxisID: 'y' },
-                        { type: 'bar', label: 'Receita Bruta', data: dataReceita, backgroundColor: '#3b82f6', yAxisID: 'y' }
-                    ]
+                    datasets: mainDatasets
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (val) => formatBRL(val)
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    if (secondary === 'cac_roas' || secondary === 'volume_csat') {
+                                        return `${label}: ${value}`;
+                                    }
+                                    return `${label}: ${formatBRL(value)}`;
+                                }
+                            }
+                        }
+                    }
+                }
             });
 
             // 4. Gráfico RFM (Donut)
@@ -355,7 +436,6 @@
                 data: {
                     labels: canaisLabels,
                     datasets: [
-                        // LINHA NA FRENTE (declarada primeiro e com order menor)
                         {
                             type: 'line',
                             label: 'Ticket Médio',
@@ -368,7 +448,6 @@
                             yAxisID: 'y1',
                             order: 1
                         },
-
                         { type: 'bar', label: 'Campeão', data: data.canais_rfm.map(d => d['Campeão'] || 0), backgroundColor: '#10b981', stack: 'rfm', yAxisID: 'y', order: 2 },
                         { type: 'bar', label: 'Fiel', data: data.canais_rfm.map(d => d['Fiel'] || 0), backgroundColor: '#3b82f6', stack: 'rfm', yAxisID: 'y', order: 2 },
                         { type: 'bar', label: 'Promissor', data: data.canais_rfm.map(d => d['Promissor'] || 0), backgroundColor: '#8b5cf6', stack: 'rfm', yAxisID: 'y', order: 2 },
@@ -408,7 +487,6 @@
                 data: {
                     labels: freteLabels,
                     datasets: [
-                        // LINHA NA FRENTE
                         {
                             type: 'line',
                             label: 'Peso do Frete na Receita (%)',
@@ -421,7 +499,6 @@
                             yAxisID: 'y1',
                             order: 1
                         },
-                        // BARRAS ATRÁS
                         {
                             type: 'bar',
                             label: 'Frete Médio (R$)',
@@ -452,7 +529,6 @@
                     }
                 }
             });
-
         }
 
         document.getElementById('area_toggle').addEventListener('change', (event) => {

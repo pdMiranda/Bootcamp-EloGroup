@@ -43,19 +43,35 @@ def aggregate_period(source, date_column, period):
         frame[period] = frame[date_column].dt.strftime("%Y")
     return frame
 
-
 def temporal_series(vendas, marketing, atendimento):
     result = {}
+
+    vendas_proc = vendas.copy()
+    is_devolvido = vendas_proc["devolvido"].fillna(False).astype(bool)
+
+    vendas_proc["receita_devolvida"] = np.where(is_devolvido, vendas_proc["receita_liquida"], 0.0)
+    vendas_proc["frete_reverso"] = np.where(is_devolvido, vendas_proc["custo_frete"], 0.0)
+    vendas_proc["receita_perdida"] = vendas_proc["receita_devolvida"] + vendas_proc["frete_reverso"]
+
+    vendas_proc["order_id_devolvido"] = np.where(is_devolvido, vendas_proc["order_id"], np.nan)
+
     for period in ("semana", "mes", "ano"):
-        sales = aggregate_period(vendas, "data_pedido", period)
+        sales = aggregate_period(vendas_proc, "data_pedido", period)
         ads = aggregate_period(marketing, "data_inicio", period)
         support = aggregate_period(atendimento, "data_abertura", period)
+
         sales_agg = sales.groupby(period).agg(
             receita_bruta=("receita_bruta", "sum"),
+            receita_liquida=("receita_liquida", "sum"),
+            receita_perdida=("receita_perdida", "sum"),
+            receita_devolvida=("receita_devolvida", "sum"),
+            custo_frete_reverso=("frete_reverso", "sum"),
             margem_contribuicao=("margem_contribuicao", "sum"),
             pedidos=("order_id", "nunique"),
+            pedidos_devolvidos=("order_id_devolvido", "nunique"),
         )
         sales_agg["ticket_medio"] = np.where(sales_agg["pedidos"] > 0, sales_agg["receita_bruta"] / sales_agg["pedidos"], 0)
+
         ads_agg = ads.groupby(period).agg(
             investimento_ads=("investimento_reais", "sum"),
             conversoes=("conversoes", "sum"),
@@ -63,23 +79,27 @@ def temporal_series(vendas, marketing, atendimento):
         )
         ads_agg["cac"] = np.where(ads_agg["conversoes"] > 0, ads_agg["investimento_ads"] / ads_agg["conversoes"], 0)
         ads_agg["roas"] = np.where(ads_agg["investimento_ads"] > 0, ads_agg["receita_ads"] / ads_agg["investimento_ads"], 0)
+
         support_agg = support.groupby(period).agg(
             volume_tickets=("ticket_id", "count"),
             csat_medio=("nota_csat", "mean"),
         )
+
         combined = sales_agg.join(ads_agg, how="outer").join(support_agg, how="outer").fillna(0).reset_index()
         combined = combined.rename(columns={period: "periodo"})
+
         result[period] = []
         for row in combined.to_dict("records"):
             normalized = {}
             for key, value in row.items():
-                if key in {"pedidos", "conversoes", "volume_tickets"}:
+                if key in {"pedidos", "pedidos_devolvidos", "conversoes", "volume_tickets"}:
                     normalized[key] = safe_int(value)
                 elif isinstance(value, (int, float, np.integer, np.floating)):
                     normalized[key] = safe_float(value)
                 else:
                     normalized[key] = value
             result[period].append(normalized)
+
     return result
 
 def chanel_rfm(vendas, clientes, marketing):
