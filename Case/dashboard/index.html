@@ -20,10 +20,6 @@
             <h1 class="text-2xl font-bold text-slate-800">Vértice Retail | Executive Dashboard</h1>
         </div>
         <div class="flex gap-4 items-center">
-            <select class="border border-slate-300 rounded px-3 py-1 bg-white text-sm" id="modo_toggle">
-                <option value="integrado">Modo Integrado (2023-2024)</option>
-                <option value="estendido">Séries Contínuas (2023-2025)</option>
-            </select>
             <select class="border border-slate-300 rounded px-3 py-1 bg-white text-sm" id="gran_toggle">
                 <option value="mes">Mês</option>
                 <option value="semana">Semana</option>
@@ -122,10 +118,21 @@
         <!-- Lista de Produtos -->
         <div class="card overflow-y-auto h-96">
             <div class="flex items-center justify-between gap-3 mb-4">
-                <h2 class="text-lg font-bold text-slate-800">Produtos por rentabilidade</h2>
+                <h2 class="text-lg font-bold text-slate-800">Lista de Produtos</h2>
                 <span id="product-count" class="text-xs font-mono text-slate-500"></span>
             </div>
-            <ol id="products-list" class="space-y-2 text-sm text-slate-700"></ol>
+            <table class="min-w-full text-left text-sm whitespace-nowrap">
+                <thead class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500">
+                    <tr>
+                        <th class="px-2 py-2">Produto</th>
+                        <th class="px-2 py-2 text-right">Rentabilidade</th>
+                        <th class="px-2 py-2 text-right">Faturamento</th>
+                        <th class="px-2 py-2 text-right">Margem</th>
+                        <th class="px-2 py-2">Estoque</th>
+                    </tr>
+                </thead>
+                <tbody id="products-list" class="text-slate-700"></tbody>
+            </table>
         </div>
     </div>
 
@@ -136,7 +143,6 @@
 
         let dashboardData = null;
         let charts = {};
-        let selectedMode = 'integrado';
         let selectedGranularity = 'mes';
         let selectedArea = 'comercial';
 
@@ -229,17 +235,16 @@
                 const response = await fetch('dashboard_data.json');
                 if (!response.ok) throw new Error('Não foi possível carregar dashboard_data.json');
                 dashboardData = await response.json();
-                renderDashboard(selectedMode, selectedGranularity);
+                renderDashboard(selectedGranularity);
             } catch (err) {
                 console.error(err);
                 document.getElementById('kpi-container').innerHTML = `<div class="col-span-5 text-red-500 card">Erro ao carregar dados. Verifique se o dashboard_data.json está no mesmo diretório e se está rodando via servidor HTTP (ex: python -m http.server).</div>`;
             }
         }
 
-        function renderDashboard(mode = selectedMode, granularity = selectedGranularity) {
-            selectedMode = mode;
+        function renderDashboard(granularity = selectedGranularity) {
             selectedGranularity = granularity;
-            const data = dashboardData[`modo_${mode}`];
+            const data = dashboardData.modo_integrado;
 
             // Destruir gráficos antigos antes de criar os novos.
             Object.values(charts).forEach(c => c.destroy());
@@ -248,14 +253,19 @@
             // 1. Render KPIs
             renderArea(data, selectedArea);
 
-            // 2. Tabela Top Produtos
+            // 2. Lista completa de produtos
             const products = data.produtos_ordenados || [];
             document.getElementById('product-count').textContent = `${formatNum(products.length)} produtos`;
             document.getElementById('products-list').innerHTML = products.map((product, index) => `
-                <li class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2">
-                    <span class="min-w-0 truncate" title="${product.produto}"><span class="mr-2 font-mono text-xs text-slate-400">${index + 1}</span>${product.produto}</span>
-                    <span class="shrink-0 font-mono ${product.rentabilidade < 0 ? 'text-red-600' : 'text-emerald-700'}">${formatPct(product.rentabilidade)}</span>
-                </li>
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="px-2 py-2 truncate max-w-[220px]" title="${product.produto}">
+                        <span class="mr-2 font-mono text-xs text-slate-400">${index + 1}</span>${product.produto}
+                    </td>
+                    <td class="px-2 py-2 text-right font-mono ${product.rentabilidade < 0 ? 'text-red-600' : 'text-emerald-700'}">${formatPct(product.rentabilidade)}</td>
+                    <td class="px-2 py-2 text-right font-mono">${formatBRL(product.faturamento)}</td>
+                    <td class="px-2 py-2 text-right font-mono">${formatBRL(product.margem)}</td>
+                    <td class="px-2 py-2">${product.status_estoque || 'Sem cadastro'}</td>
+                </tr>
             `).join('');
 
             // 3. Gráfico Temporal Principal
@@ -311,11 +321,10 @@
 
         document.getElementById('area_toggle').addEventListener('change', (event) => {
             selectedArea = event.target.value;
-            if (dashboardData) renderDashboard(selectedMode, selectedGranularity);
+            if (dashboardData) renderDashboard(selectedGranularity);
         });
-        document.getElementById('modo_toggle').addEventListener('change', (event) => renderDashboard(event.target.value, selectedGranularity));
-        document.getElementById('gran_toggle').addEventListener('change', (event) => renderDashboard(selectedMode, event.target.value));
-        document.getElementById('secondary_toggle').addEventListener('change', () => renderDashboard(selectedMode, selectedGranularity));
+        document.getElementById('gran_toggle').addEventListener('change', (event) => renderDashboard(event.target.value));
+        document.getElementById('secondary_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>

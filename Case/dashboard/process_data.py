@@ -219,13 +219,10 @@ def build_kpis(vendas, clientes, estoque, marketing, atendimento):
     }
 
 
-def build_mode(data, integrated):
+def build_mode(data):
     vendas = data["vendas"]
-    marketing = data["marketing"]
-    atendimento = data["atendimento"]
-    if integrated:
-        marketing = marketing[marketing["data_inicio"] <= CUTOFF]
-        atendimento = atendimento[atendimento["data_abertura"] <= CUTOFF]
+    marketing = data["marketing"][data["marketing"]["data_inicio"] <= CUTOFF]
+    atendimento = data["atendimento"][data["atendimento"]["data_abertura"] <= CUTOFF]
     negative = vendas[vendas["margem_contribuicao"] < 0]
     h3 = negative.groupby("categoria").agg(
         receita_bruta=("receita_bruta", "sum"), custo_frete=("custo_frete", "sum"), desconto=("desconto_reais", "sum")
@@ -267,7 +264,7 @@ def build_mode(data, integrated):
         },
         "produtos_ordenados": produtos,
         "rfm": data["clientes"]["segmento_rfm"].value_counts().rename_axis("segmento").reset_index(name="quantidade").to_dict("records"),
-        "vendas_encerradas_em": "2024-01-26" if not integrated else None,
+        "vendas_encerradas_em": "2024-01-26",
     }
 
 
@@ -275,8 +272,7 @@ def process_data():
     data = load_data()
     dashboard_data = {
         "meta": {"atualizado_em": pd.Timestamp.now().isoformat(), "fonte": "CSV + Pandas"},
-        "modo_integrado": build_mode(data, integrated=True),
-        "modo_estendido": build_mode(data, integrated=False),
+        "modo_integrado": build_mode(data),
     }
     with OUTPUT_PATH.open("w", encoding="utf-8") as output:
         json.dump(dashboard_data, output, ensure_ascii=False, indent=2, allow_nan=False)
