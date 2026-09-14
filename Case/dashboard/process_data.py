@@ -82,6 +82,72 @@ def temporal_series(vendas, marketing, atendimento):
             result[period].append(normalized)
     return result
 
+def chanel_rfm(vendas, clientes, marketing):
+    vendas = vendas.merge(clientes[["customer_id", "segmento_rfm"]], on="customer_id", how="inner")
+
+    sales = vendas.groupby("canal").agg(
+        receita=("receita_liquida", "sum"),
+        receita_bruta=("receita_bruta", "sum"),
+        margem_vendas=("margem_contribuicao", "sum"),
+        pedidos=("order_id", "nunique"),
+        pedidos_unico=("quantidade", lambda values: (values == 1).sum()),
+        clientes_totais=("customer_id", "nunique"),
+        segmento_predominante=("segmento_rfm", lambda x: x.mode()[0] if not x.empty else ""),
+    )
+    # Cálculo do Ticket Médio por canal
+    sales["ticket_medio"] = np.where(sales["pedidos"] > 0, sales["receita_bruta"] / sales["pedidos"], 0.0)
+
+    rfm_counts = (
+        vendas.groupby(["canal", "segmento_rfm"])["customer_id"]
+        .nunique()
+        .unstack(fill_value=0)
+    )
+
+    ads = marketing.groupby("canal").agg(
+        investimento=("investimento_reais", "sum"),
+        conversoes_ads=("conversoes", "sum"),
+        receita_ads=("receita_gerada", "sum"),
+    )
+
+    result = sales.join(rfm_counts).join(ads, how="outer").fillna(0).reset_index()
+    result["margem_liquida_real"] = result["receita_ads"] - result["investimento"]
+    result["roi_margem"] = np.where(result["investimento"] > 0, result["margem_liquida_real"] / result["investimento"], 0)
+    result["pct_item_unico"] = np.where(result["pedidos"] > 0, result["pedidos_unico"] / result["pedidos"], 0)
+
+    records = result.to_dict("records")
+    for r in records:
+        for k, v in r.items():
+            if isinstance(v, (np.integer, int)):
+                r[k] = safe_int(v)
+            elif isinstance(v, (np.floating, float)):
+                r[k] = safe_float(v)
+
+    return records
+
+def shipping_analysis(vendas):
+    frete = vendas.groupby("canal").agg(
+        pedidos=("order_id", "nunique"),
+        receita_bruta=("receita_bruta", "sum"),
+        custo_frete_total=("custo_frete", "sum"),
+        frete_medio=("custo_frete", "mean"),
+        pedidos_margem_neg=("margem_contribuicao", lambda values: (values < 0).sum()),
+        pedidos_frete_gratis=("custo_frete", lambda values: (values == 0).sum()),
+    )
+
+    frete["ticket_medio"] = np.where(frete["pedidos"] > 0, frete["receita_bruta"] / frete["pedidos"], 0.0)
+    frete["peso_frete_pct"] = np.where(frete["receita_bruta"] > 0, (frete["custo_frete_total"] / frete["receita_bruta"]) * 100, 0.0)
+    frete["pct_pedidos_margem_neg"] = np.where(frete["pedidos"] > 0, (frete["pedidos_margem_neg"] / frete["pedidos"]) * 100, 0.0)
+
+    result = frete.reset_index()
+    records = result.to_dict("records")
+    for r in records:
+        for k, v in r.items():
+            if isinstance(v, (np.integer, int)):
+                r[k] = safe_int(v)
+            elif isinstance(v, (np.floating, float)):
+                r[k] = safe_float(round(v, 2))
+
+    return records
 
 def channel_analysis(vendas, marketing):
     sales = vendas.groupby("canal").agg(
@@ -94,9 +160,10 @@ def channel_analysis(vendas, marketing):
     ads = marketing.groupby("canal").agg(
         investimento=("investimento_reais", "sum"),
         conversoes_ads=("conversoes", "sum"),
+        receita_ads=("receita_gerada", "sum"),
     )
     result = sales.join(ads, how="outer").fillna(0).reset_index()
-    result["margem_liquida_real"] = result["margem_vendas"] - result["investimento"]
+    result["margem_liquida_real"] = result["receita_ads"] - result["investimento"]
     result["roi_margem"] = np.where(result["investimento"] > 0, result["margem_liquida_real"] / result["investimento"], 0)
     result["pct_item_unico"] = np.where(result["pedidos"] > 0, result["pedidos_unico"] / result["pedidos"], 0)
     return result.to_dict("records")
@@ -243,6 +310,8 @@ def build_mode(data):
         "kpis": build_kpis(vendas, data["clientes"], data["estoque"], marketing, atendimento),
         "temporal": temporal_series(vendas, marketing, atendimento),
         "canais": channel_analysis(vendas, marketing),
+        "analise_frete": shipping_analysis(vendas),
+        "canais_rfm": chanel_rfm(vendas, data["clientes"], marketing),
         "hipoteses": {
             "margem_negativa_h3": h3.to_dict("records"),
             "pedidos_margem_negativa": safe_int(len(negative)),

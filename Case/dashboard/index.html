@@ -136,6 +136,34 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Segmentos e Pedidos Únicos por Canal -->
+        <div class="card flex flex-col h-[420px]">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800">Segmentos RFM por Canal</h2>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <canvas id="canalRfmChart"></canvas>
+            </div>
+        </div>
+
+        <!--Fretes e Pedidos -->
+        <div class="card flex flex-col h-[420px]">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800">Fretes e Pedidos</h2>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <canvas id="fretePedidoChart"></canvas>
+            </div>    
+    </div>
+
+
+
+
     <script>
         const formatBRL = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
         const formatNum = (value) => new Intl.NumberFormat('pt-BR').format(value);
@@ -177,7 +205,7 @@
                     ['CAC', formatBRL(kpis.marketing.cac_ponderado)],
                     ['ROAS', kpis.marketing.roas_consolidado.toFixed(2)],
                     ['Conversões', formatNum(kpis.marketing.conversoes_totais)],
-                    ['Margem por canal', formatBRL(data.canais.reduce((sum, channel) => sum + channel.receita_bruta, 0))]
+                    ['Margem Total', formatBRL(data.canais.reduce((sum, channel) => sum + channel.receita_bruta, 0))]
                 ],
                 clientes: [
                     ['Recompra', formatPct(kpis.clientes.recompra_pct)],
@@ -216,7 +244,7 @@
             if (charts.area) charts.area.destroy();
             const chartData = {
                 comercial: { labels: ['Receita', 'Pedidos', 'Ticket', 'Conversão'], values: [kpis.comercial.receita_bruta, kpis.comercial.pedidos_aprovados, kpis.comercial.ticket_medio, kpis.comercial.taxa_conversao * 100], color: '#2563eb' },
-                margem: { labels: kpis.margem.rentabilidade_por_sku.map(sku => sku.produto), values: kpis.margem.rentabilidade_por_sku.map(sku => sku.rentabilidade * 100), color: '#059669', label: 'Rentabilidade por SKU (%)' },
+                margem: { labels: kpis.margem.rentabilidade_por_sku.map(sku => sku.produto), values: kpis.margem.rentabilidade_por_sku.map(sku => sku.rentabilidade * 100), color: '#059669', label: ' Maior Rentabilidade SKU (%)' },
                 marketing: { labels: data.canais.map(channel => channel.canal), values: data.canais.map(channel => channel.margem_liquida_real), color: '#d97706' },
                 clientes: { labels: kpis.clientes.segmentos.map(segment => segment.segmento), values: kpis.clientes.segmentos.map(segment => segment.clientes), color: '#db2777' },
                 operacoes: { labels: ['Devolução %', 'Ruptura %', 'Giro', 'Lead time'], values: [kpis.operacoes.taxa_devolucao * 100, kpis.operacoes.ruptura_pct * 100, kpis.operacoes.giro_estoque, kpis.operacoes.lead_time_medio], color: '#7c3aed' },
@@ -312,11 +340,119 @@
                     labels: data.canais.map(d => d.canal),
                     datasets: [
                         { label: 'Investimento (R$)', data: data.canais.map(d => d.investimento), backgroundColor: '#f59e0b' },
-                        { label: 'Receita Bruta (R$)', data: data.canais.map(d => d.receita_bruta), backgroundColor: '#2563eb' },
+                        { label: 'Retorno Bruto (R$)', data: data.canais.map(d => d.margem_liquida_real), backgroundColor: '#2563eb' },
                     ]
                 },
                 options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
             });
+
+            // 6. Gráfico: Segmentos RFM e Ticket Médio
+            const ctxCanalRfm = document.getElementById('canalRfmChart').getContext('2d');
+            const canaisLabels = data.canais_rfm.map(d => d.canal);
+
+            charts.canalRfm = new Chart(ctxCanalRfm, {
+                type: 'bar',
+                data: {
+                    labels: canaisLabels,
+                    datasets: [
+                        // LINHA NA FRENTE (declarada primeiro e com order menor)
+                        {
+                            type: 'line',
+                            label: 'Ticket Médio',
+                            data: data.canais_rfm.map(d => d.ticket_medio || 0),
+                            borderColor: '#0f172a',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#0f172a',
+                            yAxisID: 'y1',
+                            order: 1
+                        },
+
+                        { type: 'bar', label: 'Campeão', data: data.canais_rfm.map(d => d['Campeão'] || 0), backgroundColor: '#10b981', stack: 'rfm', yAxisID: 'y', order: 2 },
+                        { type: 'bar', label: 'Fiel', data: data.canais_rfm.map(d => d['Fiel'] || 0), backgroundColor: '#3b82f6', stack: 'rfm', yAxisID: 'y', order: 2 },
+                        { type: 'bar', label: 'Promissor', data: data.canais_rfm.map(d => d['Promissor'] || 0), backgroundColor: '#8b5cf6', stack: 'rfm', yAxisID: 'y', order: 2 },
+                        { type: 'bar', label: 'Em Risco', data: data.canais_rfm.map(d => d['Em Risco'] || 0), backgroundColor: '#f59e0b', stack: 'rfm', yAxisID: 'y', order: 2 },
+                        { type: 'bar', label: 'Hibernando', data: data.canais_rfm.map(d => d['Hibernando'] || 0), backgroundColor: '#94a3b8', stack: 'rfm', yAxisID: 'y', order: 2 },
+                        { type: 'bar', label: 'Churn', data: data.canais_rfm.map(d => d['Churn'] || 0), backgroundColor: '#ef4444', stack: 'rfm', yAxisID: 'y', order: 2 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stacked: true,
+                            position: 'left',
+                            title: { display: true, text: 'Qtd. Clientes' }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'Ticket Médio' },
+                            ticks: { callback: (val) => formatBRL(val) }
+                        }
+                    }
+                }
+            });           
+
+            // 7. Gráfico: Frete Médio vs. Peso do Frete na Receita por Canal
+            const ctxFrete = document.getElementById('fretePedidoChart').getContext('2d');
+            const freteData = data.analise_frete || data.canais;
+            const freteLabels = freteData.map(d => d.canal);
+
+            charts.fretePedido = new Chart(ctxFrete, {
+                type: 'bar',
+                data: {
+                    labels: freteLabels,
+                    datasets: [
+                        // LINHA NA FRENTE
+                        {
+                            type: 'line',
+                            label: 'Peso do Frete na Receita (%)',
+                            data: freteData.map(d => d.peso_frete_pct || 0),
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ef4444',
+                            yAxisID: 'y1',
+                            order: 1
+                        },
+                        // BARRAS ATRÁS
+                        {
+                            type: 'bar',
+                            label: 'Frete Médio (R$)',
+                            data: freteData.map(d => d.frete_medio || 0),
+                            backgroundColor: '#3b82f6',
+                            yAxisID: 'y',
+                            order: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            position: 'left',
+                            title: { display: true, text: 'Frete Médio' },
+                            ticks: { callback: (val) => formatBRL(val) }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'Frete / Receita (%)' },
+                            ticks: { callback: (val) => val.toFixed(1) + '%' }
+                        }
+                    }
+                }
+            });
+
         }
 
         document.getElementById('area_toggle').addEventListener('change', (event) => {
