@@ -102,6 +102,72 @@ def temporal_series(vendas, marketing, atendimento):
 
     return result
 
+def category_health_analysis(vendas, estoque):
+    is_devolvido = vendas["devolvido"].fillna(False).astype(bool)
+    vendas_proc = vendas.copy()
+    vendas_proc["receita_devolvida"] = np.where(is_devolvido, vendas_proc["receita_liquida"], 0.0)
+    vendas_proc["frete_reverso"] = np.where(is_devolvido, vendas_proc["custo_frete"], 0.0)
+    vendas_proc["receita_perdida"] = vendas_proc["receita_devolvida"] + vendas_proc["frete_reverso"]
+
+    v_cat = vendas_proc.groupby("categoria").agg(
+        receita_bruta=("receita_bruta", "sum"),
+        margem_contribuicao=("margem_contribuicao", "sum"),
+        pedidos=("order_id", "nunique"),
+        quantidade_vendida=("quantidade", "sum"),
+        desconto_reais=("desconto_reais", "sum"),
+        custo_frete=("custo_frete", "sum"),
+        pedidos_margem_neg=("margem_contribuicao", lambda x: (x < 0).sum()),
+        pedidos_devolvidos=("devolvido", lambda x: x.fillna(False).sum()),
+        receita_perdida=("receita_perdida", "sum"),
+        taxa_devolucao=("devolvido", "mean")
+    ).reset_index()
+
+    v_cat["margem_pct"] = v_cat["margem_contribuicao"] / v_cat["receita_bruta"]
+    v_cat["desconto_pct"] = v_cat["desconto_reais"] / v_cat["receita_bruta"]
+    v_cat["frete_pct"] = v_cat["custo_frete"] / v_cat["receita_bruta"]
+    v_cat["pct_pedidos_margem_neg"] = v_cat["pedidos_margem_neg"] / v_cat["pedidos"]
+
+    estoque_proc = estoque.copy()
+    estoque_proc["valor_estoque_custo"] = estoque_proc["estoque_fisico"] * estoque_proc["custo_unitario"]
+    estoque_proc["volume_total_m3"] = estoque_proc["estoque_fisico"] * estoque_proc["volume_m3"]
+
+    e_cat = estoque_proc.groupby("categoria").agg(
+        total_skus=("sku_id", "nunique"),
+        estoque_fisico=("estoque_fisico", "sum"),
+        valor_estoque_custo=("valor_estoque_custo", "sum"),
+        volume_total_m3=("volume_total_m3", "sum"),
+        skus_ruptura=("status_disponibilidade", lambda x: (x == "Ruptura").sum()),
+        skus_critico=("status_disponibilidade", lambda x: (x == "Estoque Crítico").sum()),
+        lead_time_medio=("lead_time_reposicao", "mean")
+    ).reset_index()
+
+    merged = v_cat.merge(e_cat, on="categoria")
+    merged["giro_estoque"] = merged["quantidade_vendida"] / merged["estoque_fisico"]
+    merged["skus_em_risco"] = merged["skus_ruptura"] + merged["skus_critico"]
+
+    merged["venda_mensal_media"] = merged["quantidade_vendida"] / 13.0
+    merged["meses_cobertura"] = np.where(merged["venda_mensal_media"] > 0, merged["estoque_fisico"] / merged["venda_mensal_media"], 0)
+
+    def definir_acao(row):
+        if row["skus_ruptura"] > 10:
+            return "Reposição prioritária (Perda ativa de vendas)"
+        elif row["giro_estoque"] < 0.05:
+            return "Ativar Bundles (Queima de excesso parado)"
+        elif row["taxa_devolucao"] > 0.15:
+            return "Investigar logística e medidas"
+        return "Manter sortimento e cross-sell"
+
+    merged["acao_recomendada"] = merged.apply(definir_acao, axis=1)
+
+    records = merged.to_dict("records")
+    for r in records:
+        for k, v in r.items():
+            if isinstance(v, (np.integer, int)):
+                r[k] = safe_int(v)
+            elif isinstance(v, (np.floating, float)):
+                r[k] = safe_float(round(v, 4))
+    return records
+
 def chanel_rfm(vendas, clientes, marketing):
     vendas = vendas.merge(clientes[["customer_id", "segmento_rfm"]], on="customer_id", how="inner")
 
@@ -145,7 +211,7 @@ def chanel_rfm(vendas, clientes, marketing):
     return records
 
 def shipping_analysis(vendas):
-    frete = vendas.groupby("canal").agg(
+    frete = vendas.groupby("categoria").agg(
         pedidos=("order_id", "nunique"),
         receita_bruta=("receita_bruta", "sum"),
         custo_frete_total=("custo_frete", "sum"),
@@ -154,9 +220,12 @@ def shipping_analysis(vendas):
         pedidos_frete_gratis=("custo_frete", lambda values: (values == 0).sum()),
     )
 
+    frete["peso_frete_pct"] = np.where(
+        frete["receita_bruta"] > 0, 
+        (frete["custo_frete_total"] / frete["receita_bruta"]) * 100, 
+        0.0
+    )
     frete["ticket_medio"] = np.where(frete["pedidos"] > 0, frete["receita_bruta"] / frete["pedidos"], 0.0)
-    frete["peso_frete_pct"] = np.where(frete["receita_bruta"] > 0, (frete["custo_frete_total"] / frete["receita_bruta"]) * 100, 0.0)
-    frete["pct_pedidos_margem_neg"] = np.where(frete["pedidos"] > 0, (frete["pedidos_margem_neg"] / frete["pedidos"]) * 100, 0.0)
 
     result = frete.reset_index()
     records = result.to_dict("records")
@@ -185,8 +254,19 @@ def channel_analysis(vendas, marketing):
     result = sales.join(ads, how="outer").fillna(0).reset_index()
     result["margem_liquida_real"] = result["receita_ads"] - result["investimento"]
     result["roi_margem"] = np.where(result["investimento"] > 0, result["margem_liquida_real"] / result["investimento"], 0)
+
+    result["roas"] = np.where(result["investimento"] > 0, result["receita_ads"] / result["investimento"], 0.0)
+    result["cac"] = np.where(result["conversoes_ads"] > 0, result["investimento"] / result["conversoes_ads"], 0.0)
     result["pct_item_unico"] = np.where(result["pedidos"] > 0, result["pedidos_unico"] / result["pedidos"], 0)
-    return result.to_dict("records")
+    
+    records = result.to_dict("records")
+    for r in records:
+        for k, v in r.items():
+            if isinstance(v, (np.integer, int)):
+                r[k] = safe_int(v)
+            elif isinstance(v, (np.floating, float)):
+                r[k] = safe_float(round(v, 2))
+    return records
 
 
 def stock_and_bundles(vendas, estoque):
@@ -228,6 +308,7 @@ def stock_and_bundles(vendas, estoque):
 
 
 def build_kpis(vendas, clientes, estoque, marketing, atendimento):
+    pedidos_brutos = vendas["custo_produto"].sum()
     receita = vendas["receita_bruta"].sum()
     pedidos = vendas["order_id"].nunique()
     aprovados = vendas.loc[vendas["status_pagamento"] == "Aprovado", "order_id"].nunique()
@@ -255,7 +336,7 @@ def build_kpis(vendas, clientes, estoque, marketing, atendimento):
         "comercial": {
             "receita_bruta": safe_float(receita),
             "pedidos_aprovados": safe_int(aprovados),
-            "ticket_medio": safe_float(receita / pedidos) if pedidos else 0.0,
+            "ticket_medio": safe_float(pedidos_brutos / pedidos) if pedidos else 0.0,
             "taxa_conversao": safe_float(marketing["conversoes"].sum() / marketing["cliques"].sum()) if marketing["cliques"].sum() else 0.0,
         },
         "margem": {
@@ -332,6 +413,7 @@ def build_mode(data):
         "canais": channel_analysis(vendas, marketing),
         "analise_frete": shipping_analysis(vendas),
         "canais_rfm": chanel_rfm(vendas, data["clientes"], marketing),
+        "saude_categorias": category_health_analysis(vendas, data["estoque"]),
         "hipoteses": {
             "margem_negativa_h3": h3.to_dict("records"),
             "pedidos_margem_negativa": safe_int(len(negative)),

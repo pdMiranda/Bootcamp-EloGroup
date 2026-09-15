@@ -36,15 +36,15 @@
         </div>
         <div class="card border-l-4 border-l-red-500">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Ação 2: Logística</h3>
-            <p class="text-sm font-medium">Corte de frete grátis em item único &lt; R$ 199 &rarr; Elimina <span class="font-mono text-red-600 font-bold">491</span> pedidos de margem negativa.</p>
+            <p class="text-sm font-medium">Revisar frete grátis em itens únicos &lt; R$ 199 &rarr; Elimina <span class="font-mono text-red-600 font-bold">reduzir pedidos de margem negativa</span></p>
         </div>
         <div class="card border-l-4 border-l-green-500">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Ação 3: Marketing</h3>
-            <p class="text-sm font-medium">Realocar 30% da verba de TikTok para Google/Marketplace &rarr; <span class="font-mono text-green-600 font-bold">+R$ 246k</span> em margem líquida.</p>
+            <p class="text-sm font-medium">Otimizar investimento entre canais com base em ROAS e CAC &rarr; <span class="font-mono text-green-600 font-bold">priorizar canais mais eficientes</span></p>
         </div>
         <div class="card border-l-4 border-l-purple-500">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Ação 4: Estoque</h3>
-            <p class="text-sm font-medium">Ativar Bundles de Moda + Beleza &rarr; Desovar <span class="font-mono text-purple-600 font-bold">1.100+</span> peças de sobre-estoque sazonal.</p>
+            <p class="text-sm font-medium">Ativar Bundles de Moda + Beleza &rarr; Proporcionar giro de <span class="font-mono text-purple-600 font-bold">1.100+</span> peças menos procuradas pelos clientes.</p>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
                 <h2 id="main-chart-title" class="text-lg font-bold text-slate-800">Receita Bruta vs Margem de Contribuição</h2>
                 <select class="border border-slate-300 rounded px-2 py-1 text-xs bg-white" id="secondary_toggle">
                     <option value="margem">Receita vs Margem</option>
-                    <option value="receita_liquida_perdida">Receita Líquida vs Receita Perdida</option>
+                    <option value="receita_liquida_perdida">Margem de Contribuição vs Receita Perdida</option>
                     <option value="ticket">Receita vs Ticket Médio</option>
                     <option value="cac_roas">CAC vs ROAS</option>
                     <option value="volume_csat">Volume vs CSAT</option>
@@ -108,16 +108,59 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Investimento e retorno por canal -->
+        <!-- Investimento e retorno por canal com seletor -->
         <div class="card h-96 flex flex-col">
-            <h2 class="text-lg font-bold text-slate-800 mb-4">Investimento e retorno por canal</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="canal-chart-title" class="text-lg font-bold text-slate-800">Investimento e Retorno por Canal</h2>
+                <select class="border border-slate-300 rounded px-2 py-1 text-xs bg-white" id="canal_toggle">
+                    <option value="investimento_retorno">Investimento e Retorno</option>
+                    <option value="roas_cac">ROAS vs CAC</option>
+                </select>
+            </div>
             <div class="flex-1 relative">
                 <canvas id="canalChart"></canvas>
             </div>
         </div>
 
+        
+        <!-- Análise Multidimensional por Categoria -->
+        <div class="card overflow-y-auto h-96 flex flex-col">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                <div>
+                    <h2 id="cat-table-title" class="text-lg font-bold text-slate-800">Saúde Operacional por Categoria</h2>
+                    <p id="cat-table-subtitle" class="text-xs text-slate-500">Diagnóstico cruzado de Receita, Ruptura, Giro e Devolução</p>
+                </div>
+                <select class="border border-slate-300 rounded px-2 py-1 text-xs bg-white text-slate-700" id="categoria_view_toggle">
+                    <option value="saude">Saúde Operacional e Ruptura</option>
+                    <option value="sangria">Diagnóstico de Margem e Sangria</option>
+                    <option value="turnover">Eficiência de Capital e Giro</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto flex-1">
+                <table class="min-w-full text-left text-xs whitespace-nowrap">
+                    <thead id="categoria-thead" class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50"></thead>
+                    <tbody id="categoria-tbody" class="text-slate-700 divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Segmentos e Pedidos Únicos por Canal -->
+        <div class="card flex flex-col h-[420px]">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800">Segmentos RFM por Canal</h2>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <canvas id="canalRfmChart"></canvas>
+            </div>
+        </div>
         <!-- Lista de Produtos -->
-        <div class="card overflow-y-auto h-96">
+        <div class="card overflow-y-auto h-[420px]">
             <div class="flex items-center justify-between gap-3 mb-4">
                 <h2 class="text-lg font-bold text-slate-800">Lista de Produtos</h2>
                 <span id="product-count" class="text-xs font-mono text-slate-500"></span>
@@ -134,32 +177,6 @@
                 </thead>
                 <tbody id="products-list" class="text-slate-700"></tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Segmentos e Pedidos Únicos por Canal -->
-        <div class="card flex flex-col h-[420px]">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <h2 class="text-lg font-bold text-slate-800">Segmentos RFM por Canal</h2>
-                </div>
-            </div>
-            <div class="flex-1 relative">
-                <canvas id="canalRfmChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Fretes e Pedidos -->
-        <div class="card flex flex-col h-[420px]">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <h2 class="text-lg font-bold text-slate-800">Fretes e Pedidos</h2>
-                </div>
-            </div>
-            <div class="flex-1 relative">
-                <canvas id="fretePedidoChart"></canvas>
-            </div>    
         </div>
     </div>
 
@@ -306,12 +323,101 @@
                 receita_liquida_perdida: 'Margem de Contribuição vs Receita Perdida (Devoluções + Frete Reverso)',
                 ticket: 'Receita Bruta vs Ticket Médio',
                 cac_roas: 'CAC vs ROAS',
-                volume_csat: 'Volume vs CSAT'
+                volume_csat: 'Volume de Atendimentos vs CSAT Médio'
             };
             document.getElementById('main-chart-title').textContent = titlesMap[secondary] || 'Análise Temporal';
 
             let mainDatasets = [];
-            if (secondary === 'receita_liquida_perdida') {
+            let mainScales = {};
+
+            if (secondary === 'cac_roas') {
+                // CAC vs ROAS: Barras de CAC (R$) e Linha de ROAS (x)
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'ROAS',
+                        data: periods.map(d => d.roas || 0),
+                        borderColor: '#10b981',
+                        backgroundColor: '#10b981',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y_roas',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'CAC (R$)',
+                        data: periods.map(d => d.cac || 0),
+                        backgroundColor: '#ef4444',
+                        borderRadius: 3,
+                        yAxisID: 'y_cac',
+                        order: 2
+                    }
+                ];
+                mainScales = {
+                    y_cac: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'CAC' },
+                        ticks: { callback: (val) => formatBRL(val) }
+                    },
+                    y_roas: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'ROAS' },
+                        ticks: { callback: (val) => val.toFixed(1) + 'x' }
+                    }
+                };
+
+            } else if (secondary === 'volume_csat') {
+                // Volume vs CSAT: Barras de Tickets e Linha de Nota CSAT (0 a 5)
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'CSAT Médio',
+                        data: periods.map(d => d.csat_medio || 0),
+                        borderColor: '#f59e0b',
+                        backgroundColor: '#f59e0b',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y_csat',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Volume de Tickets',
+                        data: periods.map(d => d.volume_tickets || 0),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 3,
+                        yAxisID: 'y_vol',
+                        order: 2
+                    }
+                ];
+                mainScales = {
+                    y_vol: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'Qtd. Tickets' },
+                        ticks: { callback: (val) => formatNum(val) }
+                    },
+                    y_csat: {
+                        type: 'linear',
+                        min: 0,
+                        max: 5,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'CSAT (1 a 5)' },
+                        ticks: { callback: (val) => val.toFixed(1) }
+                    }
+                };
+
+            } else if (secondary === 'receita_liquida_perdida') {
                 mainDatasets = [
                     {
                         type: 'line',
@@ -335,12 +441,18 @@
                         order: 2
                     }
                 ];
+                mainScales = {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: (val) => formatBRL(val) }
+                    }
+                };
+
             } else {
+                // 'margem' ou 'ticket'
                 const secondaryConfig = {
                     margem: ['Margem de Contribuição', periods.map(d => d.margem_contribuicao), '#10b981'],
-                    ticket: ['Ticket Médio', periods.map(d => d.ticket_medio), '#f59e0b'],
-                    cac_roas: ['CAC', periods.map(d => d.cac), '#ef4444'],
-                    volume_csat: ['Volume de Tickets', periods.map(d => d.volume_tickets), '#8b5cf6']
+                    ticket: ['Ticket Médio', periods.map(d => d.ticket_medio), '#f59e0b']
                 }[secondary];
 
                 mainDatasets = [
@@ -353,7 +465,7 @@
                         borderWidth: 2,
                         tension: 0.3,
                         pointRadius: 4,
-                        yAxisID: 'y',
+                        yAxisID: secondary === 'ticket' ? 'y_line' : 'y',
                         order: 1
                     },
                     {
@@ -366,6 +478,25 @@
                         order: 2
                     }
                 ];
+
+                mainScales = {
+                    y: {
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'Receita Bruta' },
+                        ticks: { callback: (val) => formatBRL(val) }
+                    }
+                };
+
+                if (secondary === 'ticket') {
+                    mainScales.y_line = {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'Ticket Médio' },
+                        ticks: { callback: (val) => formatBRL(val) }
+                    };
+                }
             }
 
             charts.main = new Chart(ctxMain, {
@@ -377,30 +508,23 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: (val) => formatBRL(val)
-                            }
-                        }
-                    },
+                    scales: mainScales,
                     plugins: {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     const label = context.dataset.label || '';
                                     const value = context.parsed.y;
-                                    if (secondary === 'cac_roas' || secondary === 'volume_csat') {
-                                        return `${label}: ${value}`;
-                                    }
+                                    if (context.dataset.yAxisID === 'y_roas') return `${label}: ${value.toFixed(2)}x`;
+                                    if (context.dataset.yAxisID === 'y_csat') return `${label}: ${value.toFixed(2)} ★`;
+                                    if (context.dataset.yAxisID === 'y_vol') return `${label}: ${formatNum(value)} tickets`;
                                     return `${label}: ${formatBRL(value)}`;
                                 }
                             }
                         }
                     }
                 }
-            });
+            })
 
             // 4. Gráfico RFM (Donut)
             const ctxRfm = document.getElementById('rfmChart').getContext('2d');
@@ -415,26 +539,79 @@
 
             // 5. Gráfico Canais (Barra Horizontal)
             const ctxCanal = document.getElementById('canalChart').getContext('2d');
-            charts.canal = new Chart(ctxCanal, {
-                type: 'bar',
-                data: {
-                    labels: data.canais.map(d => d.canal),
-                    datasets: [
-                        { label: 'Investimento (R$)', data: data.canais.map(d => d.investimento), backgroundColor: '#f59e0b' },
-                        { label: 'Retorno Bruto (R$)', data: data.canais.map(d => d.margem_liquida_real), backgroundColor: '#2563eb' },
-                    ]
-                },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
-            });
+            const canalToggle = document.getElementById('canal_toggle').value;
+            const canaisData = data.canais || [];
+            const canaisLabels = canaisData.map(d => d.canal);
 
-            // 6. Gráfico: Segmentos RFM e Ticket Médio
+            if (canalToggle === 'roas_cac') {
+                document.getElementById('canal-chart-title').textContent = 'Canal: ROAS vs CAC';
+                charts.canal = new Chart(ctxCanal, {
+                    type: 'bar',
+                    data: {
+                        labels: canaisLabels,
+                        datasets: [
+                            {
+                                label: 'ROAS',
+                                data: canaisData.map(d => d.roas || 0),
+                                backgroundColor: '#10b981',
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'CAC (R$)',
+                                data: canaisData.map(d => d.cac || 0),
+                                backgroundColor: '#ef4444',
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                position: 'left',
+                                title: { display: true, text: 'ROAS' },
+                                ticks: { callback: (val) => val.toFixed(2) + 'x' }
+                            },
+                            y1: {
+                                beginAtZero: true,
+                                position: 'right',
+                                grid: { drawOnChartArea: false },
+                                title: { display: true, text: 'CAC (R$)' },
+                                ticks: { callback: (val) => formatBRL(val) }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('canal-chart-title').textContent = 'Investimento e Retorno por Canal';
+                charts.canal = new Chart(ctxCanal, {
+                    type: 'bar',
+                    data: {
+                        labels: canaisLabels,
+                        datasets: [
+                            { label: 'Investimento (R$)', data: canaisData.map(d => d.investimento), backgroundColor: '#f59e0b' },
+                            { label: 'Retorno Bruto (R$)', data: canaisData.map(d => d.margem_liquida_real), backgroundColor: '#2563eb' }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { x: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            // 6. Gráfico Segmentos RFM e Ticket Médio
             const ctxCanalRfm = document.getElementById('canalRfmChart').getContext('2d');
-            const canaisLabels = data.canais_rfm.map(d => d.canal);
+            const canaisLabelsRFM = data.canais_rfm.map(d => d.canal);
 
             charts.canalRfm = new Chart(ctxCanalRfm, {
                 type: 'bar',
                 data: {
-                    labels: canaisLabels,
+                    labels: canaisLabelsRFM,
                     datasets: [
                         {
                             type: 'line',
@@ -477,58 +654,124 @@
                 }
             });           
 
-            // 7. Gráfico: Frete Médio vs. Peso do Frete na Receita por Canal
-            const ctxFrete = document.getElementById('fretePedidoChart').getContext('2d');
-            const freteData = data.analise_frete || data.canais;
-            const freteLabels = freteData.map(d => d.canal);
+            // 7. Tabela Multidimensional por Categoria
+            const catData = data.saude_categorias || [];
+            const catView = document.getElementById('categoria_view_toggle')?.value || 'saude';
+            const theadCat = document.getElementById('categoria-thead');
+            const tbodyCat = document.getElementById('categoria-tbody');
+            const titleCat = document.getElementById('cat-table-title');
+            const subtitleCat = document.getElementById('cat-table-subtitle');
 
-            charts.fretePedido = new Chart(ctxFrete, {
-                type: 'bar',
-                data: {
-                    labels: freteLabels,
-                    datasets: [
-                        {
-                            type: 'line',
-                            label: 'Peso do Frete na Receita (%)',
-                            data: freteData.map(d => d.peso_frete_pct || 0),
-                            borderColor: '#ef4444',
-                            borderWidth: 2,
-                            tension: 0.3,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#ef4444',
-                            yAxisID: 'y1',
-                            order: 1
-                        },
-                        {
-                            type: 'bar',
-                            label: 'Frete Médio (R$)',
-                            data: freteData.map(d => d.frete_medio || 0),
-                            backgroundColor: '#3b82f6',
-                            yAxisID: 'y',
-                            order: 2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            position: 'left',
-                            title: { display: true, text: 'Frete Médio' },
-                            ticks: { callback: (val) => formatBRL(val) }
-                        },
-                        y1: {
-                            beginAtZero: true,
-                            position: 'right',
-                            grid: { drawOnChartArea: false },
-                            title: { display: true, text: 'Frete / Receita (%)' },
-                            ticks: { callback: (val) => val.toFixed(1) + '%' }
-                        }
-                    }
+            if (theadCat && tbodyCat) {
+                if (catView === 'sangria') {
+                    titleCat.textContent = 'Diagnóstico de Margem e Sangria Comercial';
+                    
+                    theadCat.innerHTML = `
+                        <tr>
+                            <th class="px-3 py-2">Categoria</th>
+                            <th class="px-3 py-2 text-right">Receita Bruta</th>
+                            <th class="px-3 py-2 text-right">Margem Contribuição</th>
+                            <th class="px-3 py-2 text-right">Descontos (% Rec.)</th>
+                            <th class="px-3 py-2 text-right">Custo Frete</th>
+                            <th class="px-3 py-2 text-center">Pedidos Margem Neg.</th>
+                            <th class="px-3 py-2 text-right">Receita Perdida (Devol.)</th>
+                        </tr>
+                    `;
+
+                    tbodyCat.innerHTML = catData.map(c => `
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-3 py-3 font-semibold text-slate-800">${c.categoria}</td>
+                            <td class="px-3 py-3 text-right font-mono">${formatBRL(c.receita_bruta)}</td>
+                            <td class="px-3 py-3 text-right font-mono text-emerald-700 font-bold">${formatBRL(c.margem_contribuicao)} (${formatPct(c.margem_pct)})</td>
+                            <td class="px-3 py-3 text-right font-mono text-amber-700">${formatBRL(c.desconto_reais)} (${formatPct(c.desconto_pct)})</td>
+                            <td class="px-3 py-3 text-right font-mono">${formatBRL(c.custo_frete)}</td>
+                            <td class="px-3 py-3 text-center font-mono">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold ${c.pedidos_margem_neg > 100 ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-slate-100 text-slate-700'}">
+                                    ${c.pedidos_margem_neg} (${formatPct(c.pct_pedidos_margem_neg)})
+                                </span>
+                            </td>
+                            <td class="px-3 py-3 text-right font-mono text-red-600 font-semibold">${formatBRL(c.receita_perdida)}</td>
+                        </tr>
+                    `).join('');
+
+                } else if (catView === 'turnover') {
+                    titleCat.textContent = 'Eficiência de Capital e Giro de Estoque';
+
+                    theadCat.innerHTML = `
+                        <tr>
+                            <th class="px-3 py-2">Categoria</th>
+                            <th class="px-3 py-2 text-right">Unidades Vendidas</th>
+                            <th class="px-3 py-2 text-right">Estoque Físico (Peças)</th>
+                            <th class="px-3 py-2 text-center">Giro</th>
+                            <th class="px-3 py-2 text-center">Cobertura</th>
+                            <th class="px-3 py-2 text-right">Capital Parado (Custo)</th>
+                            <th class="px-3 py-2 text-right">Mercadoria Total</th>
+                        </tr>
+                    `;
+
+                    tbodyCat.innerHTML = catData.map(c => `
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-3 py-3 font-semibold text-slate-800">${c.categoria}</td>
+                            <td class="px-3 py-3 text-right font-mono">${formatNum(c.quantidade_vendida)} un</td>
+                            <td class="px-3 py-3 text-right font-mono font-medium">${formatNum(c.estoque_fisico)} un</td>
+                            <td class="px-3 py-3 text-center font-mono font-bold ${c.giro_estoque < 0.05 ? 'text-purple-700' : 'text-slate-700'}">
+                                ${c.giro_estoque.toFixed(2)}x
+                            </td>
+                            <td class="px-3 py-3 text-center font-mono">
+                                <span class="px-2 py-0.5 rounded text-xs font-semibold ${c.meses_cobertura > 200 ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'}">
+                                    ${c.meses_cobertura.toFixed(0)} meses
+                                </span>
+                            </td>
+                            <td class="px-3 py-3 text-right font-mono font-bold text-slate-800">${formatBRL(c.valor_estoque_custo)}</td>
+                            <td class="px-3 py-3 text-right font-mono text-slate-600">${formatNum(c.volume_total_m3.toFixed(0))}</td>
+                        </tr>
+                    `).join('');
+
+                } else {
+                    titleCat.textContent = 'Saúde Operacional e Ruptura por Categoria';;
+
+                    theadCat.innerHTML = `
+                        <tr>
+                            <th class="px-3 py-2">Categoria</th>
+                            <th class="px-3 py-2 text-right">Receita Bruta</th>
+                            <th class="px-3 py-2 text-right">Margem %</th>
+                            <th class="px-3 py-2 text-center">Ruptura (SKUs)</th>
+                            <th class="px-3 py-2 text-center">Giro</th>
+                            <th class="px-3 py-2 text-center">Devolução</th>
+                            <th class="px-3 py-2">Ação Recomendada</th>
+                        </tr>
+                    `;
+
+                    tbodyCat.innerHTML = catData.map(c => `
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-3 py-3 font-semibold text-slate-800">${c.categoria}</td>
+                            <td class="px-3 py-3 text-right font-mono font-medium">${formatBRL(c.receita_bruta)}</td>
+                            <td class="px-3 py-3 text-right font-mono text-emerald-700 font-semibold">${formatPct(c.margem_pct)}</td>
+                            <td class="px-3 py-3 text-center font-mono">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold ${c.skus_ruptura > 10 ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-slate-100 text-slate-600'}">
+                                    ${c.skus_ruptura} SKU${c.skus_ruptura !== 1 ? 's' : ''}
+                                </span>
+                            </td>
+                            <td class="px-3 py-3 text-center font-mono font-medium ${c.giro_estoque < 0.05 ? 'text-purple-700 font-bold' : 'text-slate-600'}">
+                                ${c.giro_estoque.toFixed(2)}x
+                            </td>
+                            <td class="px-3 py-3 text-center font-mono ${c.taxa_devolucao > 0.15 ? 'text-red-600 font-bold' : 'text-slate-600'}">
+                                ${formatPct(c.taxa_devolucao)}
+                            </td>
+                            <td class="px-3 py-3">
+                                <span class="inline-flex items-center text-xs font-medium ${
+                                    c.skus_ruptura > 10 ? 'text-red-700 bg-red-50 px-2 py-1 rounded' :
+                                    c.giro_estoque < 0.05 ? 'text-purple-700 bg-purple-50 px-2 py-1 rounded' :
+                                    c.taxa_devolucao > 0.15 ? 'text-amber-700 bg-amber-50 px-2 py-1 rounded' :
+                                    'text-slate-600'
+                                }">
+                                    ${c.acao_recomendada}
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
                 }
-            });
+            }
         }
 
         document.getElementById('area_toggle').addEventListener('change', (event) => {
@@ -537,6 +780,8 @@
         });
         document.getElementById('gran_toggle').addEventListener('change', (event) => renderDashboard(event.target.value));
         document.getElementById('secondary_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
+        document.getElementById('canal_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
+        document.getElementById('categoria_view_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>

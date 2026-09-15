@@ -1,6 +1,6 @@
 {
   "meta": {
-    "atualizado_em": "2026-09-14T16:49:50.630688",
+    "atualizado_em": "2026-09-15T12:05:41.254804",
     "fonte": "CSV + Pandas"
   },
   "modo_integrado": {
@@ -8,7 +8,7 @@
       "comercial": {
         "receita_bruta": 20526133.84,
         "pedidos_aprovados": 24454,
-        "ticket_medio": 739.4406801397745,
+        "ticket_medio": 298.23133362152817,
         "taxa_conversao": 0.06642466062065737
       },
       "margem": {
@@ -1532,8 +1532,10 @@
         "conversoes_ads": 6144888,
         "receita_ads": 33194375.32,
         "margem_liquida_real": 22552576.39,
-        "roi_margem": 2.1192447384457394,
-        "pct_item_unico": 0.1600284495021337
+        "roi_margem": 2.12,
+        "roas": 3.12,
+        "cac": 1.73,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Google Ads",
@@ -1545,9 +1547,11 @@
         "investimento": 10024350.16,
         "conversoes_ads": 6299587,
         "receita_ads": 35008331.8,
-        "margem_liquida_real": 24983981.639999997,
-        "roi_margem": 2.492329302271699,
-        "pct_item_unico": 0.1578564940962761
+        "margem_liquida_real": 24983981.64,
+        "roi_margem": 2.49,
+        "roas": 3.49,
+        "cac": 1.59,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Influenciador",
@@ -1558,10 +1562,12 @@
         "pedidos_unico": 364,
         "investimento": 10726721.25,
         "conversoes_ads": 5875246,
-        "receita_ads": 80628349.17999999,
-        "margem_liquida_real": 69901627.92999999,
-        "roi_margem": 6.516588461735219,
-        "pct_item_unico": 0.16084843128590368
+        "receita_ads": 80628349.18,
+        "margem_liquida_real": 69901627.93,
+        "roi_margem": 6.52,
+        "roas": 7.52,
+        "cac": 1.83,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Instagram Ads",
@@ -1574,8 +1580,10 @@
         "conversoes_ads": 5604411,
         "receita_ads": 51328831.35,
         "margem_liquida_real": 40021256.06,
-        "roi_margem": 3.5393313803882713,
-        "pct_item_unico": 0.16455186304128902
+        "roi_margem": 3.54,
+        "roas": 4.54,
+        "cac": 2.02,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Marketplace",
@@ -1588,8 +1596,10 @@
         "conversoes_ads": 6307594,
         "receita_ads": 34082587.98,
         "margem_liquida_real": 22340133.11,
-        "roi_margem": 1.9025095993407042,
-        "pct_item_unico": 0.16804635761589404
+        "roi_margem": 1.9,
+        "roas": 2.9,
+        "cac": 1.86,
+        "pct_item_unico": 0.17
       },
       {
         "canal": "Orgânico",
@@ -1601,9 +1611,11 @@
         "investimento": 10839487.16,
         "conversoes_ads": 5802402,
         "receita_ads": 34235014.87,
-        "margem_liquida_real": 23395527.709999997,
-        "roi_margem": 2.1583611258228563,
-        "pct_item_unico": 0.1780653111521873
+        "margem_liquida_real": 23395527.71,
+        "roi_margem": 2.16,
+        "roas": 3.16,
+        "cac": 1.87,
+        "pct_item_unico": 0.18
       },
       {
         "canal": "TikTok Ads",
@@ -1616,94 +1628,56 @@
         "conversoes_ads": 5727312,
         "receita_ads": 47496006.18,
         "margem_liquida_real": 37278970.19,
-        "roi_margem": 3.648706946563276,
-        "pct_item_unico": 0.17315573770491804
+        "roi_margem": 3.65,
+        "roas": 4.65,
+        "cac": 1.78,
+        "pct_item_unico": 0.17
       }
     ],
     "analise_frete": [
       {
-        "canal": "Email Marketing",
-        "pedidos": 2812,
-        "receita_bruta": 2038419.06,
-        "custo_frete_total": 18975.65,
-        "frete_medio": 6.75,
-        "pedidos_margem_neg": 46,
-        "pedidos_frete_gratis": 2219,
-        "ticket_medio": 724.9,
-        "peso_frete_pct": 0.93,
-        "pct_pedidos_margem_neg": 1.64
+        "categoria": "Acessórios",
+        "pedidos": 4074,
+        "receita_bruta": 2939891.95,
+        "custo_frete_total": 50142.04,
+        "frete_medio": 12.31,
+        "pedidos_margem_neg": 84,
+        "pedidos_frete_gratis": 2532,
+        "peso_frete_pct": 1.71,
+        "ticket_medio": 721.62
       },
       {
-        "canal": "Google Ads",
-        "pedidos": 5505,
-        "receita_bruta": 3979241.06,
-        "custo_frete_total": 36878.31,
-        "frete_medio": 6.7,
-        "pedidos_margem_neg": 89,
-        "pedidos_frete_gratis": 4368,
-        "ticket_medio": 722.84,
-        "peso_frete_pct": 0.93,
-        "pct_pedidos_margem_neg": 1.62
+        "categoria": "Beleza",
+        "pedidos": 8347,
+        "receita_bruta": 6109789.41,
+        "custo_frete_total": 104114.95,
+        "frete_medio": 12.47,
+        "pedidos_margem_neg": 160,
+        "pedidos_frete_gratis": 5154,
+        "peso_frete_pct": 1.7,
+        "ticket_medio": 731.97
       },
       {
-        "canal": "Influenciador",
-        "pedidos": 2263,
-        "receita_bruta": 2250914.31,
-        "custo_frete_total": 8719.51,
-        "frete_medio": 3.85,
-        "pedidos_margem_neg": 29,
-        "pedidos_frete_gratis": 1997,
-        "ticket_medio": 994.66,
-        "peso_frete_pct": 0.39,
-        "pct_pedidos_margem_neg": 1.28
+        "categoria": "Lifestyle",
+        "pedidos": 5630,
+        "receita_bruta": 4206064.49,
+        "custo_frete_total": 68033.25,
+        "frete_medio": 12.09,
+        "pedidos_margem_neg": 97,
+        "pedidos_frete_gratis": 3521,
+        "peso_frete_pct": 1.62,
+        "ticket_medio": 747.08
       },
       {
-        "canal": "Instagram Ads",
-        "pedidos": 4965,
-        "receita_bruta": 3555245.17,
-        "custo_frete_total": 34047.67,
-        "frete_medio": 6.86,
-        "pedidos_margem_neg": 104,
-        "pedidos_frete_gratis": 3903,
-        "ticket_medio": 716.06,
-        "peso_frete_pct": 0.96,
-        "pct_pedidos_margem_neg": 2.09
-      },
-      {
-        "canal": "Marketplace",
-        "pedidos": 6040,
-        "receita_bruta": 4320195.69,
-        "custo_frete_total": 196721.45,
-        "frete_medio": 32.57,
-        "pedidos_margem_neg": 114,
-        "pedidos_frete_gratis": 0,
-        "ticket_medio": 715.26,
-        "peso_frete_pct": 4.55,
-        "pct_pedidos_margem_neg": 1.89
-      },
-      {
-        "canal": "Orgânico",
-        "pedidos": 3246,
-        "receita_bruta": 2316434.49,
-        "custo_frete_total": 23680.92,
-        "frete_medio": 7.3,
-        "pedidos_margem_neg": 59,
-        "pedidos_frete_gratis": 2516,
-        "ticket_medio": 713.63,
-        "peso_frete_pct": 1.02,
-        "pct_pedidos_margem_neg": 1.82
-      },
-      {
-        "canal": "TikTok Ads",
-        "pedidos": 2928,
-        "receita_bruta": 2065684.06,
-        "custo_frete_total": 21270.26,
-        "frete_medio": 7.26,
-        "pedidos_margem_neg": 50,
-        "pedidos_frete_gratis": 2282,
-        "ticket_medio": 705.49,
-        "peso_frete_pct": 1.03,
-        "pct_pedidos_margem_neg": 1.71
+        "categoria": "Moda",
+        "pedidos": 9708,
+        "receita_bruta": 7270387.99,
+        "custo_frete_total": 118003.53,
+        "frete_medio": 12.16,
+        "pedidos_margem_neg": 150,
+        "pedidos_frete_gratis": 6078,
+        "peso_frete_pct": 1.62,
+        "ticket_medio": 748.91
       }
     ],
     "canais_rfm": [
@@ -1867,6 +1841,124 @@
         "margem_liquida_real": 37278970.19,
         "roi_margem": 3.648706946563276,
         "pct_item_unico": 0.17315573770491804
+      }
+    ],
+    "saude_categorias": [
+      {
+        "categoria": "Acessórios",
+        "receita_bruta": 2939891.95,
+        "margem_contribuicao": 1471697.95,
+        "pedidos": 4074,
+        "quantidade_vendida": 14100.0,
+        "desconto_reais": 237181.48,
+        "custo_frete": 50142.04,
+        "pedidos_margem_neg": 84,
+        "pedidos_devolvidos": 625,
+        "receita_perdida": 436647.57,
+        "taxa_devolucao": 0.1534,
+        "margem_pct": 0.5006,
+        "desconto_pct": 0.0807,
+        "frete_pct": 0.0171,
+        "pct_pedidos_margem_neg": 0.0206,
+        "total_skus": 753,
+        "estoque_fisico": 192539,
+        "valor_estoque_custo": 40178473.48,
+        "volume_total_m3": 49225.1528,
+        "skus_ruptura": 1,
+        "skus_critico": 125,
+        "lead_time_medio": 27.6189,
+        "giro_estoque": 0.0732,
+        "skus_em_risco": 126,
+        "venda_mensal_media": 1084.6154,
+        "meses_cobertura": 177.5182,
+        "acao_recomendada": "Investigar logística e medidas"
+      },
+      {
+        "categoria": "Beleza",
+        "receita_bruta": 6109789.41,
+        "margem_contribuicao": 3061752.89,
+        "pedidos": 8347,
+        "quantidade_vendida": 29089.0,
+        "desconto_reais": 480649.36,
+        "custo_frete": 104114.95,
+        "pedidos_margem_neg": 160,
+        "pedidos_devolvidos": 1241,
+        "receita_perdida": 858736.69,
+        "taxa_devolucao": 0.1487,
+        "margem_pct": 0.5011,
+        "desconto_pct": 0.0787,
+        "frete_pct": 0.017,
+        "pct_pedidos_margem_neg": 0.0192,
+        "total_skus": 1512,
+        "estoque_fisico": 354702,
+        "valor_estoque_custo": 75036616.69,
+        "volume_total_m3": 88708.6537,
+        "skus_ruptura": 96,
+        "skus_critico": 232,
+        "lead_time_medio": 26.2685,
+        "giro_estoque": 0.082,
+        "skus_em_risco": 328,
+        "venda_mensal_media": 2237.6154,
+        "meses_cobertura": 158.5179,
+        "acao_recomendada": "Reposição prioritária (Perda ativa de vendas)"
+      },
+      {
+        "categoria": "Lifestyle",
+        "receita_bruta": 4206064.49,
+        "margem_contribuicao": 2091828.68,
+        "pedidos": 5630,
+        "quantidade_vendida": 19926.0,
+        "desconto_reais": 341267.21,
+        "custo_frete": 68033.25,
+        "pedidos_margem_neg": 97,
+        "pedidos_devolvidos": 872,
+        "receita_perdida": 602314.32,
+        "taxa_devolucao": 0.1549,
+        "margem_pct": 0.4973,
+        "desconto_pct": 0.0811,
+        "frete_pct": 0.0162,
+        "pct_pedidos_margem_neg": 0.0172,
+        "total_skus": 1006,
+        "estoque_fisico": 259764,
+        "valor_estoque_custo": 53261294.11,
+        "volume_total_m3": 62987.4233,
+        "skus_ruptura": 1,
+        "skus_critico": 184,
+        "lead_time_medio": 26.6899,
+        "giro_estoque": 0.0767,
+        "skus_em_risco": 185,
+        "venda_mensal_media": 1532.7692,
+        "meses_cobertura": 169.4737,
+        "acao_recomendada": "Investigar logística e medidas"
+      },
+      {
+        "categoria": "Moda",
+        "receita_bruta": 7270387.99,
+        "margem_contribuicao": 3645157.13,
+        "pedidos": 9708,
+        "quantidade_vendida": 34305.0,
+        "desconto_reais": 577701.78,
+        "custo_frete": 118003.53,
+        "pedidos_margem_neg": 150,
+        "pedidos_devolvidos": 1389,
+        "receita_perdida": 970009.12,
+        "taxa_devolucao": 0.1431,
+        "margem_pct": 0.5014,
+        "desconto_pct": 0.0795,
+        "frete_pct": 0.0162,
+        "pct_pedidos_margem_neg": 0.0155,
+        "total_skus": 1729,
+        "estoque_fisico": 864572,
+        "valor_estoque_custo": 180225166.59,
+        "volume_total_m3": 223295.2056,
+        "skus_ruptura": 1,
+        "skus_critico": 160,
+        "lead_time_medio": 27.5032,
+        "giro_estoque": 0.0397,
+        "skus_em_risco": 161,
+        "venda_mensal_media": 2638.8462,
+        "meses_cobertura": 327.6326,
+        "acao_recomendada": "Ativar Bundles (Queima de excesso parado)"
       }
     ],
     "hipoteses": {
