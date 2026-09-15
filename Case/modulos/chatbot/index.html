@@ -30,9 +30,14 @@
                     <p id="bot-status" class="text-xs text-emerald-200">Carregando bases de dados...</p>
                 </div>
             </div>
-            <button onclick="reiniciarConversa()" title="Reiniciar atendimento" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2.5 py-1.5 rounded-lg border border-emerald-700/50 transition">
-                ↺ Reiniciar
-            </button>
+            <div class="flex items-center gap-1.5">
+                <button onclick="exportarPlanilhaAtendimentos()" title="Baixar histórico CSV de atendimentos" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1.5 rounded-lg border border-emerald-700/50 transition flex items-center gap-1">
+                    CSV
+                </button>
+                <button onclick="reiniciarConversa()" title="Reiniciar atendimento" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1.5 rounded-lg border border-emerald-700/50 transition">
+                    ↺
+                </button>
+            </div>
         </header>
 
         <!-- Área de Conversa -->
@@ -75,6 +80,12 @@
         let estadoChat = 'aguardando_identificacao_inicial';
         let clienteAutenticado = null;
         let pedidoEmAtendimento = null;
+
+        // Gestão de Tickets da Sessão para salvamento em CSV
+        let ticketsSessaoAtual = [];
+        let contadorTicketsLocal = parseInt(localStorage.getItem('vertice_last_tkt_id') || '35841');
+
+        const STORAGE_KEY_CSV = 'vertice_atendimentos_chatbot_csv';
 
         const chatBox = document.getElementById('chat-box');
         const botStatus = document.getElementById('bot-status');
@@ -143,7 +154,69 @@
             }
         }
 
-        // 2. Utilitários
+        // 2. Sistema de Gravação e Persistência de Planilha (CSV)
+        function gerarNovoTicketId() {
+            contadorTicketsLocal += 1;
+            localStorage.setItem('vertice_last_tkt_id', contadorTicketsLocal.toString());
+            return `TKT-${String(contadorTicketsLocal).padStart(6, '0')}`;
+        }
+
+        function formatarDataISO(data = new Date()) {
+            return data.toISOString().replace('T', ' ').substring(0, 19);
+        }
+
+        function registrarTicketSessao({ categoria_problema, order_id = null, status_atendimento = 'Resolvido', texto_cliente = null }) {
+            const novoTicket = {
+                ticket_id: gerarNovoTicketId(),
+                customer_id: clienteAutenticado ? clienteAutenticado.customer_id : 'CLI-DESCONHECIDO',
+                order_id: order_id || '',
+                data_abertura: formatarDataISO(),
+                canal_entrada: 'ChatBot',
+                categoria_problema: categoria_problema,
+                status_atendimento: status_atendimento,
+                texto_cliente: texto_cliente || '',
+                nota_csat: '' // Preenchido ao final do atendimento
+            };
+
+            ticketsSessaoAtual.push(novoTicket);
+            return novoTicket.ticket_id;
+        }
+
+        function salvarAtendimentosComCSAT(nota) {
+            if (ticketsSessaoAtual.length === 0) return;
+
+            // Atribui a mesma nota de satisfação a todos os tickets da sessão
+            ticketsSessaoAtual.forEach(t => t.nota_csat = parseFloat(nota).toFixed(1));
+
+            // Recupera registros anteriores do localStorage
+            const historicoExistente = JSON.parse(localStorage.getItem(STORAGE_KEY_CSV) || '[]');
+            const historicoAtualizado = [...historicoExistente, ...ticketsSessaoAtual];
+            localStorage.setItem(STORAGE_KEY_CSV, JSON.stringify(historicoAtualizado));
+
+            // Limpa os tickets da sessão concluída
+            ticketsSessaoAtual = [];
+        }
+
+        function exportarPlanilhaAtendimentos() {
+            const historico = JSON.parse(localStorage.getItem(STORAGE_KEY_CSV) || '[]');
+            if (historico.length === 0 && ticketsSessaoAtual.length === 0) {
+                alert("Nenhum atendimento foi finalizado ainda para exportar.");
+                return;
+            }
+
+            const dadosParaExportar = [...historico, ...ticketsSessaoAtual];
+            const csvString = Papa.unparse(dadosParaExportar, { quotes: true });
+
+            const blob = new Blob(["\ufeff" + csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute('download', 'atendimentos_chatbot.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 3. Utilitários de Diagnóstico e Data
         function obterPrevisaoDefeito() {
             const casosDefeito = baseAtendimento.filter(t => t.categoria_problema === 'Defeito' && t.data_fechamento && t.data_abertura);
             if (!casosDefeito.length) return { diasMediana: 3, horasResposta: 2 };
@@ -224,7 +297,7 @@
             }, 400);
         }
 
-        // 3. Etapa 1: Boas-vindas e Identificação
+        // 4. Etapa 1: Boas-vindas e Identificação Inicial
         function iniciarFluxoIdentificacao() {
             estadoChat = 'aguardando_identificacao_inicial';
             clienteAutenticado = null;
@@ -237,15 +310,13 @@
                 Como isso eh apenas um protótipo, algumas informações foram assumidas para tornar ele possivel<br><br>
 
                 Questões de Localização de Pedido foram tratados como falta de transparencia da <b>Vértice Retail</b>,
-                onde de forma interna é possivel localizar o pedido, porem essa informação não chaga facil ao cliente<br><br>
+                onde de forma interna é possivel localizar o pedido, porem essa informação não chega facil ao cliente<br><br>
 
                 O uso de Customer ID so foi utilizada devido a falta de informações de login nas planilhas, uma vez que 
-                analisando os atendimento a <b>Vértice Retail</b> possui algum tipo de login, (existencia de duvida tecnica de troca de senha),
+                analisando os atendimentos a <b>Vértice Retail</b> possui algum tipo de login (existencia de duvida tecnica de troca de senha),
                 o mais ideal seria o uso de CPF, Telefone ou E-mail<br><br>
 
-                Foi assumido que o cliente possui o Order ID, pratica padrão de mercado onde apos a compra o cliente recebe um e-mail com as informações do pedido,
-                sendo o Order ID uma dessas informações.
-
+                Foi assumido que o cliente possui o Order ID, pratica padrão de mercado onde apos a compra o cliente recebe um e-mail com as informações do pedido.
             `);
 
             adicionarMensagemBot(`
@@ -254,7 +325,7 @@
             `);
         }
 
-        // 4. Etapa 2: Menu Principal Personalizado
+        // 5. Etapa 2: Menu Principal
         function exibirMenuPersonalizado() {
             estadoChat = 'menu_principal';
             pedidoEmAtendimento = null;
@@ -273,6 +344,7 @@
 
         function reiniciarConversa() {
             chatBox.innerHTML = '';
+            ticketsSessaoAtual = [];
             iniciarFluxoIdentificacao();
         }
 
@@ -282,75 +354,50 @@
             adicionarMensagemBot("Por favor, digite o <b>Código do Pedido</b>:");
         }
 
-        // 5. Fluxo 4: Pagamento e Cobrança com Checagem de Status
-        function resolverPagamento(pedido) {
-            pedidoEmAtendimento = pedido;
-            const cliente = clienteAutenticado;
-            const statusPg = pedido.status_pagamento || 'Pendente';
-            const valorTxt = pedido.receita_bruta ? `R$ ${(pedido.receita_bruta || 0).toFixed(2)}` : 'Conforme nota fiscal';
-            const prodTxt = pedido.produto ? `• <b>Produto:</b> ${pedido.produto} (SKU: <code>${pedido.sku_id || 'N/A'}</code>)<br>` : '';
+        // 6. Fluxos de Resolução
 
-            // Regra: Se já estiver pago/aprovado, apenas confirma a regularidade
-            if (statusPg === 'Aprovado') {
+        function resolverWISMO(pedido) {
+            const rastreio = gerarCodigoRastreio();
+            const tktId = registrarTicketSessao({
+                categoria_problema: 'Onde está meu pedido?',
+                order_id: pedido.order_id,
+                status_atendimento: 'Resolvido',
+                texto_cliente: 'Consulta de status e rastreamento de pedido'
+            });
+
+            if (pedido.origem === 'atendimento') {
+                const ticketsTexto = pedido.chamados.map(t => 
+                    `• <b>${t.ticket_id}</b>: ${t.categoria_problema} (<span class="text-emerald-700 font-semibold">${t.status_atendimento}</span>)`
+                ).join('<br>');
+
                 adicionarMensagemBot(`
-                    <b>Pagamento Confirmado!</b><br><br>
-                    • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
-                    • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
-                    ${prodTxt}
-                    • <b>Valor:</b> ${valorTxt}<br>
-                    • <b>Status:</b> <span class="font-bold text-emerald-700">Aprovado</span><br><br>
-                    Está <b>tudo de acordo com o pagamento</b> deste pedido! Os valores foram compensados com sucesso e o item já seguiu para o fluxo de expedição.
+                    <b>Status do Pedido:</b> <code>${pedido.order_id}</code><br>
+                    • <b>Protocolo deste Atendimento:</b> <code>${tktId}</code><br>
+                    • <b>Origem:</b> Histórico do SAC<br>
+                    • <b>Status:</b> Despachado / Em trânsito<br>
+                    • <b>Código de Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code><br><br>
+                    <b>Histórico vinculado:</b><br>${ticketsTexto}
                 `, [
-                    { texto: "Rastrear este pedido", acao: () => resolverWISMO(pedido) },
-                    { texto: "Tudo certo, obrigado!", acao: () => encerrarComMenu() }
+                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
+                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
                 ]);
-                return;
-            }
+            } else {
+                const dataEntrega = calcularDataEntrega(pedido.data_pedido, pedido.tempo_entrega_real);
 
-            // Caso o pagamento NÃO esteja aprovado (Pendente, Aguardando, Cancelado, etc.)
-            adicionarMensagemBot(`
-                <b>Pendência no Pagamento</b><br><br>
-                • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
-                • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
-                ${prodTxt}
-                • <b>Valor:</b> ${valorTxt}<br>
-                • <b>Status Atual:</b> <span class="font-bold text-red-600">${statusPg}</span><br><br>
-                O pagamento deste pedido ainda não foi compensado. Como você deseja prosseguir?
-            `, [
-                {
-                    texto: "⚡ Gerar novo QR Code PIX",
-                    acao: () => {
-                        const hashPix = `00020126580014BR.GOV.BCB.PIX0136${Math.random().toString(36).substring(2, 15)}520400005303986540${(pedido.receita_bruta || 50).toFixed(2)}5802BR`;
-                        adicionarMensagemBot(`
-                            <b>Novo QR Code PIX Emitido!</b><br><br>
-                            • <b>Favorecido:</b> Vértice Retail S.A.<br>
-                            • <b>Titular:</b> ${cliente.nome_completo}<br>
-                            • <b>Código Copia e Cola:</b><br>
-                            <code class="block bg-slate-100 p-2 rounded text-[11px] font-mono break-all mt-1">${hashPix}</code><br>
-                            <i>Validade: 30 minutos com compensação automática.</i>
-                        `);
-                        encerrarComMenu();
-                    }
-                },
-                {
-                    texto: "Escalar para Gerente Financeiro",
-                    acao: () => {
-                        const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
-                        adicionarMensagemBot(`
-                            <b>Encaminhado à Gerência Financeira</b><br><br>
-                            • <b>Protocolo:</b> <code>${tkt}</code><br>
-                            • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
-                            • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
-                            • <b>Prioridade:</b> Alta.<br>
-                            O gerente financeiro entrará em contato em até 1 hora comercial.
-                        `);
-                        encerrarComMenu();
-                    }
-                }
-            ]);
+                adicionarMensagemBot(`
+                    <b>Status do Pedido:</b> ${pedido.order_id}<br>
+                    • <b>Protocolo deste Atendimento:</b> <code>${tktId}</code><br>
+                    • <b>Produto:</b> ${pedido.produto} (${pedido.categoria})<br>
+                    • <b>Pagamento:</b> <span class="text-emerald-700 font-semibold">${pedido.status_pagamento}</span><br>
+                    • <b>Dia da Entrega Prevista:</b> ${dataEntrega}<br>
+                    • <b>Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code>
+                `, [
+                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
+                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
+                ]);
+            }
         }
 
-        // 6. Fluxo 2: Defeito / Erro no Pedido (Análise Humana)
         function resolverDefeito(pedido) {
             pedidoEmAtendimento = pedido;
             estadoChat = 'aguardando_reclamacao_defeito';
@@ -370,7 +417,13 @@
             const pedido = pedidoEmAtendimento;
             const cliente = clienteAutenticado;
             const prev = obterPrevisaoDefeito();
-            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            const tkt = registrarTicketSessao({
+                categoria_problema: 'Defeito',
+                order_id: pedido.order_id,
+                status_atendimento: 'Em Análise',
+                texto_cliente: textoReclamacao
+            });
 
             adicionarMensagemBot(`
                 <b>Ocorrência Encaminhada para Análise Técnica!</b><br><br>
@@ -389,41 +442,6 @@
             encerrarComMenu();
         }
 
-        // 7. Demais Fluxos (WISMO, Troca, Dúvida Técnica, Elogio)
-        function resolverWISMO(pedido) {
-            const rastreio = gerarCodigoRastreio();
-
-            if (pedido.origem === 'atendimento') {
-                const ticketsTexto = pedido.chamados.map(t => 
-                    `• <b>${t.ticket_id}</b>: ${t.categoria_problema} (<span class="text-emerald-700 font-semibold">${t.status_atendimento}</span>)`
-                ).join('<br>');
-
-                adicionarMensagemBot(`
-                    <b>Status do Pedido:</b> <code>${pedido.order_id}</code><br>
-                    • <b>Origem:</b> Histórico do SAC<br>
-                    • <b>Status:</b> Despachado / Em trânsito<br>
-                    • <b>Código de Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code><br><br>
-                    <b>Histórico vinculado:</b><br>${ticketsTexto}
-                `, [
-                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
-                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
-                ]);
-            } else {
-                const dataEntrega = calcularDataEntrega(pedido.data_pedido, pedido.tempo_entrega_real);
-
-                adicionarMensagemBot(`
-                    <b>Status do Pedido:</b> ${pedido.order_id}<br>
-                    • <b>Produto:</b> ${pedido.produto} (${pedido.categoria})<br>
-                    • <b>Pagamento:</b> <span class="text-emerald-700 font-semibold">${pedido.status_pagamento}</span><br>
-                    • <b>Dia da Entrega Prevista:</b> ${dataEntrega}<br>
-                    • <b>Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code>
-                `, [
-                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
-                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
-                ]);
-            }
-        }
-
         function resolverTroca(pedido) {
             pedidoEmAtendimento = pedido;
             const cliente = clienteAutenticado;
@@ -433,12 +451,113 @@
                 Pedido <code>${pedido.order_id}</code> verificado (${desc}).<br><br>
                 Qual a opção de troca desejada?
             `, [
-                { texto: "Trocar por tamanho Maior", acao: () => gerarProtocolo(pedido.order_id, "Troca de Tamanho (Maior)", "Reserva de nova numeração confirmada.") },
-                { texto: "Trocar por tamanho Menor", acao: () => gerarProtocolo(pedido.order_id, "Troca de Tamanho (Menor)", "Reserva de nova numeração confirmada.") },
-                { 
-                    texto: "Trocar por vale-compras na conta", 
+                { texto: "Trocar por tamanho Maior", acao: () => concluirTroca(pedido.order_id, "Troca de Tamanho", "Troca por tamanho maior solicitada") },
+                { texto: "Trocar por tamanho Menor", acao: () => concluirTroca(pedido.order_id, "Troca de Tamanho", "Troca por tamanho menor solicitada") },
+                { texto: "Trocar por vale-compras na conta", acao: () => concluirTroca(pedido.order_id, "Troca de Tamanho", "Troca por vale-compras na conta solicitada") }
+            ]);
+        }
+
+        function concluirTroca(orderId, motivo, textoCliente) {
+            const tkt = registrarTicketSessao({
+                categoria_problema: motivo,
+                order_id: orderId,
+                status_atendimento: 'Resolvido',
+                texto_cliente: textoCliente
+            });
+
+            adicionarMensagemBot(`
+                <b>Solicitação Aberta com Sucesso!</b><br><br>
+                • <b>Protocolo:</b> <code>${tkt}</code><br>
+                • <b>Titular:</b> ${clienteAutenticado.nome_completo}<br>
+                • <b>Pedido:</b> <code>${orderId}</code><br>
+                • <b>Assunto:</b> ${motivo}<br><br>
+                Reserva confirmada. Instruções de envio foram despachadas para o seu contato.
+            `);
+            encerrarComMenu();
+        }
+
+        function resolverPagamento(pedido) {
+            pedidoEmAtendimento = pedido;
+            const cliente = clienteAutenticado;
+            const statusPg = pedido.status_pagamento || 'Pendente';
+            const valorTxt = pedido.receita_bruta ? `R$ ${(pedido.receita_bruta || 0).toFixed(2)}` : 'Conforme nota fiscal';
+            const prodTxt = pedido.produto ? `• <b>Produto:</b> ${pedido.produto} (SKU: <code>${pedido.sku_id || 'N/A'}</code>)<br>` : '';
+
+            if (statusPg === 'Aprovado') {
+                const tktId = registrarTicketSessao({
+                    categoria_problema: 'Pagamento não aprovado',
+                    order_id: pedido.order_id,
+                    status_atendimento: 'Resolvido',
+                    texto_cliente: 'Consulta financeira: pagamento confirmado regular'
+                });
+
+                adicionarMensagemBot(`
+                    <b>Pagamento Confirmado!</b><br><br>
+                    • <b>Protocolo:</b> <code>${tktId}</code><br>
+                    • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                    • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                    ${prodTxt}
+                    • <b>Valor:</b> ${valorTxt}<br>
+                    • <b>Status:</b> <span class="font-bold text-emerald-700">Aprovado</span><br><br>
+                    Está <b>tudo de acordo com o pagamento</b> deste pedido! Os valores foram compensados com sucesso e o item já seguiu para o fluxo de expedição.
+                `, [
+                    { texto: "Rastrear este pedido", acao: () => resolverWISMO(pedido) },
+                    { texto: "Tudo certo, obrigado!", acao: () => encerrarComMenu() }
+                ]);
+                return;
+            }
+
+            adicionarMensagemBot(`
+                <b>Pendência no Pagamento</b><br><br>
+                • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                ${prodTxt}
+                • <b>Valor:</b> ${valorTxt}<br>
+                • <b>Status Atual:</b> <span class="font-bold text-red-600">${statusPg}</span><br><br>
+                O pagamento deste pedido ainda não foi compensado. Como você deseja prosseguir?
+            `, [
+                {
+                    texto: "⚡ Gerar novo QR Code PIX",
                     acao: () => {
-                        gerarProtocolo(pedido.order_id, "Troca - Vale Compras", `Crédito disponibilizado na conta de <b>${cliente.nome_completo}</b> (${cliente.customer_id}).`);
+                        const tktId = registrarTicketSessao({
+                            categoria_problema: 'Pagamento não aprovado',
+                            order_id: pedido.order_id,
+                            status_atendimento: 'Resolvido',
+                            texto_cliente: 'Emissão de novo QR Code Pix para pagamento'
+                        });
+
+                        const hashPix = `00020126580014BR.GOV.BCB.PIX0136${Math.random().toString(36).substring(2, 15)}520400005303986540${(pedido.receita_bruta || 50).toFixed(2)}5802BR`;
+                        adicionarMensagemBot(`
+                            <b>Novo QR Code PIX Emitido!</b><br><br>
+                            • <b>Protocolo:</b> <code>${tktId}</code><br>
+                            • <b>Favorecido:</b> Vértice Retail S.A.<br>
+                            • <b>Titular:</b> ${cliente.nome_completo}<br>
+                            • <b>Código Copia e Cola:</b><br>
+                            <code class="block bg-slate-100 p-2 rounded text-[11px] font-mono break-all mt-1">${hashPix}</code><br>
+                            <i>Validade: 30 minutos com compensação automática.</i>
+                        `);
+                        encerrarComMenu();
+                    }
+                },
+                {
+                    texto: "Escalar para Gerente Financeiro",
+                    acao: () => {
+                        const tkt = registrarTicketSessao({
+                            categoria_problema: 'Pagamento não aprovado',
+                            order_id: pedido.order_id,
+                            status_atendimento: 'Escalado para N2',
+                            texto_cliente: 'Encaminhamento à gerência financeira para liberação manual'
+                        });
+
+                        adicionarMensagemBot(`
+                            <b>Encaminhado à Gerência Financeira</b><br><br>
+                            • <b>Protocolo:</b> <code>${tkt}</code><br>
+                            • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                            • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                            • <b>Prioridade:</b> Alta.<br>
+                            O gerente financeiro entrará em contato em até 1 hora comercial.
+                        `);
+                        encerrarComMenu();
                     }
                 }
             ]);
@@ -451,21 +570,42 @@
                 {
                     texto: "Como aplicar cupom de desconto?",
                     acao: () => {
-                        adicionarMensagemBot("Para utilizar seu cupom, insira o código no campo <b>'Cupom de Desconto'</b> na Sacola de Compras antes de concluir o pagamento. O valor com desconto é recalculado na hora.");
+                        const tktId = registrarTicketSessao({
+                            categoria_problema: 'Dúvida Técnica',
+                            status_atendimento: 'Resolvido',
+                            texto_cliente: 'Instruções para aplicação de cupom de desconto'
+                        });
+
+                        adicionarMensagemBot(`
+                            <b>Instruções de Cupom (Protocolo: <code>${tktId}</code>):</b><br><br>
+                            Para utilizar seu cupom, insira o código no campo <b>'Cupom de Desconto'</b> na Sacola de Compras antes de concluir o pagamento. O valor com desconto é recalculado na hora.
+                        `);
                         encerrarComMenu();
                     }
                 },
                 {
                     texto: "Recuperar minha senha de acesso",
                     acao: () => {
-                        adicionarMensagemBot(`Disparamos o link seguro de redefinição de senha para o contato de <b>${cliente.nome_completo}</b> (<code>${cliente.customer_id}</code>). Verifique seu e-mail/SMS cadastrado.`);
+                        const tktId = registrarTicketSessao({
+                            categoria_problema: 'Dúvida Técnica',
+                            status_atendimento: 'Resolvido',
+                            texto_cliente: 'Disparo de recuperação e reset de senha'
+                        });
+
+                        adicionarMensagemBot(`Disparamos o link seguro de redefinição de senha para o contato de <b>${cliente.nome_completo}</b> (<code>${cliente.customer_id}</code>). Protocolo: <code>${tktId}</code>.`);
                         encerrarComMenu();
                     }
                 },
                 {
                     texto: "Alterar endereço de cadastro",
                     acao: () => {
-                        adicionarMensagemBot(`Acesso liberado para <b>${cliente.nome_completo}</b>. Por segurança, alterações de endereço são válidas apenas para compras que ainda não possuem nota fiscal faturada.`);
+                        const tktId = registrarTicketSessao({
+                            categoria_problema: 'Dúvida Técnica',
+                            status_atendimento: 'Resolvido',
+                            texto_cliente: 'Solicitação de alteração de endereço cadastral'
+                        });
+
+                        adicionarMensagemBot(`Acesso liberado para <b>${cliente.nome_completo}</b>. Alterações de endereço são válidas apenas para compras antes do faturamento da NF. Protocolo: <code>${tktId}</code>.`);
                         encerrarComMenu();
                     }
                 },
@@ -475,7 +615,7 @@
                         estadoChat = 'aguardando_outros_duvida';
                         userInput.placeholder = "Digite sua dúvida ou relato aqui...";
                         userInput.focus();
-                        adicionarMensagemBot(`Por favor, digite abaixo a sua dúvida ou necessidade para registrarmos o seu atendimento:`);
+                        adicionarMensagemBot("Por favor, digite abaixo a sua dúvida ou necessidade para registrarmos o seu atendimento:");
                     }
                 }
             ]);
@@ -483,7 +623,12 @@
 
         function registrarOutraDuvida(textoDuvida) {
             const cliente = clienteAutenticado;
-            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            const tkt = registrarTicketSessao({
+                categoria_problema: 'Dúvida Técnica',
+                status_atendimento: 'Aberto',
+                texto_cliente: textoDuvida
+            });
+
             adicionarMensagemBot(`
                 <b>Dúvida Técnica Registrada!</b><br><br>
                 • <b>Protocolo:</b> <code>${tkt}</code><br>
@@ -502,7 +647,12 @@
         }
 
         function registrarElogioUsuario(textoLivre) {
-            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            const tkt = registrarTicketSessao({
+                categoria_problema: 'Elogio',
+                status_atendimento: 'Resolvido',
+                texto_cliente: textoLivre
+            });
+
             adicionarMensagemBot(`
                 <b>Muito obrigado pelo carinho!</b><br><br>
                 Sua mensagem foi registrada em nome de <b>${clienteAutenticado.nome_completo}</b> sob o protocolo <code>${tkt}</code>.
@@ -516,23 +666,16 @@
             adicionarMensagemBot("Digite o código do chamado que deseja consultar (Ex: <code>TKT-000001</code> ou <code>TKT-013487</code>):");
         }
 
-        function gerarProtocolo(orderId, motivo, msgSucesso) {
-            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
-            adicionarMensagemBot(`
-                <b>Solicitação Aberta com Sucesso!</b><br>
-                • <b>Protocolo:</b> <code>${tkt}</code><br>
-                • <b>Titular:</b> ${clienteAutenticado.nome_completo}<br>
-                • <b>Pedido:</b> <code>${orderId}</code><br>
-                • <b>Assunto:</b> ${motivo}<br><br>
-                ${msgSucesso}
-            `);
-            encerrarComMenu();
-        }
-
         function escalarN2(orderId, motivo) {
-            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            const tkt = registrarTicketSessao({
+                categoria_problema: motivo,
+                order_id: orderId,
+                status_atendimento: 'Escalado para N2',
+                texto_cliente: 'Transferência solicitada pelo cliente para atendimento humano N2'
+            });
+
             adicionarMensagemBot(`
-                <b>Transferimos seu caso para o time de <b>Atendimento Especializado N2</b>.<br>
+                Transferimos seu caso para o time de <b>Atendimento Especializado N2</b>.<br>
                 • <b>Protocolo:</b> <code>${tkt}</code><br>
                 • <b>Cliente:</b> ${clienteAutenticado.nome_completo}<br>
                 • <b>Fila:</b> ${motivo}<br>
@@ -541,26 +684,30 @@
             encerrarComMenu();
         }
 
-        // 8. Encerramento com Pesquisa de Satisfação (CSAT 1 a 5)
+        // 7. Encerramento com Pesquisa de Satisfação (Gravação na Planilha)
         function iniciarPesquisaSatisfacao() {
             adicionarMensagemBot(`
                 ⭐ <b>Pesquisa de Satisfação</b><br><br>
                 Antes de ir, como você avalia o atendimento que acabou de receber de <b>1 a 5</b>?
             `, [
-                { texto: "⭐⭐⭐⭐⭐ 5 - Excelente", acao: () => registrarCSAT(5) },
-                { texto: "⭐⭐⭐⭐ 4 - Muito Bom", acao: () => registrarCSAT(4) },
-                { texto: "⭐⭐⭐ 3 - Regular", acao: () => registrarCSAT(3) },
-                { texto: "⭐⭐ 2 - Ruim", acao: () => registrarCSAT(2) },
-                { texto: "⭐ 1 - Muito Ruim", acao: () => registrarCSAT(1) }
+                { texto: "⭐⭐⭐⭐⭐ 5 - Excelente", acao: () => finalizarSessaoComNota(5) },
+                { texto: "⭐⭐⭐⭐ 4 - Muito Bom", acao: () => finalizarSessaoComNota(4) },
+                { texto: "⭐⭐⭐ 3 - Regular", acao: () => finalizarSessaoComNota(3) },
+                { texto: "⭐⭐ 2 - Ruim", acao: () => finalizarSessaoComNota(2) },
+                { texto: "⭐ 1 - Muito Ruim", acao: () => finalizarSessaoComNota(1) }
             ]);
         }
 
-        function registrarCSAT(nota) {
+        function finalizarSessaoComNota(nota) {
+            const qtdTickets = ticketsSessaoAtual.length;
+            salvarAtendimentosComCSAT(nota);
+
             adicionarMensagemBot(`
                 Obrigado pela avaliação <b>${nota} estrela${nota > 1 ? 's' : ''}</b>! ⭐<br><br>
-                Seu feedback nos ajuda a melhorar constantemente.<br>
+                Registramos <b>${qtdTickets} ocorrência${qtdTickets > 1 ? 's' : ''}</b> resolvida${qtdTickets > 1 ? 's' : ''} nesta sessão na planilha de atendimentos com nota <b>${nota}.0</b>.<br><br>
                 A <b>Vértice Retail</b> agradece o contato. Tenha um ótimo dia! 👋
             `, [
+                { texto: "💾 Baixar Planilha de Atendimentos (.csv)", acao: () => exportarPlanilhaAtendimentos() },
                 { texto: "Iniciar Novo Atendimento", acao: () => reiniciarConversa() }
             ]);
         }
@@ -574,7 +721,7 @@
             }, 700);
         }
 
-        // 9. Validação e Busca
+        // 8. Busca e Validação de Pedidos
         function buscarPedidoUnificado(orderIdBuscado) {
             const venda = baseVendas.find(v => String(v.order_id).toUpperCase() === orderIdBuscado);
             if (venda) return { ...venda, origem: 'vendas' };
@@ -609,7 +756,7 @@
             return true;
         }
 
-        // 10. Processamento de Texto Livre
+        // 9. Processamento de Texto Livre
         function processarTexto(textoBruto) {
             const txt = textoBruto.trim();
             if (!txt) return;
