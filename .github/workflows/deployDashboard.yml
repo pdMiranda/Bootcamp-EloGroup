@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'Case/dashboard/**'
+      - 'Case/**'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +28,13 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      # Prepara os arquivos para o chatbot e dados ficarem acessíveis no Pages
+      - name: Preparar arquivos para deploy
+        run: |
+          mkdir -p Case/dashboard/modulos
+          cp -r Case/modulos/chatbot Case/dashboard/modulos/
+          cp -r Case/data Case/dashboard/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
