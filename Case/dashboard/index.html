@@ -180,6 +180,41 @@
         </div>
     </div>
 
+
+    <!-- ================= WIDGET DO CHATBOT WHATSAPP ================= -->
+    <!-- Botão Flutuante (Canto inferior direito) -->
+    <button id="chatbot-toggle-btn" onclick="toggleChatbotPopup()" 
+        class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group"
+        title="Abrir Atendimento Virtual">
+        <!-- Ícone SVG de balão de conversa / WhatsApp -->
+        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.983.538 1.839.814 2.796.814 3.18 0 5.768-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm9.969 5.766c0 5.517-4.483 10-10 10-1.684 0-3.268-.42-4.664-1.157l-5.336 1.398 1.423-5.207c-.896-1.464-1.423-3.181-1.423-5.034 0-5.517 4.483-10 10-10s10 4.483 10 10z"/>
+        </svg>
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+        </span>
+    </button>
+
+    <!-- Janela Pop-up Flutuante do Chatbot -->
+    <div id="chatbot-popup-container" 
+        class="hidden fixed bottom-24 right-6 z-50 w-full max-w-[420px] h-[680px] max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-300 flex flex-col transition-all duration-300 transform scale-95 origin-bottom-right">
+        
+        <!-- Barra de controle superior do Popup -->
+        <div class="bg-[#075e54] text-white px-4 py-2 flex items-center justify-between border-b border-emerald-800">
+            <span class="text-xs font-semibold tracking-wide flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Simulação de Atendimento Chatbot
+            </span>
+            <button onclick="toggleChatbotPopup()" class="text-emerald-200 hover:text-white text-base font-bold leading-none p-1 rounded transition">
+                ✕
+            </button>
+        </div>
+
+        <!-- Iframe apontando para o módulo do chatbot -->
+        <iframe id="chatbot-frame" src="../modulos/chatbot/index.html" class="w-full flex-1 border-0"></iframe>
+    </div>
+
+
     <script>
         const formatBRL = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
         const formatNum = (value) => new Intl.NumberFormat('pt-BR').format(value);
@@ -194,6 +229,23 @@
             comercial: 'Comercial', margem: 'Margem', marketing: 'Marketing', clientes: 'Cliente',
             operacoes: 'Operações', atendimento: 'Atendimento', impacto: 'Impacto'
         };
+
+        function toggleChatbotPopup() {
+                    const container = document.getElementById('chatbot-popup-container');
+                    const isHidden = container.classList.contains('hidden');
+
+                    if (isHidden) {
+                        container.classList.remove('hidden');
+                        setTimeout(() => {
+                            container.classList.remove('scale-100');
+                            container.classList.add('scale-100');
+                        }, 10);
+                    } else {
+                        container.classList.remove('scale-100');
+                        container.classList.add('scale-100');
+                        setTimeout(() => container.classList.add('hidden'), 150);
+                    }
+                }
 
         function renderArea(data, area) {
             const kpis = data.kpis;

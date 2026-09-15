@@ -11,42 +11,41 @@
         #chat-box::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); border-radius: 3px; }
     </style>
 </head>
-<body class="bg-slate-900 min-h-screen flex items-center justify-center p-3 font-sans">
+<body class="bg-white h-screen w-screen overflow-hidden m-0 p-0 font-sans flex flex-col">
 
-    <!-- Container do WhatsApp -->
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col h-[700px]">
+    <!-- Container do Chatbot -->
+    <div class="w-full h-full bg-white flex flex-col overflow-hidden">
         
         <!-- Header -->
-        <header class="bg-[#075e54] text-white p-3.5 flex items-center justify-between shadow-md">
-            <div class="flex items-center gap-3">
+        <header class="bg-[#075e54] text-white p-3 flex items-center justify-between shadow-md shrink-0">
+            <div class="flex items-center gap-2.5">
                 <div class="relative">
-                    <div class="w-10 h-10 rounded-full bg-emerald-800 border border-emerald-600 flex items-center justify-center font-bold text-sm text-emerald-100">
+                    <div class="w-9 h-9 rounded-full bg-emerald-800 border border-emerald-600 flex items-center justify-center font-bold text-xs text-emerald-100">
                         VR
                     </div>
-                    <span id="bot-indicator" class="absolute bottom-0 right-0 w-3 h-3 bg-amber-400 border-2 border-[#075e54] rounded-full"></span>
+                    <span id="bot-indicator" class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-amber-400 border-2 border-[#075e54] rounded-full"></span>
                 </div>
                 <div>
-                    <h1 class="text-sm font-semibold tracking-wide">Vértice Atendimento</h1>
-                    <p id="bot-status" class="text-xs text-emerald-200">Carregando bases de dados...</p>
+                    <h1 class="text-sm font-semibold tracking-wide leading-tight">Vértice Atendimento</h1>
+                    <p id="bot-status" class="text-[11px] text-emerald-200">Carregando bases de dados...</p>
                 </div>
             </div>
             <div class="flex items-center gap-1.5">
-                <button onclick="exportarPlanilhaAtendimentos()" title="Baixar histórico CSV de atendimentos" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1.5 rounded-lg border border-emerald-700/50 transition flex items-center gap-1">
+                <button onclick="exportarPlanilhaAtendimentos()" title="Baixar histórico CSV de atendimentos" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1 rounded border border-emerald-700/50 transition flex items-center gap-1">
                     CSV
                 </button>
-                <button onclick="reiniciarConversa()" title="Reiniciar atendimento" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1.5 rounded-lg border border-emerald-700/50 transition">
+                <button onclick="reiniciarConversa()" title="Reiniciar atendimento" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2 py-1 rounded border border-emerald-700/50 transition">
                     ↺
                 </button>
             </div>
         </header>
 
-        <!-- Área de Conversa -->
-        <main id="chat-box" class="flex-1 bg-[#efeae2] p-4 overflow-y-auto space-y-3">
+        <main id="chat-box" class="flex-1 bg-[#efeae2] p-3 overflow-y-auto space-y-3">
             <!-- Mensagens injetadas via JS -->
         </main>
 
         <!-- Indicador de Digitação -->
-        <div id="typing-indicator" class="hidden px-4 py-1 text-xs text-slate-500 bg-[#efeae2] italic flex items-center gap-1.5">
+        <div id="typing-indicator" class="hidden px-4 py-1 text-xs text-slate-500 bg-[#efeae2] italic flex items-center gap-1.5 shrink-0">
             <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
             <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
             <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
@@ -54,7 +53,7 @@
         </div>
 
         <!-- Barra de Digitação -->
-        <footer class="p-2.5 bg-[#f0f2f5] border-t border-slate-200 flex gap-2 items-center">
+        <footer class="p-2.5 bg-[#f0f2f5] border-t border-slate-200 flex gap-2 items-center shrink-0">
             <input 
                 type="text" 
                 id="user-input" 
@@ -64,7 +63,7 @@
             />
             <button 
                 id="send-btn" 
-                class="bg-[#075e54] text-white rounded-full w-9 h-9 flex items-center justify-center hover:bg-emerald-800 transition disabled:opacity-50"
+                class="bg-[#075e54] text-white rounded-full w-9 h-9 flex items-center justify-center hover:bg-emerald-800 transition disabled:opacity-50 shrink-0"
                 disabled
             >
                 &rarr;
@@ -97,10 +96,10 @@
         // 1. Carregamento dos dados
         async function fetchCSV(nomeArquivo) {
             const rotas = [
-                `data/${nomeArquivo}`,
-                `${nomeArquivo}`,
-                `../../data/${nomeArquivo}`,
-                `../data/${nomeArquivo}`
+                `../../data/${nomeArquivo}`, // Quando aberto via iframe a partir do dashboard ou subpasta
+                `../data/${nomeArquivo}`,    // Se o servidor estiver na raiz modulos
+                `data/${nomeArquivo}`,       // Se executado da raiz do repositório Case
+                `${nomeArquivo}`             // Se estiver na mesma pasta
             ];
             for (const r of rotas) {
                 try {
