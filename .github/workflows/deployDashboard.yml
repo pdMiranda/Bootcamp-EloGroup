@@ -27,16 +27,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Preparar arquivos
-        run: |
-          mkdir -p Case/dashboard/modulos
-          cp -r Case/modulos/chatbot Case/dashboard/modulos/
-          cp -r Case/data Case/dashboard/
-
+      # Publica a pasta Case exatamente como ela é no seu disco local
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'Case/dashboard'
+          path: 'Case'
 
       - name: Deploy to GitHub Pages
         id: deployment

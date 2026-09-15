@@ -95,19 +95,9 @@
 
         // 1. Carregamento dos dados
         async function fetchCSV(nomeArquivo) {
-            const rotas = [
-                `../../data/${nomeArquivo}`, // Quando aberto via iframe a partir do dashboard ou subpasta
-                `../data/${nomeArquivo}`,    // Se o servidor estiver na raiz modulos
-                `data/${nomeArquivo}`,       // Se executado da raiz do repositório Case
-                `${nomeArquivo}`             // Se estiver na mesma pasta
-            ];
-            for (const r of rotas) {
-                try {
-                    const res = await fetch(r);
-                    if (res.ok) return await res.text();
-                } catch(e) {}
-            }
-            throw new Error(`Não foi possível carregar ${nomeArquivo}`);
+            const res = await fetch(`../../data/${nomeArquivo}`);
+            if (!res.ok) throw new Error(`Erro ao carregar ${nomeArquivo}`);
+            return await res.text();
         }
 
         function parsePromise(csvText) {
