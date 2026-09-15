@@ -298,12 +298,12 @@
                 <b>Informações Importantes:</b><br><br>
                 Como isso eh apenas um protótipo, algumas informações foram assumidas para tornar ele possivel<br><br>
 
-                Questões de Localização de Pedido foram tratados como falta de transparencia da <b>Vértice Retail</b>,
-                onde de forma interna é possivel localizar o pedido, porem essa informação não chega facil ao cliente<br><br>
+                Questões de Localização de Pedido foram tratados como <b>falta de transparencia</b> da <b>Vértice Retail</b>,
+                onde de forma interna é possivel localizar o pedido, porem essa informação não chegam facil ao cliente<br><br>
 
                 O uso de Customer ID so foi utilizada devido a falta de informações de login nas planilhas, uma vez que 
                 analisando os atendimentos a <b>Vértice Retail</b> possui algum tipo de login (existencia de duvida tecnica de troca de senha),
-                o mais ideal seria o uso de CPF, Telefone ou E-mail<br><br>
+                o <b>mais ideal seria o uso de CPF, Telefone ou E-mail</b><br><br>
 
                 Foi assumido que o cliente possui o Order ID, pratica padrão de mercado onde apos a compra o cliente recebe um e-mail com as informações do pedido.
             `);
@@ -377,7 +377,6 @@
                     <b>Status do Pedido:</b> ${pedido.order_id}<br>
                     • <b>Protocolo deste Atendimento:</b> <code>${tktId}</code><br>
                     • <b>Produto:</b> ${pedido.produto} (${pedido.categoria})<br>
-                    • <b>Pagamento:</b> <span class="text-emerald-700 font-semibold">${pedido.status_pagamento}</span><br>
                     • <b>Dia da Entrega Prevista:</b> ${dataEntrega}<br>
                     • <b>Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code>
                 `, [
@@ -506,7 +505,7 @@
                 O pagamento deste pedido ainda não foi compensado. Como você deseja prosseguir?
             `, [
                 {
-                    texto: "⚡ Gerar novo QR Code PIX",
+                    texto: "Gerar novo QR Code PIX",
                     acao: () => {
                         const tktId = registrarTicketSessao({
                             categoria_problema: 'Pagamento não aprovado',
@@ -652,7 +651,7 @@
         function fluxoConsultaTicket() {
             estadoChat = 'aguardando_ticket_id';
             userInput.placeholder = "Ex: TKT-000001...";
-            adicionarMensagemBot("Digite o código do chamado que deseja consultar (Ex: <code>TKT-000001</code> ou <code>TKT-013487</code>):");
+            adicionarMensagemBot("Digite o código do chamado que deseja consultar:");
         }
 
         function escalarN2(orderId, motivo) {
@@ -668,7 +667,7 @@
                 • <b>Protocolo:</b> <code>${tkt}</code><br>
                 • <b>Cliente:</b> ${clienteAutenticado.nome_completo}<br>
                 • <b>Fila:</b> ${motivo}<br>
-                • <b>Tempo de Resposta:</b> até 4 horas úteis via WhatsApp.
+                • <b>Tempo de Resposta:</b> até 4 horas úteis via WhatsApp ou Email.
             `);
             encerrarComMenu();
         }
@@ -696,7 +695,7 @@
                 Registramos <b>${qtdTickets} ocorrência${qtdTickets > 1 ? 's' : ''}</b> resolvida${qtdTickets > 1 ? 's' : ''} nesta sessão na planilha de atendimentos com nota <b>${nota}.0</b>.<br><br>
                 A <b>Vértice Retail</b> agradece o contato. Tenha um ótimo dia! 👋
             `, [
-                { texto: "💾 Baixar Planilha de Atendimentos (.csv)", acao: () => exportarPlanilhaAtendimentos() },
+                { texto: "Baixar Planilha de Atendimentos (.csv)", acao: () => exportarPlanilhaAtendimentos() },
                 { texto: "Iniciar Novo Atendimento", acao: () => reiniciarConversa() }
             ]);
         }
@@ -734,7 +733,7 @@
         function validarPagamentoPedido(pedido, fluxoDesejado) {
             if (pedido.origem === 'atendimento') return true;
 
-            if (pedido.status_pagamento !== 'Aprovado') {
+            if (pedido.status_pagamento === 'Aguardando') {
                 adicionarMensagemBot(`
                     <b>Atenção:</b> O pedido <code>${pedido.order_id}</code> está com pagamento <b>${pedido.status_pagamento || 'Pendente'}</b>.<br><br>
                     Para solicitações operacionais, o pagamento precisa estar aprovado. Redirecionando para cobrança...
