@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vértice Retail | Atendimento Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+        #chat-box::-webkit-scrollbar { width: 6px; }
+        #chat-box::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-3 font-sans">
+
+    <!-- Container do WhatsApp -->
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-700 flex flex-col h-[700px]">
+        
+        <!-- Header -->
+        <header class="bg-[#075e54] text-white p-3.5 flex items-center justify-between shadow-md">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-emerald-800 border border-emerald-600 flex items-center justify-center font-bold text-sm text-emerald-100">
+                        VR
+                    </div>
+                    <span id="bot-indicator" class="absolute bottom-0 right-0 w-3 h-3 bg-amber-400 border-2 border-[#075e54] rounded-full"></span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-semibold tracking-wide">Vértice Atendimento</h1>
+                    <p id="bot-status" class="text-xs text-emerald-200">Carregando bases de dados...</p>
+                </div>
+            </div>
+            <button onclick="reiniciarConversa()" title="Reiniciar atendimento" class="text-emerald-200 hover:text-white text-xs bg-emerald-900/50 px-2.5 py-1.5 rounded-lg border border-emerald-700/50 transition">
+                ↺ Reiniciar
+            </button>
+        </header>
+
+        <!-- Área de Conversa -->
+        <main id="chat-box" class="flex-1 bg-[#efeae2] p-4 overflow-y-auto space-y-3">
+            <!-- Mensagens injetadas via JS -->
+        </main>
+
+        <!-- Indicador de Digitação -->
+        <div id="typing-indicator" class="hidden px-4 py-1 text-xs text-slate-500 bg-[#efeae2] italic flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+            Atendente digitando...
+        </div>
+
+        <!-- Barra de Digitação -->
+        <footer class="p-2.5 bg-[#f0f2f5] border-t border-slate-200 flex gap-2 items-center">
+            <input 
+                type="text" 
+                id="user-input" 
+                placeholder="Carregando..." 
+                class="flex-1 text-sm bg-white rounded-full px-4 py-2 border border-slate-300 focus:outline-none focus:border-emerald-600 transition"
+                disabled
+            />
+            <button 
+                id="send-btn" 
+                class="bg-[#075e54] text-white rounded-full w-9 h-9 flex items-center justify-center hover:bg-emerald-800 transition disabled:opacity-50"
+                disabled
+            >
+                &rarr;
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        let baseVendas = [];
+        let baseAtendimento = [];
+        let baseClientes = [];
+
+        let estadoChat = 'aguardando_identificacao_inicial';
+        let clienteAutenticado = null;
+        let pedidoEmAtendimento = null;
+
+        const chatBox = document.getElementById('chat-box');
+        const botStatus = document.getElementById('bot-status');
+        const botIndicator = document.getElementById('bot-indicator');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        // 1. Carregamento dos dados
+        async function fetchCSV(nomeArquivo) {
+            const rotas = [
+                `data/${nomeArquivo}`,
+                `${nomeArquivo}`,
+                `../../data/${nomeArquivo}`,
+                `../data/${nomeArquivo}`
+            ];
+            for (const r of rotas) {
+                try {
+                    const res = await fetch(r);
+                    if (res.ok) return await res.text();
+                } catch(e) {}
+            }
+            throw new Error(`Não foi possível carregar ${nomeArquivo}`);
+        }
+
+        function parsePromise(csvText) {
+            return new Promise((resolve) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    dynamicTyping: true,
+                    skipEmptyLines: true,
+                    complete: (res) => resolve(res.data)
+                });
+            });
+        }
+
+        async function carregarBases() {
+            try {
+                const [txtVendas, txtAtendimento, txtClientes] = await Promise.all([
+                    fetchCSV('vendas.csv'),
+                    fetchCSV('atendimento.csv'),
+                    fetchCSV('clientes.csv')
+                ]);
+
+                const [dadosVendas, dadosAtendimento, dadosClientes] = await Promise.all([
+                    parsePromise(txtVendas),
+                    parsePromise(txtAtendimento),
+                    parsePromise(txtClientes)
+                ]);
+
+                baseVendas = dadosVendas;
+                baseAtendimento = dadosAtendimento;
+                baseClientes = dadosClientes;
+
+                botStatus.textContent = "Online • Triagem 24h";
+                botIndicator.classList.remove('bg-amber-400');
+                botIndicator.classList.add('bg-emerald-400');
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+
+                iniciarFluxoIdentificacao();
+            } catch (err) {
+                console.error(err);
+                botStatus.textContent = "Erro de conexão";
+                adicionarMensagemBot("⚠️ Erro ao carregar as bases de dados. Verifique a pasta <code>data/</code>.");
+            }
+        }
+
+        // 2. Utilitários
+        function obterPrevisaoDefeito() {
+            const casosDefeito = baseAtendimento.filter(t => t.categoria_problema === 'Defeito' && t.data_fechamento && t.data_abertura);
+            if (!casosDefeito.length) return { diasMediana: 3, horasResposta: 2 };
+
+            const respostasHoras = casosDefeito.map(t => parseFloat(t.tempo_primeira_resposta_minutos) / 60).filter(v => !isNaN(v));
+            const mediaResposta = respostasHoras.length ? (respostasHoras.reduce((a, b) => a + b, 0) / respostasHoras.length).toFixed(0) : 2;
+
+            const temposDias = casosDefeito.map(t => {
+                return (new Date(t.data_fechamento) - new Date(t.data_abertura)) / (1000 * 60 * 60 * 24);
+            }).filter(d => d > 0 && d <= 30).sort((a, b) => a - b);
+
+            const medianaDias = temposDias.length ? Math.round(temposDias[Math.floor(temposDias.length / 2)]) : 3;
+
+            return {
+                diasMediana: Math.max(medianaDias, 2),
+                horasResposta: Math.max(parseInt(mediaResposta), 2)
+            };
+        }
+
+        function calcularDataEntrega(dataPedidoStr, diasEntrega) {
+            if (!dataPedidoStr) return "Previsão estimada: 3 a 5 dias úteis";
+            const dt = new Date(dataPedidoStr);
+            const dias = parseInt(diasEntrega) || 5;
+            dt.setDate(dt.getDate() + dias);
+            return dt.toLocaleDateString('pt-BR');
+        }
+
+        function gerarCodigoRastreio() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let hash = '';
+            for (let i = 0; i < 9; i++) hash += chars.charAt(Math.floor(Math.random() * chars.length));
+            return `VR${hash}BR`;
+        }
+
+        function scrollFim() { chatBox.scrollTop = chatBox.scrollHeight; }
+
+        function adicionarMensagemUsuario(texto) {
+            const div = document.createElement('div');
+            div.className = "flex justify-end";
+            div.innerHTML = `<div class="bg-[#dcf8c6] text-slate-800 text-sm px-3.5 py-2 rounded-xl rounded-tr-none shadow-sm max-w-[85%] break-words">${texto}</div>`;
+            chatBox.appendChild(div);
+            scrollFim();
+        }
+
+        function adicionarMensagemBot(textoHtml, botoes = []) {
+            typingIndicator.classList.remove('hidden');
+
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+                const container = document.createElement('div');
+                container.className = "flex flex-col items-start gap-1 max-w-[88%]";
+
+                const balao = document.createElement('div');
+                balao.className = "bg-white text-slate-800 text-sm px-3.5 py-2.5 rounded-xl rounded-tl-none shadow-sm border border-slate-100";
+                balao.innerHTML = textoHtml;
+                container.appendChild(balao);
+
+                if (botoes.length > 0) {
+                    const btnBox = document.createElement('div');
+                    btnBox.className = "flex flex-col gap-1 w-full mt-1.5";
+
+                    botoes.forEach(b => {
+                        const btn = document.createElement('button');
+                        btn.className = "text-xs text-left bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-medium px-3 py-2 rounded-lg border border-emerald-200 transition active:scale-[0.98]";
+                        btn.innerHTML = b.texto;
+                        btn.onclick = () => {
+                            btnBox.remove();
+                            adicionarMensagemUsuario(b.texto.replace(/<[^>]*>?/gm, ''));
+                            b.acao();
+                        };
+                        btnBox.appendChild(btn);
+                    });
+                    container.appendChild(btnBox);
+                }
+
+                chatBox.appendChild(container);
+                scrollFim();
+            }, 400);
+        }
+
+        // 3. Etapa 1: Boas-vindas e Identificação
+        function iniciarFluxoIdentificacao() {
+            estadoChat = 'aguardando_identificacao_inicial';
+            clienteAutenticado = null;
+            pedidoEmAtendimento = null;
+            userInput.placeholder = "Digite seu Customer ID";
+            userInput.focus();
+
+            adicionarMensagemBot(`
+                <b>Informações Importantes:</b><br><br>
+                Como isso eh apenas um protótipo, algumas informações foram assumidas para tornar ele possivel<br><br>
+
+                Questões de Localização de Pedido foram tratados como falta de transparencia da <b>Vértice Retail</b>,
+                onde de forma interna é possivel localizar o pedido, porem essa informação não chaga facil ao cliente<br><br>
+
+                O uso de Customer ID so foi utilizada devido a falta de informações de login nas planilhas, uma vez que 
+                analisando os atendimento a <b>Vértice Retail</b> possui algum tipo de login, (existencia de duvida tecnica de troca de senha),
+                o mais ideal seria o uso de CPF, Telefone ou E-mail<br><br>
+
+                Foi assumido que o cliente possui o Order ID, pratica padrão de mercado onde apos a compra o cliente recebe um e-mail com as informações do pedido,
+                sendo o Order ID uma dessas informações.
+
+            `);
+
+            adicionarMensagemBot(`
+                Olá! Bem-vindo à <b>Vértice Retail</b>.<br><br>
+                Para iniciarmos o seu atendimento com total segurança, <b>por favor, informe o seu Customer ID</b>:
+            `);
+        }
+
+        // 4. Etapa 2: Menu Principal Personalizado
+        function exibirMenuPersonalizado() {
+            estadoChat = 'menu_principal';
+            pedidoEmAtendimento = null;
+            userInput.placeholder = "Escolha uma opção ou digite um código...";
+
+            adicionarMensagemBot(`Olá, <b>${clienteAutenticado.nome_completo}</b>! Como podemos te ajudar hoje?`, [
+                { texto: "1. Onde está meu pedido?", acao: () => iniciarFluxo('wismo') },
+                { texto: "2. Produto com Defeito / Erro no Pedido", acao: () => iniciarFluxo('defeito') },
+                { texto: "3. Troca de Tamanho", acao: () => iniciarFluxo('troca') },
+                { texto: "4. Pagamento e Cobrança", acao: () => iniciarFluxo('pagamento') },
+                { texto: "5. Dúvida Técnica / Acesso", acao: () => fluxoDuvidaTecnica() },
+                { texto: "6. Enviar um Elogio", acao: () => fluxoElogioLivre() },
+                { texto: "7. Consultar Chamado Aberto", acao: () => fluxoConsultaTicket() }
+            ]);
+        }
+
+        function reiniciarConversa() {
+            chatBox.innerHTML = '';
+            iniciarFluxoIdentificacao();
+        }
+
+        function iniciarFluxo(tipo) {
+            estadoChat = `aguardando_order_${tipo}`;
+            userInput.placeholder = "Digite o código do pedido";
+            adicionarMensagemBot("Por favor, digite o <b>Código do Pedido</b>:");
+        }
+
+        // 5. Fluxo 4: Pagamento e Cobrança com Checagem de Status
+        function resolverPagamento(pedido) {
+            pedidoEmAtendimento = pedido;
+            const cliente = clienteAutenticado;
+            const statusPg = pedido.status_pagamento || 'Pendente';
+            const valorTxt = pedido.receita_bruta ? `R$ ${(pedido.receita_bruta || 0).toFixed(2)}` : 'Conforme nota fiscal';
+            const prodTxt = pedido.produto ? `• <b>Produto:</b> ${pedido.produto} (SKU: <code>${pedido.sku_id || 'N/A'}</code>)<br>` : '';
+
+            // Regra: Se já estiver pago/aprovado, apenas confirma a regularidade
+            if (statusPg === 'Aprovado') {
+                adicionarMensagemBot(`
+                    <b>Pagamento Confirmado!</b><br><br>
+                    • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                    • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                    ${prodTxt}
+                    • <b>Valor:</b> ${valorTxt}<br>
+                    • <b>Status:</b> <span class="font-bold text-emerald-700">Aprovado</span><br><br>
+                    Está <b>tudo de acordo com o pagamento</b> deste pedido! Os valores foram compensados com sucesso e o item já seguiu para o fluxo de expedição.
+                `, [
+                    { texto: "Rastrear este pedido", acao: () => resolverWISMO(pedido) },
+                    { texto: "Tudo certo, obrigado!", acao: () => encerrarComMenu() }
+                ]);
+                return;
+            }
+
+            // Caso o pagamento NÃO esteja aprovado (Pendente, Aguardando, Cancelado, etc.)
+            adicionarMensagemBot(`
+                <b>Pendência no Pagamento</b><br><br>
+                • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                ${prodTxt}
+                • <b>Valor:</b> ${valorTxt}<br>
+                • <b>Status Atual:</b> <span class="font-bold text-red-600">${statusPg}</span><br><br>
+                O pagamento deste pedido ainda não foi compensado. Como você deseja prosseguir?
+            `, [
+                {
+                    texto: "⚡ Gerar novo QR Code PIX",
+                    acao: () => {
+                        const hashPix = `00020126580014BR.GOV.BCB.PIX0136${Math.random().toString(36).substring(2, 15)}520400005303986540${(pedido.receita_bruta || 50).toFixed(2)}5802BR`;
+                        adicionarMensagemBot(`
+                            <b>Novo QR Code PIX Emitido!</b><br><br>
+                            • <b>Favorecido:</b> Vértice Retail S.A.<br>
+                            • <b>Titular:</b> ${cliente.nome_completo}<br>
+                            • <b>Código Copia e Cola:</b><br>
+                            <code class="block bg-slate-100 p-2 rounded text-[11px] font-mono break-all mt-1">${hashPix}</code><br>
+                            <i>Validade: 30 minutos com compensação automática.</i>
+                        `);
+                        encerrarComMenu();
+                    }
+                },
+                {
+                    texto: "Escalar para Gerente Financeiro",
+                    acao: () => {
+                        const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+                        adicionarMensagemBot(`
+                            <b>Encaminhado à Gerência Financeira</b><br><br>
+                            • <b>Protocolo:</b> <code>${tkt}</code><br>
+                            • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                            • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                            • <b>Prioridade:</b> Alta.<br>
+                            O gerente financeiro entrará em contato em até 1 hora comercial.
+                        `);
+                        encerrarComMenu();
+                    }
+                }
+            ]);
+        }
+
+        // 6. Fluxo 2: Defeito / Erro no Pedido (Análise Humana)
+        function resolverDefeito(pedido) {
+            pedidoEmAtendimento = pedido;
+            estadoChat = 'aguardando_reclamacao_defeito';
+            userInput.placeholder = "Descreva detalhadamente o problema...";
+            userInput.focus();
+
+            const nomeProduto = pedido.produto ? `<b>${pedido.produto}</b> (SKU: <code>${pedido.sku_id || 'N/A'}</code>)` : `o pedido <code>${pedido.order_id}</code>`;
+
+            adicionarMensagemBot(`
+                Localizamos o ${nomeProduto} em seu nome.<br><br>
+                Casos de avaria ou erro no pedido são encaminhados diretamente a um <b>especialista técnico humano</b>.<br>
+                Por favor, <b>descreva abaixo o defeito ou erro apresentado</b>:
+            `);
+        }
+
+        function registrarAnaliseDefeito(textoReclamacao) {
+            const pedido = pedidoEmAtendimento;
+            const cliente = clienteAutenticado;
+            const prev = obterPrevisaoDefeito();
+            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            adicionarMensagemBot(`
+                <b>Ocorrência Encaminhada para Análise Técnica!</b><br><br>
+                • <b>Protocolo:</b> <code>${tkt}</code><br>
+                • <b>Status:</b> <span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200">Em Análise</span><br>
+                • <b>Titular:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                • <b>Pedido:</b> <code>${pedido.order_id}</code><br>
+                • <b>Produto:</b> ${pedido.produto || 'Item'} (SKU: <code>${pedido.sku_id || 'N/A'}</code>)<br>
+                • <b>Relato do Cliente:</b> "<i>${textoReclamacao}</i>"<br><br>
+                <b>Panorama Estimado de Resolução:</b><br>
+                • <b>Primeiro contato do perito:</b> em até <b>${prev.horasResposta} horas</b> úteis.<br>
+                • <b>Conclusão do parecer:</b> média histórica de <b>${prev.diasMediana} dias úteis</b>.<br><br>
+                Nosso time entrará em contato via WhatsApp com as orientações para troca assistida ou recolhimento.
+            `);
+
+            encerrarComMenu();
+        }
+
+        // 7. Demais Fluxos (WISMO, Troca, Dúvida Técnica, Elogio)
+        function resolverWISMO(pedido) {
+            const rastreio = gerarCodigoRastreio();
+
+            if (pedido.origem === 'atendimento') {
+                const ticketsTexto = pedido.chamados.map(t => 
+                    `• <b>${t.ticket_id}</b>: ${t.categoria_problema} (<span class="text-emerald-700 font-semibold">${t.status_atendimento}</span>)`
+                ).join('<br>');
+
+                adicionarMensagemBot(`
+                    <b>Status do Pedido:</b> <code>${pedido.order_id}</code><br>
+                    • <b>Origem:</b> Histórico do SAC<br>
+                    • <b>Status:</b> Despachado / Em trânsito<br>
+                    • <b>Código de Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code><br><br>
+                    <b>Histórico vinculado:</b><br>${ticketsTexto}
+                `, [
+                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
+                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
+                ]);
+            } else {
+                const dataEntrega = calcularDataEntrega(pedido.data_pedido, pedido.tempo_entrega_real);
+
+                adicionarMensagemBot(`
+                    <b>Status do Pedido:</b> ${pedido.order_id}<br>
+                    • <b>Produto:</b> ${pedido.produto} (${pedido.categoria})<br>
+                    • <b>Pagamento:</b> <span class="text-emerald-700 font-semibold">${pedido.status_pagamento}</span><br>
+                    • <b>Dia da Entrega Prevista:</b> ${dataEntrega}<br>
+                    • <b>Rastreio:</b> <code class="bg-slate-100 px-1 py-0.5 rounded font-mono font-bold text-slate-800">${rastreio}</code>
+                `, [
+                    { texto: "Falar com atendente humano", acao: () => escalarN2(pedido.order_id, "Onde está meu pedido?") },
+                    { texto: "Entendido, obrigado!", acao: () => encerrarComMenu() }
+                ]);
+            }
+        }
+
+        function resolverTroca(pedido) {
+            pedidoEmAtendimento = pedido;
+            const cliente = clienteAutenticado;
+            const desc = pedido.produto ? `item <b>${pedido.produto}</b>` : `pedido <code>${pedido.order_id}</code>`;
+
+            adicionarMensagemBot(`
+                Pedido <code>${pedido.order_id}</code> verificado (${desc}).<br><br>
+                Qual a opção de troca desejada?
+            `, [
+                { texto: "Trocar por tamanho Maior", acao: () => gerarProtocolo(pedido.order_id, "Troca de Tamanho (Maior)", "Reserva de nova numeração confirmada.") },
+                { texto: "Trocar por tamanho Menor", acao: () => gerarProtocolo(pedido.order_id, "Troca de Tamanho (Menor)", "Reserva de nova numeração confirmada.") },
+                { 
+                    texto: "Trocar por vale-compras na conta", 
+                    acao: () => {
+                        gerarProtocolo(pedido.order_id, "Troca - Vale Compras", `Crédito disponibilizado na conta de <b>${cliente.nome_completo}</b> (${cliente.customer_id}).`);
+                    }
+                }
+            ]);
+        }
+
+        function fluxoDuvidaTecnica() {
+            const cliente = clienteAutenticado;
+
+            adicionarMensagemBot("Qual das opções abaixo melhor descreve a sua dúvida?", [
+                {
+                    texto: "Como aplicar cupom de desconto?",
+                    acao: () => {
+                        adicionarMensagemBot("Para utilizar seu cupom, insira o código no campo <b>'Cupom de Desconto'</b> na Sacola de Compras antes de concluir o pagamento. O valor com desconto é recalculado na hora.");
+                        encerrarComMenu();
+                    }
+                },
+                {
+                    texto: "Recuperar minha senha de acesso",
+                    acao: () => {
+                        adicionarMensagemBot(`Disparamos o link seguro de redefinição de senha para o contato de <b>${cliente.nome_completo}</b> (<code>${cliente.customer_id}</code>). Verifique seu e-mail/SMS cadastrado.`);
+                        encerrarComMenu();
+                    }
+                },
+                {
+                    texto: "Alterar endereço de cadastro",
+                    acao: () => {
+                        adicionarMensagemBot(`Acesso liberado para <b>${cliente.nome_completo}</b>. Por segurança, alterações de endereço são válidas apenas para compras que ainda não possuem nota fiscal faturada.`);
+                        encerrarComMenu();
+                    }
+                },
+                {
+                    texto: "Outros (Descrever dúvida)",
+                    acao: () => {
+                        estadoChat = 'aguardando_outros_duvida';
+                        userInput.placeholder = "Digite sua dúvida ou relato aqui...";
+                        userInput.focus();
+                        adicionarMensagemBot(`Por favor, digite abaixo a sua dúvida ou necessidade para registrarmos o seu atendimento:`);
+                    }
+                }
+            ]);
+        }
+
+        function registrarOutraDuvida(textoDuvida) {
+            const cliente = clienteAutenticado;
+            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            adicionarMensagemBot(`
+                <b>Dúvida Técnica Registrada!</b><br><br>
+                • <b>Protocolo:</b> <code>${tkt}</code><br>
+                • <b>Cliente:</b> ${cliente.nome_completo} (<code>${cliente.customer_id}</code>)<br>
+                • <b>Mensagem:</b> "<i>${textoDuvida}</i>"<br>
+                • <b>Status:</b> Na fila do suporte técnico (retorno previsto em até 2 horas).
+            `);
+            encerrarComMenu();
+        }
+
+        function fluxoElogioLivre() {
+            estadoChat = 'aguardando_elogio_texto';
+            userInput.placeholder = "Escreva seu elogio livremente aqui...";
+            userInput.focus();
+            adicionarMensagemBot("Ficamos muito contentes em saber que você teve uma boa experiência! ❤️<br><br><b>Pode digitar a sua mensagem livremente abaixo:</b>");
+        }
+
+        function registrarElogioUsuario(textoLivre) {
+            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            adicionarMensagemBot(`
+                <b>Muito obrigado pelo carinho!</b><br><br>
+                Sua mensagem foi registrada em nome de <b>${clienteAutenticado.nome_completo}</b> sob o protocolo <code>${tkt}</code>.
+            `);
+            encerrarComMenu();
+        }
+
+        function fluxoConsultaTicket() {
+            estadoChat = 'aguardando_ticket_id';
+            userInput.placeholder = "Ex: TKT-000001...";
+            adicionarMensagemBot("Digite o código do chamado que deseja consultar (Ex: <code>TKT-000001</code> ou <code>TKT-013487</code>):");
+        }
+
+        function gerarProtocolo(orderId, motivo, msgSucesso) {
+            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            adicionarMensagemBot(`
+                <b>Solicitação Aberta com Sucesso!</b><br>
+                • <b>Protocolo:</b> <code>${tkt}</code><br>
+                • <b>Titular:</b> ${clienteAutenticado.nome_completo}<br>
+                • <b>Pedido:</b> <code>${orderId}</code><br>
+                • <b>Assunto:</b> ${motivo}<br><br>
+                ${msgSucesso}
+            `);
+            encerrarComMenu();
+        }
+
+        function escalarN2(orderId, motivo) {
+            const tkt = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+            adicionarMensagemBot(`
+                <b>Transferimos seu caso para o time de <b>Atendimento Especializado N2</b>.<br>
+                • <b>Protocolo:</b> <code>${tkt}</code><br>
+                • <b>Cliente:</b> ${clienteAutenticado.nome_completo}<br>
+                • <b>Fila:</b> ${motivo}<br>
+                • <b>Tempo de Resposta:</b> até 4 horas úteis via WhatsApp.
+            `);
+            encerrarComMenu();
+        }
+
+        // 8. Encerramento com Pesquisa de Satisfação (CSAT 1 a 5)
+        function iniciarPesquisaSatisfacao() {
+            adicionarMensagemBot(`
+                ⭐ <b>Pesquisa de Satisfação</b><br><br>
+                Antes de ir, como você avalia o atendimento que acabou de receber de <b>1 a 5</b>?
+            `, [
+                { texto: "⭐⭐⭐⭐⭐ 5 - Excelente", acao: () => registrarCSAT(5) },
+                { texto: "⭐⭐⭐⭐ 4 - Muito Bom", acao: () => registrarCSAT(4) },
+                { texto: "⭐⭐⭐ 3 - Regular", acao: () => registrarCSAT(3) },
+                { texto: "⭐⭐ 2 - Ruim", acao: () => registrarCSAT(2) },
+                { texto: "⭐ 1 - Muito Ruim", acao: () => registrarCSAT(1) }
+            ]);
+        }
+
+        function registrarCSAT(nota) {
+            adicionarMensagemBot(`
+                Obrigado pela avaliação <b>${nota} estrela${nota > 1 ? 's' : ''}</b>! ⭐<br><br>
+                Seu feedback nos ajuda a melhorar constantemente.<br>
+                A <b>Vértice Retail</b> agradece o contato. Tenha um ótimo dia! 👋
+            `, [
+                { texto: "Iniciar Novo Atendimento", acao: () => reiniciarConversa() }
+            ]);
+        }
+
+        function encerrarComMenu() {
+            setTimeout(() => {
+                adicionarMensagemBot("Posso te ajudar em algo mais?", [
+                    { texto: "Voltar ao Menu Inicial", acao: () => exibirMenuPersonalizado() },
+                    { texto: "Encerrar Atendimento", acao: () => iniciarPesquisaSatisfacao() }
+                ]);
+            }, 700);
+        }
+
+        // 9. Validação e Busca
+        function buscarPedidoUnificado(orderIdBuscado) {
+            const venda = baseVendas.find(v => String(v.order_id).toUpperCase() === orderIdBuscado);
+            if (venda) return { ...venda, origem: 'vendas' };
+
+            const chamados = baseAtendimento.filter(a => String(a.order_id).toUpperCase() === orderIdBuscado);
+            if (chamados.length > 0) {
+                const p = chamados[0];
+                return {
+                    order_id: orderIdBuscado,
+                    customer_id: p.customer_id,
+                    status_pagamento: 'Aprovado',
+                    produto: null,
+                    categoria: p.categoria_problema,
+                    origem: 'atendimento',
+                    chamados: chamados
+                };
+            }
+            return null;
+        }
+
+        function validarPagamentoPedido(pedido, fluxoDesejado) {
+            if (pedido.origem === 'atendimento') return true;
+
+            if (pedido.status_pagamento !== 'Aprovado') {
+                adicionarMensagemBot(`
+                    <b>Atenção:</b> O pedido <code>${pedido.order_id}</code> está com pagamento <b>${pedido.status_pagamento || 'Pendente'}</b>.<br><br>
+                    Para solicitações operacionais, o pagamento precisa estar aprovado. Redirecionando para cobrança...
+                `);
+                setTimeout(() => resolverPagamento(pedido), 800);
+                return false;
+            }
+            return true;
+        }
+
+        // 10. Processamento de Texto Livre
+        function processarTexto(textoBruto) {
+            const txt = textoBruto.trim();
+            if (!txt) return;
+
+            adicionarMensagemUsuario(txt);
+            userInput.value = '';
+
+            const termo = txt.toUpperCase();
+
+            // Identificação inicial
+            if (estadoChat === 'aguardando_identificacao_inicial' || (!clienteAutenticado && termo.startsWith('CLI-'))) {
+                const cliente = baseClientes.find(c => String(c.customer_id).toUpperCase() === termo);
+
+                if (cliente) {
+                    clienteAutenticado = cliente;
+                    exibirMenuPersonalizado();
+                } else {
+                    adicionarMensagemBot(`Customer ID <b>${termo}</b> não encontrado. Digite novamente:`);
+                }
+                return;
+            }
+
+            // Elogio livre
+            if (estadoChat === 'aguardando_elogio_texto') {
+                estadoChat = 'menu_principal';
+                registrarElogioUsuario(txt);
+                return;
+            }
+
+            // Defeito livre
+            if (estadoChat === 'aguardando_reclamacao_defeito') {
+                estadoChat = 'menu_principal';
+                registrarAnaliseDefeito(txt);
+                return;
+            }
+
+            // Dúvida técnica livre ("Outros")
+            if (estadoChat === 'aguardando_outros_duvida') {
+                estadoChat = 'menu_principal';
+                registrarOutraDuvida(txt);
+                return;
+            }
+
+            // Consulta por ticket TKT-
+            if (estadoChat === 'aguardando_ticket_id' || termo.startsWith('TKT-')) {
+                estadoChat = 'menu_principal';
+                const ticket = baseAtendimento.find(t => String(t.ticket_id).toUpperCase() === termo);
+                if (ticket) {
+                    adicionarMensagemBot(`
+                        <b>Detalhes do Chamado:</b> <code>${ticket.ticket_id}</code><br>
+                        • <b>Pedido Vinculado:</b> ${ticket.order_id || 'Não informado'}<br>
+                        • <b>Assunto:</b> ${ticket.categoria_problema}<br>
+                        • <b>Status:</b> <span class="font-bold text-emerald-700">${ticket.status_atendimento}</span><br>
+                        • <b>Mensagem Registrada:</b> "<i>${ticket.texto_cliente}</i>"
+                    `);
+                    encerrarComMenu();
+                } else {
+                    adicionarMensagemBot(`Não localizamos nenhum chamado <b>${termo}</b>.`, [
+                        { texto: "Digitar outro chamado", acao: () => fluxoConsultaTicket() },
+                        { texto: "Voltar ao início", acao: () => exibirMenuPersonalizado() }
+                    ]);
+                }
+                return;
+            }
+
+            // Busca por pedido ORD-
+            if (estadoChat.startsWith('aguardando_order_') || termo.startsWith('ORD-')) {
+                const tipoFluxo = estadoChat.replace('aguardando_order_', '');
+                estadoChat = 'menu_principal';
+
+                const pedido = buscarPedidoUnificado(termo);
+
+                if (pedido) {
+                    if (pedido.customer_id && pedido.customer_id !== clienteAutenticado.customer_id) {
+                        adicionarMensagemBot(`
+                            O pedido <code>${termo}</code> não pertence ao cadastro de <b>${clienteAutenticado.nome_completo}</b>.<br>
+                            Por segurança, consulte apenas pedidos da sua conta.
+                        `, [
+                            { texto: "Digitar outro pedido", acao: () => iniciarFluxo(tipoFluxo) },
+                            { texto: "Voltar ao Menu", acao: () => exibirMenuPersonalizado() }
+                        ]);
+                        return;
+                    }
+
+                    if (tipoFluxo === 'pagamento') {
+                        resolverPagamento(pedido);
+                        return;
+                    }
+
+                    const aprovado = validarPagamentoPedido(pedido, tipoFluxo);
+                    if (!aprovado) return;
+
+                    if (tipoFluxo === 'defeito') resolverDefeito(pedido);
+                    else if (tipoFluxo === 'troca') resolverTroca(pedido);
+                    else resolverWISMO(pedido);
+                } else {
+                    adicionarMensagemBot(`O pedido <b>${termo}</b> não foi localizado. Verifique a digitação.`, [
+                        { texto: "Tentar novamente", acao: () => iniciarFluxo(tipoFluxo || 'wismo') },
+                        { texto: "Menu Principal", acao: () => exibirMenuPersonalizado() }
+                    ]);
+                }
+                return;
+            }
+
+            adicionarMensagemBot("Não compreendi sua solicitação. Por favor, selecione uma opção:", [
+                { texto: "Ver Menu de Opções", acao: () => exibirMenuPersonalizado() }
+            ]);
+        }
+
+        sendBtn.addEventListener('click', () => processarTexto(userInput.value));
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') processarTexto(userInput.value);
+        });
+
+        document.addEventListener('DOMContentLoaded', carregarBases);
+    </script>
+</body>
+</html>
