@@ -130,9 +130,6 @@
             <div class="card p-5 relative">
                 <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Receita Bruta Total <span id="tt-macro-rec"></span></span>
-                    <span class="p-1.5 bg-blue-50 text-blue-600 rounded-md">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </span>
                 </div>
                 <div id="exec-kpi-receita" class="text-2xl font-bold font-mono text-slate-900">R$ 0,00</div>
                 <div id="exec-kpi-pedidos" class="text-xs text-slate-500 mt-1">Carregando volume...</div>
@@ -141,9 +138,6 @@
             <div class="card p-5 relative">
                 <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Margem Contribuição <span id="tt-macro-margem"></span></span>
-                    <span class="p-1.5 bg-emerald-50 text-emerald-600 rounded-md">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    </span>
                 </div>
                 <div id="exec-kpi-margem" class="text-2xl font-bold font-mono text-emerald-600">R$ 0,00</div>
                 <div id="exec-kpi-margem-pct" class="text-xs text-slate-500 mt-1">Margem operacional real</div>
@@ -152,9 +146,6 @@
             <div class="card p-5 relative">
                 <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Recuperação EBITDA <span id="tt-macro-ebitda"></span></span>
-                    <span class="p-1.5 bg-purple-50 text-purple-600 rounded-md">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    </span>
                 </div>
                 <div id="exec-kpi-ebitda" class="text-2xl font-bold font-mono text-purple-700">R$ 754,8k</div>
                 <div class="text-xs text-slate-500 mt-1">Soma dos savings prioritários</div>
@@ -163,9 +154,6 @@
             <div class="card p-5 relative">
                 <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Payback Estimado <span id="tt-macro-payback"></span></span>
-                    <span class="p-1.5 bg-amber-50 text-amber-600 rounded-md">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </span>
                 </div>
                 <div id="exec-kpi-payback" class="text-2xl font-bold font-mono text-amber-600">2,6 meses</div>
                 <div class="text-xs text-slate-500 mt-1">Retorno rápido sobre capital</div>
@@ -1511,41 +1499,227 @@
             document.getElementById('exec-kpi-ebitda').textContent = formatBRL(kpiImpacto.recuperacao_ebitda);
             document.getElementById('exec-kpi-payback').textContent = `${(kpiImpacto.payback_meses || 2.6).toFixed(1)} meses`;
 
-            // 2. Gráfico Temporal Principal
+            // 2. Gráfico Temporal Principal com Storytelling e Métricas Dinâmicas
             const ctxMain = document.getElementById('mainChart').getContext('2d');
             const periods = data.temporal[granularity] || [];
             const labelsMain = periods.map(d => d.periodo);
             const secondary = document.getElementById('secondary_toggle').value;
 
-            let mainDatasets = [
-                {
-                    type: 'line',
-                    label: 'Margem de Contribuição',
-                    data: periods.map(d => d.margem_contribuicao),
-                    borderColor: '#10b981',
-                    backgroundColor: '#10b981',
-                    borderWidth: 2.5,
-                    tension: 0.3,
-                    pointRadius: 4,
-                    order: 1
+            const storytellingMap = {
+                margem: {
+                    title: "O crescimento da receita está se convertendo em maior margem de contribuição?",
+                    subtitle: "Comparativo temporal entre receita faturada e a margem operacional retida."
                 },
-                {
-                    type: 'bar',
-                    label: 'Receita Bruta Total',
-                    data: periods.map(d => d.receita_bruta),
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 4,
-                    order: 2
+                receita_liquida_perdida: {
+                    title: "Quanto da nossa margem está sendo consumida por devoluções e frete reverso?",
+                    subtitle: "Diagnóstico da perda direta em trocas e custos logísticos de devolução."
+                },
+                ticket: {
+                    title: "A receita tem sido alavancada por volume de pedidos ou aumento do ticket médio?",
+                    subtitle: "Evolução do valor médio por compra frente ao faturamento bruto."
+                },
+                cac_roas: {
+                    title: "A aquisição de clientes em mídia paga opera com ROAS sustentável frente ao CAC?",
+                    subtitle: "Eficiência de investimento publicitário em canais digitais."
+                },
+                volume_csat: {
+                    title: "O aumento no volume de chamados de suporte está degradando a satisfação (CSAT)?",
+                    subtitle: "Monitoramento de fricção pós-venda e percepção de qualidade do cliente."
                 }
-            ];
+            };
 
+            const st = storytellingMap[secondary] || storytellingMap.margem;
+            document.getElementById('main-chart-title').textContent = st.title;
+            document.getElementById('main-chart-subtitle').textContent = st.subtitle;
+
+            let mainDatasets = [];
+            let mainScales = {};
+
+            if (secondary === 'cac_roas') {
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'ROAS',
+                        data: periods.map(d => d.roas || 0),
+                        borderColor: '#10b981',
+                        backgroundColor: '#10b981',
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y_roas',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'CAC (R$)',
+                        data: periods.map(d => d.cac || 0),
+                        backgroundColor: '#ef4444',
+                        borderRadius: 4,
+                        yAxisID: 'y_cac',
+                        order: 2
+                    }
+                ];
+                mainScales = {
+                    y_cac: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'CAC Médio' },
+                        ticks: { callback: (v) => formatBRL(v) }
+                    },
+                    y_roas: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'ROAS' },
+                        ticks: { callback: (v) => (v || 0).toFixed(1) + 'x' }
+                    }
+                };
+            } else if (secondary === 'volume_csat') {
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'Nota CSAT Média',
+                        data: periods.map(d => d.csat_medio || 0),
+                        borderColor: '#f59e0b',
+                        backgroundColor: '#f59e0b',
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y_csat',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Volume de Tickets',
+                        data: periods.map(d => d.volume_tickets || 0),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 4,
+                        yAxisID: 'y_vol',
+                        order: 2
+                    }
+                ];
+                mainScales = {
+                    y_vol: {
+                        type: 'linear',
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'Qtd. Chamados' },
+                        ticks: { callback: (v) => formatNum(v) }
+                    },
+                    y_csat: {
+                        type: 'linear',
+                        min: 0,
+                        max: 5,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'CSAT (1 a 5)' },
+                        ticks: { callback: (v) => (v || 0).toFixed(1) }
+                    }
+                };
+            } else if (secondary === 'receita_liquida_perdida') {
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: 'Receita Perdida (Devoluções + Frete Reverso)',
+                        data: periods.map(d => d.receita_perdida || 0),
+                        borderColor: '#ef4444',
+                        backgroundColor: '#ef4444',
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: 'y',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Margem de Contribuição',
+                        data: periods.map(d => d.margem_contribuicao || 0),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                        order: 2
+                    }
+                ];
+                mainScales = {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: (v) => formatBRL(v) }
+                    }
+                };
+            } else {
+                const cfg = {
+                    margem: ['Margem de Contribuição', periods.map(d => d.margem_contribuicao), '#10b981'],
+                    ticket: ['Ticket Médio', periods.map(d => d.ticket_medio), '#f59e0b']
+                }[secondary] || ['Margem de Contribuição', periods.map(d => d.margem_contribuicao), '#10b981'];
+
+                mainDatasets = [
+                    {
+                        type: 'line',
+                        label: cfg[0],
+                        data: cfg[1],
+                        borderColor: cfg[2],
+                        backgroundColor: cfg[2],
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        yAxisID: secondary === 'ticket' ? 'y_line' : 'y',
+                        order: 1
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Receita Bruta Total',
+                        data: periods.map(d => d.receita_bruta),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                        order: 2
+                    }
+                ];
+
+                mainScales = {
+                    y: {
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'Faturamento Bruto' },
+                        ticks: { callback: (v) => formatBRL(v) }
+                    }
+                };
+
+                if (secondary === 'ticket') {
+                    mainScales.y_line = {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'Ticket Médio' },
+                        ticks: { callback: (v) => formatBRL(v) }
+                    };
+                }
+            }
+
+            if (charts.main) charts.main.destroy();
             charts.main = new Chart(ctxMain, {
                 type: 'bar',
                 data: { labels: labelsMain, datasets: mainDatasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { callback: (v) => formatBRL(v) } } }
+                    scales: mainScales,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const l = context.dataset.label || '';
+                                    const v = context.parsed.y;
+                                    if (context.dataset.yAxisID === 'y_roas') return `${l}: ${(v || 0).toFixed(2)}x`;
+                                    if (context.dataset.yAxisID === 'y_csat') return `${l}: ${(v || 0).toFixed(2)} ★`;
+                                    if (context.dataset.yAxisID === 'y_vol') return `${l}: ${formatNum(v)} chamados`;
+                                    return `${l}: ${formatBRL(v)}`;
+                                }
+                            }
+                        }
+                    }
                 }
             });
 
