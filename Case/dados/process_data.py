@@ -4,9 +4,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+# Resolução de caminhos a partir da pasta 'dados/'
 BASE_DIR = Path(__file__).resolve().parent
 DATA_ROOT = BASE_DIR.parent / "data"
-OUTPUT_PATH = BASE_DIR / "dashboard_data.json"
+OUTPUT_PATH = BASE_DIR / "process_data.json"
 CUTOFF = pd.Timestamp("2024-01-26 23:59:59")
 
 
@@ -425,6 +426,7 @@ def build_mode(data):
         "vendas_encerradas_em": "2024-01-26",
     }
 
+
 def build_periodic_reports(data):
     vendas = data["vendas"][data["vendas"]["data_pedido"] <= CUTOFF].copy()
     marketing = data["marketing"][data["marketing"]["data_inicio"] <= CUTOFF].copy()
@@ -587,6 +589,7 @@ def process_data():
     }
     with OUTPUT_PATH.open("w", encoding="utf-8") as output:
         json.dump(dashboard_data, output, ensure_ascii=False, indent=2, allow_nan=False)
+    print(f"[OK] Arquivo gerado com sucesso em: {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
