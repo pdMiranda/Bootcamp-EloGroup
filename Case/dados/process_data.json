@@ -1,6 +1,6 @@
 {
   "meta": {
-    "atualizado_em": "2026-09-16T11:32:07.116770",
+    "atualizado_em": "2026-09-16T12:01:44.007871",
     "fonte": "CSV + Pandas"
   },
   "modo_integrado": {
@@ -91,7 +91,7 @@
       },
       "marketing": {
         "cac_ponderado": 1.807874049601738,
-        "roas_consolidado": 4.185111374423054,
+        "roas_consolidado": 0.2399889026172718,
         "conversoes_totais": 41761440
       },
       "clientes": {
@@ -1523,113 +1523,127 @@
     "canais": [
       {
         "canal": "Email Marketing",
-        "receita": 1891602.25,
-        "receita_bruta": 2038419.06,
-        "margem_vendas": 1051674.36,
-        "pedidos": 2812,
-        "pedidos_unico": 450,
+        "receita": 1653627.28,
+        "receita_bruta": 1780192.27,
+        "receita_liquida": 1653627.28,
+        "margem_vendas": 918579.95,
+        "margem_contribuicao": 918579.95,
+        "pedidos": 2464,
+        "pedidos_unico": 392,
         "investimento": 10641798.93,
         "conversoes_ads": 6144888,
         "receita_ads": 33194375.32,
-        "margem_liquida_real": 22552576.39,
-        "roi_margem": 2.12,
-        "roas": 3.12,
+        "margem_liquida_real": 1653627.28,
+        "roi_margem": 0.09,
+        "roas": 0.17,
         "cac": 1.73,
         "pct_item_unico": 0.16
       },
       {
         "canal": "Google Ads",
-        "receita": 3642784.4,
-        "receita_bruta": 3979241.06,
-        "margem_vendas": 1997771.23,
-        "pedidos": 5505,
-        "pedidos_unico": 869,
+        "receita": 3226402.62,
+        "receita_bruta": 3526030.36,
+        "receita_liquida": 3226402.62,
+        "margem_vendas": 1769101.86,
+        "margem_contribuicao": 1769101.86,
+        "pedidos": 4852,
+        "pedidos_unico": 750,
         "investimento": 10024350.16,
         "conversoes_ads": 6299587,
         "receita_ads": 35008331.8,
-        "margem_liquida_real": 24983981.64,
-        "roi_margem": 2.49,
-        "roas": 3.49,
+        "margem_liquida_real": 3226402.62,
+        "roi_margem": 0.18,
+        "roas": 0.35,
         "cac": 1.59,
-        "pct_item_unico": 0.16
+        "pct_item_unico": 0.15
       },
       {
         "canal": "Influenciador",
-        "receita": 2064752.77,
-        "receita_bruta": 2250914.31,
-        "margem_vendas": 1147084.67,
-        "pedidos": 2263,
-        "pedidos_unico": 364,
+        "receita": 1809237.55,
+        "receita_bruta": 1976449.78,
+        "receita_liquida": 1809237.55,
+        "margem_vendas": 1002647.15,
+        "margem_contribuicao": 1002647.15,
+        "pedidos": 2006,
+        "pedidos_unico": 319,
         "investimento": 10726721.25,
         "conversoes_ads": 5875246,
         "receita_ads": 80628349.18,
-        "margem_liquida_real": 69901627.93,
-        "roi_margem": 6.52,
-        "roas": 7.52,
+        "margem_liquida_real": 1809237.55,
+        "roi_margem": 0.09,
+        "roas": 0.18,
         "cac": 1.83,
         "pct_item_unico": 0.16
       },
       {
         "canal": "Instagram Ads",
-        "receita": 3270791.31,
-        "receita_bruta": 3555245.17,
-        "margem_vendas": 1800228.35,
-        "pedidos": 4965,
-        "pedidos_unico": 817,
+        "receita": 2891577.19,
+        "receita_bruta": 3149144.47,
+        "receita_liquida": 2891577.19,
+        "margem_vendas": 1587840.94,
+        "margem_contribuicao": 1587840.94,
+        "pedidos": 4385,
+        "pedidos_unico": 690,
         "investimento": 11307575.29,
         "conversoes_ads": 5604411,
         "receita_ads": 51328831.35,
-        "margem_liquida_real": 40021256.06,
-        "roi_margem": 3.54,
-        "roas": 4.54,
+        "margem_liquida_real": 2891577.19,
+        "roi_margem": 0.14,
+        "roas": 0.28,
         "cac": 2.02,
         "pct_item_unico": 0.16
       },
       {
         "canal": "Marketplace",
-        "receita": 3986568.87,
-        "receita_bruta": 4320195.69,
-        "margem_vendas": 2050034.23,
-        "pedidos": 6040,
-        "pedidos_unico": 1015,
+        "receita": 3527694.64,
+        "receita_bruta": 3818826.99,
+        "receita_liquida": 3527694.64,
+        "margem_vendas": 1816773.02,
+        "margem_contribuicao": 1816773.02,
+        "pedidos": 5315,
+        "pedidos_unico": 884,
         "investimento": 11742454.87,
         "conversoes_ads": 6307594,
         "receita_ads": 34082587.98,
-        "margem_liquida_real": 22340133.11,
-        "roi_margem": 1.9,
-        "roas": 2.9,
+        "margem_liquida_real": 3527694.64,
+        "roi_margem": 0.15,
+        "roas": 0.33,
         "cac": 1.86,
         "pct_item_unico": 0.17
       },
       {
         "canal": "Orgânico",
-        "receita": 2137746.01,
-        "receita_bruta": 2316434.49,
-        "margem_vendas": 1179151.85,
-        "pedidos": 3246,
-        "pedidos_unico": 578,
+        "receita": 1897091.66,
+        "receita_bruta": 2055058.89,
+        "receita_liquida": 1897091.66,
+        "margem_vendas": 1045512.45,
+        "margem_contribuicao": 1045512.45,
+        "pedidos": 2864,
+        "pedidos_unico": 513,
         "investimento": 10839487.16,
         "conversoes_ads": 5802402,
         "receita_ads": 34235014.87,
-        "margem_liquida_real": 23395527.71,
-        "roi_margem": 2.16,
-        "roas": 3.16,
+        "margem_liquida_real": 1897091.66,
+        "roi_margem": 0.1,
+        "roas": 0.19,
         "cac": 1.87,
         "pct_item_unico": 0.18
       },
       {
         "canal": "TikTok Ads",
-        "receita": 1895088.4,
-        "receita_bruta": 2065684.06,
-        "margem_vendas": 1044491.96,
-        "pedidos": 2928,
-        "pedidos_unico": 507,
+        "receita": 1663325.55,
+        "receita_bruta": 1813321.07,
+        "receita_liquida": 1663325.55,
+        "margem_vendas": 917972.18,
+        "margem_contribuicao": 917972.18,
+        "pedidos": 2568,
+        "pedidos_unico": 445,
         "investimento": 10217035.99,
         "conversoes_ads": 5727312,
         "receita_ads": 47496006.18,
-        "margem_liquida_real": 37278970.19,
-        "roi_margem": 3.65,
-        "roas": 4.65,
+        "margem_liquida_real": 1663325.55,
+        "roi_margem": 0.09,
+        "roas": 0.18,
         "cac": 1.78,
         "pct_item_unico": 0.17
       }
@@ -1683,164 +1697,178 @@
     "canais_rfm": [
       {
         "canal": "Email Marketing",
-        "receita": 1891602.25,
-        "receita_bruta": 2038419.06,
-        "margem_vendas": 1051674.36,
-        "pedidos": 2812,
-        "pedidos_unico": 450,
-        "clientes_totais": 118,
+        "receita": 1653627.28,
+        "receita_bruta": 1780192.27,
+        "receita_liquida": 1653627.28,
+        "margem_vendas": 918579.95,
+        "margem_contribuicao": 918579.95,
+        "pedidos": 2464,
+        "pedidos_unico": 392,
+        "clientes_totais": 111,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 724.900092460882,
-        "Campeão": 8,
+        "ticket_medio": 722.48,
+        "Campeão": 7,
         "Churn": 5,
-        "Em Risco": 32,
+        "Em Risco": 29,
         "Fiel": 18,
-        "Hibernando": 16,
-        "Promissor": 39,
+        "Hibernando": 15,
+        "Promissor": 37,
         "investimento": 10641798.93,
         "conversoes_ads": 6144888,
         "receita_ads": 33194375.32,
-        "margem_liquida_real": 22552576.39,
-        "roi_margem": 2.1192447384457394,
-        "pct_item_unico": 0.1600284495021337
+        "margem_liquida_real": 1653627.28,
+        "roi_margem": 0.09,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Google Ads",
-        "receita": 3642784.4,
-        "receita_bruta": 3979241.06,
-        "margem_vendas": 1997771.23,
-        "pedidos": 5505,
-        "pedidos_unico": 869,
-        "clientes_totais": 161,
+        "receita": 3226402.62,
+        "receita_bruta": 3526030.36,
+        "receita_liquida": 3226402.62,
+        "margem_vendas": 1769101.86,
+        "margem_contribuicao": 1769101.86,
+        "pedidos": 4852,
+        "pedidos_unico": 750,
+        "clientes_totais": 156,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 722.8412461398729,
+        "ticket_medio": 726.72,
         "Campeão": 13,
         "Churn": 14,
-        "Em Risco": 45,
-        "Fiel": 24,
+        "Em Risco": 44,
+        "Fiel": 22,
         "Hibernando": 17,
-        "Promissor": 48,
+        "Promissor": 46,
         "investimento": 10024350.16,
         "conversoes_ads": 6299587,
         "receita_ads": 35008331.8,
-        "margem_liquida_real": 24983981.639999997,
-        "roi_margem": 2.492329302271699,
-        "pct_item_unico": 0.1578564940962761
+        "margem_liquida_real": 3226402.62,
+        "roi_margem": 0.18,
+        "pct_item_unico": 0.15
       },
       {
         "canal": "Influenciador",
-        "receita": 2064752.77,
-        "receita_bruta": 2250914.31,
-        "margem_vendas": 1147084.67,
-        "pedidos": 2263,
-        "pedidos_unico": 364,
-        "clientes_totais": 94,
+        "receita": 1809237.55,
+        "receita_bruta": 1976449.78,
+        "receita_liquida": 1809237.55,
+        "margem_vendas": 1002647.15,
+        "margem_contribuicao": 1002647.15,
+        "pedidos": 2006,
+        "pedidos_unico": 319,
+        "clientes_totais": 91,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 994.6594387980557,
+        "ticket_medio": 985.27,
         "Campeão": 9,
         "Churn": 8,
         "Em Risco": 19,
-        "Fiel": 16,
+        "Fiel": 15,
         "Hibernando": 11,
-        "Promissor": 31,
+        "Promissor": 29,
         "investimento": 10726721.25,
         "conversoes_ads": 5875246,
-        "receita_ads": 80628349.17999999,
-        "margem_liquida_real": 69901627.92999999,
-        "roi_margem": 6.516588461735219,
-        "pct_item_unico": 0.16084843128590368
+        "receita_ads": 80628349.18,
+        "margem_liquida_real": 1809237.55,
+        "roi_margem": 0.09,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Instagram Ads",
-        "receita": 3270791.31,
-        "receita_bruta": 3555245.17,
-        "margem_vendas": 1800228.35,
-        "pedidos": 4965,
-        "pedidos_unico": 817,
-        "clientes_totais": 162,
+        "receita": 2891577.19,
+        "receita_bruta": 3149144.47,
+        "receita_liquida": 2891577.19,
+        "margem_vendas": 1587840.94,
+        "margem_contribuicao": 1587840.94,
+        "pedidos": 4385,
+        "pedidos_unico": 690,
+        "clientes_totais": 154,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 716.0614642497483,
-        "Campeão": 17,
-        "Churn": 13,
-        "Em Risco": 33,
-        "Fiel": 24,
-        "Hibernando": 19,
-        "Promissor": 56,
+        "ticket_medio": 718.16,
+        "Campeão": 16,
+        "Churn": 12,
+        "Em Risco": 30,
+        "Fiel": 23,
+        "Hibernando": 18,
+        "Promissor": 55,
         "investimento": 11307575.29,
         "conversoes_ads": 5604411,
         "receita_ads": 51328831.35,
-        "margem_liquida_real": 40021256.06,
-        "roi_margem": 3.5393313803882713,
-        "pct_item_unico": 0.16455186304128902
+        "margem_liquida_real": 2891577.19,
+        "roi_margem": 0.14,
+        "pct_item_unico": 0.16
       },
       {
         "canal": "Marketplace",
-        "receita": 3986568.87,
-        "receita_bruta": 4320195.69,
-        "margem_vendas": 2050034.23,
-        "pedidos": 6040,
-        "pedidos_unico": 1015,
-        "clientes_totais": 170,
+        "receita": 3527694.64,
+        "receita_bruta": 3818826.99,
+        "receita_liquida": 3527694.64,
+        "margem_vendas": 1816773.02,
+        "margem_contribuicao": 1816773.02,
+        "pedidos": 5315,
+        "pedidos_unico": 884,
+        "clientes_totais": 156,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 715.2641870860928,
+        "ticket_medio": 718.5,
         "Campeão": 15,
-        "Churn": 12,
-        "Em Risco": 42,
-        "Fiel": 31,
-        "Hibernando": 20,
-        "Promissor": 50,
+        "Churn": 10,
+        "Em Risco": 35,
+        "Fiel": 30,
+        "Hibernando": 18,
+        "Promissor": 48,
         "investimento": 11742454.87,
         "conversoes_ads": 6307594,
         "receita_ads": 34082587.98,
-        "margem_liquida_real": 22340133.11,
-        "roi_margem": 1.9025095993407042,
-        "pct_item_unico": 0.16804635761589404
+        "margem_liquida_real": 3527694.64,
+        "roi_margem": 0.15,
+        "pct_item_unico": 0.17
       },
       {
         "canal": "Orgânico",
-        "receita": 2137746.01,
-        "receita_bruta": 2316434.49,
-        "margem_vendas": 1179151.85,
-        "pedidos": 3246,
-        "pedidos_unico": 578,
-        "clientes_totais": 129,
+        "receita": 1897091.66,
+        "receita_bruta": 2055058.89,
+        "receita_liquida": 1897091.66,
+        "margem_vendas": 1045512.45,
+        "margem_contribuicao": 1045512.45,
+        "pedidos": 2864,
+        "pedidos_unico": 513,
+        "clientes_totais": 121,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 713.6273844731978,
-        "Campeão": 11,
+        "ticket_medio": 717.55,
+        "Campeão": 10,
         "Churn": 12,
-        "Em Risco": 31,
-        "Fiel": 23,
+        "Em Risco": 27,
+        "Fiel": 22,
         "Hibernando": 15,
-        "Promissor": 37,
+        "Promissor": 35,
         "investimento": 10839487.16,
         "conversoes_ads": 5802402,
         "receita_ads": 34235014.87,
-        "margem_liquida_real": 23395527.709999997,
-        "roi_margem": 2.1583611258228563,
-        "pct_item_unico": 0.1780653111521873
+        "margem_liquida_real": 1897091.66,
+        "roi_margem": 0.1,
+        "pct_item_unico": 0.18
       },
       {
         "canal": "TikTok Ads",
-        "receita": 1895088.4,
-        "receita_bruta": 2065684.06,
-        "margem_vendas": 1044491.96,
-        "pedidos": 2928,
-        "pedidos_unico": 507,
-        "clientes_totais": 112,
+        "receita": 1663325.55,
+        "receita_bruta": 1813321.07,
+        "receita_liquida": 1663325.55,
+        "margem_vendas": 917972.18,
+        "margem_contribuicao": 917972.18,
+        "pedidos": 2568,
+        "pedidos_unico": 445,
+        "clientes_totais": 104,
         "segmento_predominante": "Promissor",
-        "ticket_medio": 705.4931898907104,
+        "ticket_medio": 706.12,
         "Campeão": 13,
         "Churn": 8,
-        "Em Risco": 26,
-        "Fiel": 18,
+        "Em Risco": 23,
+        "Fiel": 13,
         "Hibernando": 13,
         "Promissor": 34,
         "investimento": 10217035.99,
         "conversoes_ads": 5727312,
         "receita_ads": 47496006.18,
-        "margem_liquida_real": 37278970.19,
-        "roi_margem": 3.648706946563276,
-        "pct_item_unico": 0.17315573770491804
+        "margem_liquida_real": 1663325.55,
+        "roi_margem": 0.09,
+        "pct_item_unico": 0.17
       }
     ],
     "saude_categorias": [
@@ -56497,65 +56525,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 102476.39,
+              "receita_bruta": 91193.05,
               "investimento": 909257.01,
               "receita_ads": 2841582.93,
               "conversoes": 508055,
-              "roas": 3.13,
+              "roas": 0.1,
               "cac": 1.79
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 198166.97,
+              "receita_bruta": 178597.5,
               "investimento": 1310793.27,
               "receita_ads": 4558058.96,
               "conversoes": 1082927,
-              "roas": 3.48,
+              "roas": 0.14,
               "cac": 1.21
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 107465.09,
+              "receita_bruta": 89592.91,
               "investimento": 984021.01,
               "receita_ads": 8898590.47,
               "conversoes": 879197,
-              "roas": 9.04,
+              "roas": 0.09,
               "cac": 1.12
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 173153.51,
+              "receita_bruta": 155721.85,
               "investimento": 725066.21,
               "receita_ads": 2908076.41,
               "conversoes": 283872,
-              "roas": 4.01,
+              "roas": 0.21,
               "cac": 2.55
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 206092.45,
+              "receita_bruta": 183188.54,
               "investimento": 545436.65,
               "receita_ads": 1583635.16,
               "conversoes": 302534,
-              "roas": 2.9,
+              "roas": 0.34,
               "cac": 1.8
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 120363.67,
+              "receita_bruta": 105887.72,
               "investimento": 1170198.56,
               "receita_ads": 3911180.03,
               "conversoes": 405177,
-              "roas": 3.34,
+              "roas": 0.09,
               "cac": 2.89
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 101858.13,
+              "receita_bruta": 89740.19,
               "investimento": 798935.65,
               "receita_ads": 3699969.4,
               "conversoes": 572179,
-              "roas": 4.63,
+              "roas": 0.11,
               "cac": 1.4
             }
           ],
@@ -56750,65 +56778,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 107942.7,
+              "receita_bruta": 96619.15,
               "investimento": 955041.84,
               "receita_ads": 3193591.9,
               "conversoes": 470212,
-              "roas": 3.34,
+              "roas": 0.1,
               "cac": 2.03
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 189644.67,
+              "receita_bruta": 167778.81,
               "investimento": 666588.63,
               "receita_ads": 2253455.81,
               "conversoes": 441538,
-              "roas": 3.38,
+              "roas": 0.25,
               "cac": 1.51
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 110738.19,
+              "receita_bruta": 98511.57,
               "investimento": 640526.1,
               "receita_ads": 4069704.87,
               "conversoes": 220342,
-              "roas": 6.35,
+              "roas": 0.15,
               "cac": 2.91
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 193925.58,
+              "receita_bruta": 169687.34,
               "investimento": 1045874.39,
               "receita_ads": 4826286.18,
               "conversoes": 761376,
-              "roas": 4.61,
+              "roas": 0.16,
               "cac": 1.37
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 185681.85,
+              "receita_bruta": 165641.61,
               "investimento": 799853.36,
               "receita_ads": 1794328.92,
               "conversoes": 364758,
-              "roas": 2.24,
+              "roas": 0.21,
               "cac": 2.19
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 109040.89,
+              "receita_bruta": 96934.37,
               "investimento": 902183.47,
               "receita_ads": 3161330.93,
               "conversoes": 417173,
-              "roas": 3.5,
+              "roas": 0.11,
               "cac": 2.16
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 90750.66,
+              "receita_bruta": 82926.91,
               "investimento": 709392.02,
               "receita_ads": 3455986.07,
               "conversoes": 217568,
-              "roas": 4.87,
+              "roas": 0.12,
               "cac": 3.26
             }
           ],
@@ -57003,65 +57031,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 234100.76,
+              "receita_bruta": 209394.28,
               "investimento": 993642.99,
               "receita_ads": 3336465.74,
               "conversoes": 431924,
-              "roas": 3.36,
+              "roas": 0.21,
               "cac": 2.3
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 473620.34,
+              "receita_bruta": 416133.78,
               "investimento": 574456.9,
               "receita_ads": 2040466.82,
               "conversoes": 305745,
-              "roas": 3.55,
+              "roas": 0.72,
               "cac": 1.88
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 298973.49,
+              "receita_bruta": 255025.92,
               "investimento": 433279.59,
               "receita_ads": 4365884.44,
               "conversoes": 270448,
-              "roas": 10.08,
+              "roas": 0.59,
               "cac": 1.6
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 389800.62,
+              "receita_bruta": 340345.09,
               "investimento": 905946.7,
               "receita_ads": 3551352.86,
               "conversoes": 329045,
-              "roas": 3.92,
+              "roas": 0.38,
               "cac": 2.75
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 504556.32,
+              "receita_bruta": 451793.97,
               "investimento": 1154502.54,
               "receita_ads": 3740263.78,
               "conversoes": 579322,
-              "roas": 3.24,
+              "roas": 0.39,
               "cac": 1.99
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 307528.6,
+              "receita_bruta": 270405.61,
               "investimento": 571301.59,
               "receita_ads": 1426583.9,
               "conversoes": 205644,
-              "roas": 2.5,
+              "roas": 0.47,
               "cac": 2.78
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 227062.92,
+              "receita_bruta": 195159.8,
               "investimento": 1122945.06,
               "receita_ads": 5954059.0,
               "conversoes": 590128,
-              "roas": 5.3,
+              "roas": 0.17,
               "cac": 1.9
             }
           ],
@@ -57256,65 +57284,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 121417.04,
+              "receita_bruta": 110335.34,
               "investimento": 918166.06,
               "receita_ads": 2714554.59,
               "conversoes": 644159,
-              "roas": 2.96,
+              "roas": 0.12,
               "cac": 1.43
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 227515.72,
+              "receita_bruta": 197038.3,
               "investimento": 435305.39,
               "receita_ads": 1525722.71,
               "conversoes": 281183,
-              "roas": 3.5,
+              "roas": 0.45,
               "cac": 1.55
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 135024.03,
+              "receita_bruta": 116964.37,
               "investimento": 779882.95,
               "receita_ads": 6858282.1,
               "conversoes": 342946,
-              "roas": 8.79,
+              "roas": 0.15,
               "cac": 2.27
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 206178.78,
+              "receita_bruta": 182465.33,
               "investimento": 625507.99,
               "receita_ads": 2728982.27,
               "conversoes": 339649,
-              "roas": 4.36,
+              "roas": 0.29,
               "cac": 1.84
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 266223.07,
+              "receita_bruta": 230648.87,
               "investimento": 693972.93,
               "receita_ads": 1670849.29,
               "conversoes": 363520,
-              "roas": 2.41,
+              "roas": 0.33,
               "cac": 1.91
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 128910.34,
+              "receita_bruta": 112494.99,
               "investimento": 333979.99,
               "receita_ads": 1037509.56,
               "conversoes": 176240,
-              "roas": 3.11,
+              "roas": 0.34,
               "cac": 1.9
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 104259.0,
+              "receita_bruta": 86615.64,
               "investimento": 777521.08,
               "receita_ads": 3532102.79,
               "conversoes": 420196,
-              "roas": 4.54,
+              "roas": 0.11,
               "cac": 1.85
             }
           ],
@@ -57509,65 +57537,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 251787.7,
+              "receita_bruta": 215986.18,
               "investimento": 575938.45,
               "receita_ads": 2215686.72,
               "conversoes": 295074,
-              "roas": 3.85,
+              "roas": 0.38,
               "cac": 1.95
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 507345.73,
+              "receita_bruta": 455294.27,
               "investimento": 517060.0,
               "receita_ads": 1845287.6,
               "conversoes": 288752,
-              "roas": 3.57,
+              "roas": 0.88,
               "cac": 1.79
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 275989.99,
+              "receita_bruta": 244777.2,
               "investimento": 993075.06,
               "receita_ads": 8266174.67,
               "conversoes": 481524,
-              "roas": 8.32,
+              "roas": 0.25,
               "cac": 2.06
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 453685.31,
+              "receita_bruta": 409595.5,
               "investimento": 1071567.3,
               "receita_ads": 4755683.1,
               "conversoes": 580853,
-              "roas": 4.44,
+              "roas": 0.38,
               "cac": 1.84
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 566078.39,
+              "receita_bruta": 501724.67,
               "investimento": 1000413.32,
               "receita_ads": 2810424.46,
               "conversoes": 530673,
-              "roas": 2.81,
+              "roas": 0.5,
               "cac": 1.89
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 276085.69,
+              "receita_bruta": 243636.21,
               "investimento": 437713.52,
               "receita_ads": 1057125.12,
               "conversoes": 327080,
-              "roas": 2.42,
+              "roas": 0.56,
               "cac": 1.34
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 253993.73,
+              "receita_bruta": 227453.69,
               "investimento": 957786.79,
               "receita_ads": 4644892.46,
               "conversoes": 652558,
-              "roas": 4.85,
+              "roas": 0.24,
               "cac": 1.47
             }
           ],
@@ -57762,65 +57790,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 104095.77,
+              "receita_bruta": 92628.01,
               "investimento": 529643.16,
               "receita_ads": 1827087.98,
               "conversoes": 206394,
-              "roas": 3.45,
+              "roas": 0.17,
               "cac": 2.57
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 219552.56,
+              "receita_bruta": 189533.43,
               "investimento": 756687.18,
               "receita_ads": 2780719.8,
               "conversoes": 615077,
-              "roas": 3.67,
+              "roas": 0.25,
               "cac": 1.23
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 117283.43,
+              "receita_bruta": 108076.04,
               "investimento": 676185.69,
               "receita_ads": 3519351.29,
               "conversoes": 170662,
-              "roas": 5.2,
+              "roas": 0.16,
               "cac": 3.96
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 218259.94,
+              "receita_bruta": 191627.73,
               "investimento": 658789.42,
               "receita_ads": 3255526.85,
               "conversoes": 311837,
-              "roas": 4.94,
+              "roas": 0.29,
               "cac": 2.11
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 247385.38,
+              "receita_bruta": 213218.14,
               "investimento": 868197.59,
               "receita_ads": 2748721.41,
               "conversoes": 379492,
-              "roas": 3.17,
+              "roas": 0.25,
               "cac": 2.29
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 114923.42,
+              "receita_bruta": 101365.35,
               "investimento": 845873.29,
               "receita_ads": 2523631.04,
               "conversoes": 421076,
-              "roas": 2.98,
+              "roas": 0.12,
               "cac": 2.01
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 128596.4,
+              "receita_bruta": 113868.34,
               "investimento": 792213.41,
               "receita_ads": 3925101.09,
               "conversoes": 365648,
-              "roas": 4.95,
+              "roas": 0.14,
               "cac": 2.17
             }
           ],
@@ -58015,65 +58043,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 125817.35,
+              "receita_bruta": 106818.63,
               "investimento": 963629.28,
               "receita_ads": 2772605.81,
               "conversoes": 660500,
-              "roas": 2.88,
+              "roas": 0.11,
               "cac": 1.46
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 229845.0,
+              "receita_bruta": 201631.05,
               "investimento": 1096207.44,
               "receita_ads": 3916389.44,
               "conversoes": 488274,
-              "roas": 3.57,
+              "roas": 0.18,
               "cac": 2.25
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 118499.91,
+              "receita_bruta": 101667.14,
               "investimento": 697224.02,
               "receita_ads": 4776813.84,
               "conversoes": 501382,
-              "roas": 6.85,
+              "roas": 0.15,
               "cac": 1.39
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 190721.14,
+              "receita_bruta": 168060.91,
               "investimento": 822963.71,
               "receita_ads": 3768326.79,
               "conversoes": 320957,
-              "roas": 4.58,
+              "roas": 0.2,
               "cac": 2.56
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 248759.6,
+              "receita_bruta": 215992.62,
               "investimento": 506551.89,
               "receita_ads": 1489285.8,
               "conversoes": 170706,
-              "roas": 2.94,
+              "roas": 0.43,
               "cac": 2.97
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 125974.65,
+              "receita_bruta": 110392.9,
               "investimento": 1159175.92,
               "receita_ads": 3791589.71,
               "conversoes": 735682,
-              "roas": 3.27,
+              "roas": 0.1,
               "cac": 1.58
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 112041.86,
+              "receita_bruta": 93302.25,
               "investimento": 554240.87,
               "receita_ads": 2160389.62,
               "conversoes": 273094,
-              "roas": 3.9,
+              "roas": 0.17,
               "cac": 2.03
             }
           ],
@@ -58268,65 +58296,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 119718.77,
+              "receita_bruta": 108445.45,
               "investimento": 1098279.19,
               "receita_ads": 3455700.75,
               "conversoes": 536559,
-              "roas": 3.15,
+              "roas": 0.1,
               "cac": 2.05
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 228053.22,
+              "receita_bruta": 204006.35,
               "investimento": 529794.86,
               "receita_ads": 1811032.01,
               "conversoes": 242539,
-              "roas": 3.42,
+              "roas": 0.39,
               "cac": 2.18
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 126523.26,
+              "receita_bruta": 117449.98,
               "investimento": 754213.11,
               "receita_ads": 7653928.08,
               "conversoes": 377403,
-              "roas": 10.15,
+              "roas": 0.16,
               "cac": 2.0
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 194236.56,
+              "receita_bruta": 177099.04,
               "investimento": 773128.07,
               "receita_ads": 3177667.79,
               "conversoes": 266701,
-              "roas": 4.11,
+              "roas": 0.23,
               "cac": 2.9
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 264647.05,
+              "receita_bruta": 235620.47,
               "investimento": 695158.46,
               "receita_ads": 2338337.7,
               "conversoes": 355698,
-              "roas": 3.36,
+              "roas": 0.34,
               "cac": 1.95
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 126505.2,
+              "receita_bruta": 115756.72,
               "investimento": 530828.79,
               "receita_ads": 1560996.57,
               "conversoes": 362980,
-              "roas": 2.94,
+              "roas": 0.22,
               "cac": 1.46
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 124577.18,
+              "receita_bruta": 110130.3,
               "investimento": 206841.8,
               "receita_ads": 1312820.66,
               "conversoes": 108541,
-              "roas": 6.35,
+              "roas": 0.53,
               "cac": 1.91
             }
           ],
@@ -58521,65 +58549,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 143121.49,
+              "receita_bruta": 127049.87,
               "investimento": 658422.03,
               "receita_ads": 2055372.75,
               "conversoes": 369436,
-              "roas": 3.12,
+              "roas": 0.19,
               "cac": 1.78
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 258274.78,
+              "receita_bruta": 228599.05,
               "investimento": 783849.57,
               "receita_ads": 2767040.65,
               "conversoes": 392704,
-              "roas": 3.53,
+              "roas": 0.29,
               "cac": 2.0
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 132224.32,
+              "receita_bruta": 114406.87,
               "investimento": 937434.78,
               "receita_ads": 4363596.19,
               "conversoes": 738969,
-              "roas": 4.65,
+              "roas": 0.12,
               "cac": 1.27
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 207108.71,
+              "receita_bruta": 187797.13,
               "investimento": 1023999.18,
               "receita_ads": 5022726.15,
               "conversoes": 581169,
-              "roas": 4.91,
+              "roas": 0.18,
               "cac": 1.76
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 240685.16,
+              "receita_bruta": 214849.44,
               "investimento": 836913.1,
               "receita_ads": 2877794.59,
               "conversoes": 520564,
-              "roas": 3.44,
+              "roas": 0.26,
               "cac": 1.61
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 155873.15,
+              "receita_bruta": 139603.51,
               "investimento": 1167136.93,
               "receita_ads": 3756934.22,
               "conversoes": 727805,
-              "roas": 3.22,
+              "roas": 0.12,
               "cac": 1.6
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 127831.78,
+              "receita_bruta": 109533.03,
               "investimento": 1098659.31,
               "receita_ads": 5663394.68,
               "conversoes": 652064,
-              "roas": 5.15,
+              "roas": 0.1,
               "cac": 1.68
             }
           ],
@@ -58774,65 +58802,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 143041.49,
+              "receita_bruta": 118178.41,
               "investimento": 351352.01,
               "receita_ads": 967764.13,
               "conversoes": 227206,
-              "roas": 2.75,
+              "roas": 0.34,
               "cac": 1.55
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 247824.1,
+              "receita_bruta": 218746.89,
               "investimento": 605014.04,
               "receita_ads": 2085534.86,
               "conversoes": 338615,
-              "roas": 3.45,
+              "roas": 0.36,
               "cac": 1.79
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 139261.37,
+              "receita_bruta": 123749.49,
               "investimento": 785441.19,
               "receita_ads": 5918148.84,
               "conversoes": 301148,
-              "roas": 7.53,
+              "roas": 0.16,
               "cac": 2.61
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 232504.97,
+              "receita_bruta": 203885.12,
               "investimento": 888025.84,
               "receita_ads": 4341376.47,
               "conversoes": 357248,
-              "roas": 4.89,
+              "roas": 0.23,
               "cac": 2.49
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 245941.41,
+              "receita_bruta": 216222.75,
               "investimento": 740487.48,
               "receita_ads": 2031828.5,
               "conversoes": 265725,
-              "roas": 2.74,
+              "roas": 0.29,
               "cac": 2.79
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 143376.5,
+              "receita_bruta": 126212.02,
               "investimento": 819783.06,
               "receita_ads": 3230639.16,
               "conversoes": 398503,
-              "roas": 3.94,
+              "roas": 0.15,
               "cac": 2.06
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 121735.32,
+              "receita_bruta": 107739.37,
               "investimento": 1003015.65,
               "receita_ads": 3687969.28,
               "conversoes": 620866,
-              "roas": 3.68,
+              "roas": 0.11,
               "cac": 1.62
             }
           ],
@@ -59027,65 +59055,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 277658.78,
+              "receita_bruta": 241211.2,
               "investimento": 504353.81,
               "receita_ads": 1644591.74,
               "conversoes": 408511,
-              "roas": 3.26,
+              "roas": 0.48,
               "cac": 1.23
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 593308.39,
+              "receita_bruta": 527200.26,
               "investimento": 784990.33,
               "receita_ads": 2652259.38,
               "conversoes": 583307,
-              "roas": 3.38,
+              "roas": 0.67,
               "cac": 1.35
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 333814.77,
+              "receita_bruta": 295917.95,
               "investimento": 1248902.7,
               "receita_ads": 9770245.2,
               "conversoes": 724899,
-              "roas": 7.82,
+              "roas": 0.24,
               "cac": 1.72
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 499505.48,
+              "receita_bruta": 445800.9,
               "investimento": 771310.66,
               "receita_ads": 3663960.82,
               "conversoes": 430934,
-              "roas": 4.75,
+              "roas": 0.58,
               "cac": 1.79
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 629709.62,
+              "receita_bruta": 553175.73,
               "investimento": 1501704.23,
               "receita_ads": 4554978.96,
               "conversoes": 858085,
-              "roas": 3.03,
+              "roas": 0.37,
               "cac": 1.75
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 339609.42,
+              "receita_bruta": 303350.0,
               "investimento": 959553.51,
               "receita_ads": 3060931.34,
               "conversoes": 505421,
-              "roas": 3.19,
+              "roas": 0.32,
               "cac": 1.9
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 326614.73,
+              "receita_bruta": 287277.19,
               "investimento": 924548.94,
               "receita_ads": 3779366.36,
               "conversoes": 434443,
-              "roas": 4.09,
+              "roas": 0.31,
               "cac": 2.13
             }
           ],
@@ -59280,65 +59308,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 222865.31,
+              "receita_bruta": 186789.04,
               "investimento": 967702.66,
               "receita_ads": 2630931.44,
               "conversoes": 679409,
-              "roas": 2.72,
+              "roas": 0.19,
               "cac": 1.42
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 419613.17,
+              "receita_bruta": 374060.1,
               "investimento": 814589.63,
               "receita_ads": 2793278.36,
               "conversoes": 643189,
-              "roas": 3.43,
+              "roas": 0.46,
               "cac": 1.27
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 256063.8,
+              "receita_bruta": 220340.5,
               "investimento": 1373637.26,
               "receita_ads": 8574523.42,
               "conversoes": 602807,
-              "roas": 6.24,
+              "roas": 0.16,
               "cac": 2.28
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 443259.48,
+              "receita_bruta": 389233.32,
               "investimento": 1341903.77,
               "receita_ads": 6365317.94,
               "conversoes": 610716,
-              "roas": 4.74,
+              "roas": 0.29,
               "cac": 2.2
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 534086.71,
+              "receita_bruta": 481082.99,
               "investimento": 1159801.96,
               "receita_ads": 3025937.85,
               "conversoes": 767982,
-              "roas": 2.61,
+              "roas": 0.41,
               "cac": 1.51
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 284751.77,
+              "receita_bruta": 256776.65,
               "investimento": 1290001.78,
               "receita_ads": 3935426.71,
               "conversoes": 681167,
-              "roas": 3.05,
+              "roas": 0.2,
               "cac": 1.89
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 260771.43,
+              "receita_bruta": 235416.02,
               "investimento": 734250.13,
               "receita_ads": 3239107.12,
               "conversoes": 553898,
-              "roas": 4.41,
+              "roas": 0.32,
               "cac": 1.33
             }
           ],
@@ -59533,65 +59561,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 84375.51,
+              "receita_bruta": 75543.66,
               "investimento": 1216370.44,
               "receita_ads": 3538438.84,
               "conversoes": 707449,
-              "roas": 2.91,
+              "roas": 0.06,
               "cac": 1.72
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 186476.41,
+              "receita_bruta": 167410.57,
               "investimento": 1149012.92,
               "receita_ads": 3979085.4,
               "conversoes": 595737,
-              "roas": 3.46,
+              "roas": 0.15,
               "cac": 1.93
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 99052.66,
+              "receita_bruta": 89969.84,
               "investimento": 422897.79,
               "receita_ads": 3593105.77,
               "conversoes": 263519,
-              "roas": 8.5,
+              "roas": 0.21,
               "cac": 1.6
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 152905.09,
+              "receita_bruta": 127825.21,
               "investimento": 653492.05,
               "receita_ads": 2963547.72,
               "conversoes": 430054,
-              "roas": 4.53,
+              "roas": 0.2,
               "cac": 1.52
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 180348.68,
+              "receita_bruta": 155667.19,
               "investimento": 1239461.36,
               "receita_ads": 3416201.56,
               "conversoes": 848535,
-              "roas": 2.76,
+              "roas": 0.13,
               "cac": 1.46
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 83491.19,
+              "receita_bruta": 72242.84,
               "investimento": 651756.75,
               "receita_ads": 1781136.58,
               "conversoes": 438454,
-              "roas": 2.73,
+              "roas": 0.11,
               "cac": 1.49
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 85590.92,
+              "receita_bruta": 74158.34,
               "investimento": 536685.28,
               "receita_ads": 2440847.65,
               "conversoes": 266129,
-              "roas": 4.55,
+              "roas": 0.14,
               "cac": 2.02
             }
           ],
@@ -59876,7 +59904,7 @@
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 9992.12,
+              "receita_bruta": 8590.97,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -59885,20 +59913,20 @@
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 8669.13,
+              "receita_bruta": 8420.94,
               "investimento": 113521.3,
               "receita_ads": 127143.86,
               "conversoes": 56485.0,
-              "roas": 1.12,
+              "roas": 0.07,
               "cac": 2.01
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 4774.72,
+              "receita_bruta": 3515.56,
               "investimento": 105804.63,
               "receita_ads": 432196.1,
               "conversoes": 10599.0,
-              "roas": 4.08,
+              "roas": 0.03,
               "cac": 9.98
             },
             {
@@ -60102,65 +60130,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 24791.06,
+              "receita_bruta": 23243.23,
               "investimento": 349341.78,
               "receita_ads": 1046706.45,
               "conversoes": 227110,
-              "roas": 3.0,
+              "roas": 0.07,
               "cac": 1.54
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 49650.76,
+              "receita_bruta": 46756.13,
               "investimento": 300914.14,
               "receita_ads": 993857.31,
               "conversoes": 222471,
-              "roas": 3.3,
+              "roas": 0.16,
               "cac": 1.35
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 34071.46,
+              "receita_bruta": 28581.38,
               "investimento": 299853.08,
               "receita_ads": 3397364.57,
               "conversoes": 235099,
-              "roas": 11.33,
+              "roas": 0.1,
               "cac": 1.28
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 42920.17,
+              "receita_bruta": 38078.34,
               "investimento": 292862.64,
               "receita_ads": 1131392.12,
               "conversoes": 76123,
-              "roas": 3.86,
+              "roas": 0.13,
               "cac": 3.85
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 49003.84,
+              "receita_bruta": 45135.49,
               "investimento": 44317.13,
               "receita_ads": 89077.43,
               "conversoes": 16447,
-              "roas": 2.01,
+              "roas": 1.02,
               "cac": 2.69
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 25684.75,
+              "receita_bruta": 23046.66,
               "investimento": 163105.11,
               "receita_ads": 660504.5,
               "conversoes": 59502,
-              "roas": 4.05,
+              "roas": 0.14,
               "cac": 2.74
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 29887.71,
+              "receita_bruta": 25398.99,
               "investimento": 159887.06,
               "receita_ads": 470835.23,
               "conversoes": 99944,
-              "roas": 2.94,
+              "roas": 0.16,
               "cac": 1.6
             }
           ],
@@ -60355,65 +60383,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 20541.28,
+              "receita_bruta": 18901.64,
               "investimento": 247078.39,
               "receita_ads": 699675.01,
               "conversoes": 112395,
-              "roas": 2.83,
+              "roas": 0.08,
               "cac": 2.2
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 33655.56,
+              "receita_bruta": 26578.95,
               "investimento": 308808.08,
               "receita_ads": 1035275.3,
               "conversoes": 203769,
-              "roas": 3.35,
+              "roas": 0.09,
               "cac": 1.52
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 23478.47,
+              "receita_bruta": 15689.27,
               "investimento": 440267.4,
               "receita_ads": 3863487.85,
               "conversoes": 512208,
-              "roas": 8.78,
+              "roas": 0.04,
               "cac": 0.86
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 33366.71,
+              "receita_bruta": 31849.35,
               "investimento": 275913.27,
               "receita_ads": 1148644.29,
               "conversoes": 129560,
-              "roas": 4.16,
+              "roas": 0.12,
               "cac": 2.13
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 43237.21,
+              "receita_bruta": 40004.53,
               "investimento": 82018.18,
               "receita_ads": 379660.84,
               "conversoes": 79751,
-              "roas": 4.63,
+              "roas": 0.49,
               "cac": 1.03
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 31825.97,
+              "receita_bruta": 27180.32,
               "investimento": 398552.21,
               "receita_ads": 1322493.96,
               "conversoes": 169677,
-              "roas": 3.32,
+              "roas": 0.07,
               "cac": 2.35
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 19432.45,
+              "receita_bruta": 16200.99,
               "investimento": 232027.5,
               "receita_ads": 1166022.78,
               "conversoes": 292371,
-              "roas": 5.03,
+              "roas": 0.07,
               "cac": 0.79
             }
           ],
@@ -60608,65 +60636,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 24212.64,
+              "receita_bruta": 19467.42,
               "investimento": 156468.83,
               "receita_ads": 596740.09,
               "conversoes": 138691,
-              "roas": 3.81,
+              "roas": 0.12,
               "cac": 1.13
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 49785.67,
+              "receita_bruta": 45000.31,
               "investimento": 248286.42,
               "receita_ads": 888852.33,
               "conversoes": 78572,
-              "roas": 3.58,
+              "roas": 0.18,
               "cac": 3.16
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 20832.99,
+              "receita_bruta": 16656.69,
               "investimento": 100222.71,
               "receita_ads": 312248.4,
               "conversoes": 76802,
-              "roas": 3.12,
+              "roas": 0.17,
               "cac": 1.3
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 40196.31,
+              "receita_bruta": 37062.82,
               "investimento": 35579.66,
               "receita_ads": 122394.03,
               "conversoes": 6835,
-              "roas": 3.44,
+              "roas": 1.04,
               "cac": 5.21
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 54443.56,
+              "receita_bruta": 47755.06,
               "investimento": 69943.24,
               "receita_ads": 276046.56,
               "conversoes": 34966,
-              "roas": 3.95,
+              "roas": 0.68,
               "cac": 2.0
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 27244.84,
+              "receita_bruta": 22252.21,
               "investimento": 131878.39,
               "receita_ads": 448483.18,
               "conversoes": 49728,
-              "roas": 3.4,
+              "roas": 0.17,
               "cac": 2.65
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23448.52,
+              "receita_bruta": 20666.4,
               "investimento": 240796.96,
               "receita_ads": 1161842.1,
               "conversoes": 63758,
-              "roas": 4.82,
+              "roas": 0.09,
               "cac": 3.78
             }
           ],
@@ -60861,65 +60889,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 27357.4,
+              "receita_bruta": 24006.75,
               "investimento": 156368.01,
               "receita_ads": 498461.38,
               "conversoes": 29859,
-              "roas": 3.19,
+              "roas": 0.15,
               "cac": 5.24
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 41954.41,
+              "receita_bruta": 38822.06,
               "investimento": 452784.63,
               "receita_ads": 1640074.02,
               "conversoes": 578115,
-              "roas": 3.62,
+              "roas": 0.09,
               "cac": 0.78
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 20827.91,
+              "receita_bruta": 20411.31,
               "investimento": 143677.82,
               "receita_ads": 1325489.65,
               "conversoes": 55088,
-              "roas": 9.23,
+              "roas": 0.14,
               "cac": 2.61
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 37401.35,
+              "receita_bruta": 33790.26,
               "investimento": 120710.64,
               "receita_ads": 505645.97,
               "conversoes": 71354,
-              "roas": 4.19,
+              "roas": 0.28,
               "cac": 1.69
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 36423.84,
+              "receita_bruta": 28175.33,
               "investimento": 235636.8,
               "receita_ads": 711706.47,
               "conversoes": 114885,
-              "roas": 3.02,
+              "roas": 0.12,
               "cac": 2.05
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 22710.36,
+              "receita_bruta": 21769.94,
               "investimento": 370858.22,
               "receita_ads": 1047502.29,
               "conversoes": 115671,
-              "roas": 2.82,
+              "roas": 0.06,
               "cac": 3.21
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 18083.93,
+              "receita_bruta": 17264.73,
               "investimento": 166224.13,
               "receita_ads": 901269.29,
               "conversoes": 116106,
-              "roas": 5.42,
+              "roas": 0.1,
               "cac": 1.43
             }
           ],
@@ -61114,47 +61142,47 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 21898.78,
+              "receita_bruta": 18784.6,
               "investimento": 403914.79,
               "receita_ads": 1510365.47,
               "conversoes": 113902.0,
-              "roas": 3.74,
+              "roas": 0.05,
               "cac": 3.55
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 50668.15,
+              "receita_bruta": 44362.38,
               "investimento": 142169.12,
               "receita_ads": 531649.87,
               "conversoes": 70990.0,
-              "roas": 3.74,
+              "roas": 0.31,
               "cac": 2.0
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 35545.58,
+              "receita_bruta": 33642.66,
               "investimento": 111315.75,
               "receita_ads": 392944.47,
               "conversoes": 15676.0,
-              "roas": 3.53,
+              "roas": 0.3,
               "cac": 7.1
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 50881.89,
+              "receita_bruta": 43282.64,
               "investimento": 87741.69,
               "receita_ads": 247895.93,
               "conversoes": 105071.0,
-              "roas": 2.83,
+              "roas": 0.49,
               "cac": 0.84
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 57882.84,
+              "receita_bruta": 53439.29,
               "investimento": 269433.16,
               "receita_ads": 472194.06,
               "conversoes": 67915.0,
-              "roas": 1.75,
+              "roas": 0.2,
               "cac": 3.97
             },
             {
@@ -61163,12 +61191,12 @@
               "investimento": 304011.35,
               "receita_ads": 1082928.32,
               "conversoes": 110553.0,
-              "roas": 3.56,
+              "roas": 0.1,
               "cac": 2.75
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 19880.42,
+              "receita_bruta": 18237.14,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -61367,43 +61395,43 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 22798.72,
+              "receita_bruta": 20720.26,
               "investimento": 162899.45,
               "receita_ads": 478202.57,
               "conversoes": 109978.0,
-              "roas": 2.94,
+              "roas": 0.13,
               "cac": 1.48
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 44411.82,
+              "receita_bruta": 38227.02,
               "investimento": 107582.04,
               "receita_ads": 342483.94,
               "conversoes": 8705.0,
-              "roas": 3.18,
+              "roas": 0.36,
               "cac": 12.36
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 25484.99,
+              "receita_bruta": 22325.63,
               "investimento": 117706.96,
               "receita_ads": 1209675.5,
               "conversoes": 15527.0,
-              "roas": 10.28,
+              "roas": 0.19,
               "cac": 7.58
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 51004.54,
+              "receita_bruta": 44530.16,
               "investimento": 413459.27,
               "receita_ads": 2005066.39,
               "conversoes": 295178.0,
-              "roas": 4.85,
+              "roas": 0.11,
               "cac": 1.4
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 51393.79,
+              "receita_bruta": 46967.3,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -61412,20 +61440,20 @@
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 22806.98,
+              "receita_bruta": 17861.7,
               "investimento": 120219.6,
               "receita_ads": 428043.57,
               "conversoes": 60133.0,
-              "roas": 3.56,
+              "roas": 0.15,
               "cac": 2.0
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 21395.44,
+              "receita_bruta": 18463.99,
               "investimento": 110296.72,
               "receita_ads": 662562.02,
               "conversoes": 32216.0,
-              "roas": 6.01,
+              "roas": 0.17,
               "cac": 3.42
             }
           ],
@@ -61620,65 +61648,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 27148.32,
+              "receita_bruta": 25073.82,
               "investimento": 137570.97,
               "receita_ads": 305878.78,
               "conversoes": 47163,
-              "roas": 2.22,
+              "roas": 0.18,
               "cac": 2.92
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 50590.1,
+              "receita_bruta": 47214.55,
               "investimento": 322877.14,
               "receita_ads": 1063822.72,
               "conversoes": 347385,
-              "roas": 3.29,
+              "roas": 0.15,
               "cac": 0.93
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 20866.56,
+              "receita_bruta": 18026.77,
               "investimento": 166072.08,
               "receita_ads": 894395.45,
               "conversoes": 78086,
-              "roas": 5.39,
+              "roas": 0.11,
               "cac": 2.13
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 50591.95,
+              "receita_bruta": 42896.58,
               "investimento": 291412.08,
               "receita_ads": 1257976.16,
               "conversoes": 92104,
-              "roas": 4.32,
+              "roas": 0.15,
               "cac": 3.16
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 41505.13,
+              "receita_bruta": 35995.25,
               "investimento": 97828.68,
               "receita_ads": 284235.26,
               "conversoes": 43879,
-              "roas": 2.91,
+              "roas": 0.37,
               "cac": 2.23
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 29672.92,
+              "receita_bruta": 26156.47,
               "investimento": 182160.03,
               "receita_ads": 685034.62,
               "conversoes": 90628,
-              "roas": 3.76,
+              "roas": 0.14,
               "cac": 2.01
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23261.75,
+              "receita_bruta": 21942.07,
               "investimento": 260461.16,
               "receita_ads": 1126151.56,
               "conversoes": 110621,
-              "roas": 4.32,
+              "roas": 0.08,
               "cac": 2.35
             }
           ],
@@ -61873,65 +61901,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 29290.52,
+              "receita_bruta": 25646.5,
               "investimento": 148769.85,
               "receita_ads": 393786.65,
               "conversoes": 160908,
-              "roas": 2.65,
+              "roas": 0.17,
               "cac": 0.92
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 51466.35,
+              "receita_bruta": 46818.42,
               "investimento": 93960.33,
               "receita_ads": 315499.28,
               "conversoes": 14458,
-              "roas": 3.36,
+              "roas": 0.5,
               "cac": 6.5
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 29743.89,
+              "receita_bruta": 25419.34,
               "investimento": 202077.59,
               "receita_ads": 1521965.6,
               "conversoes": 102234,
-              "roas": 7.53,
+              "roas": 0.13,
               "cac": 1.98
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 44843.84,
+              "receita_bruta": 41629.76,
               "investimento": 253261.35,
               "receita_ads": 1315347.7,
               "conversoes": 269023,
-              "roas": 5.19,
+              "roas": 0.16,
               "cac": 0.94
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 39670.69,
+              "receita_bruta": 35127.99,
               "investimento": 257087.86,
               "receita_ads": 785431.11,
               "conversoes": 186562,
-              "roas": 3.06,
+              "roas": 0.14,
               "cac": 1.38
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 25166.51,
+              "receita_bruta": 23173.37,
               "investimento": 243853.68,
               "receita_ads": 796523.29,
               "conversoes": 144856,
-              "roas": 3.27,
+              "roas": 0.1,
               "cac": 1.68
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23342.64,
+              "receita_bruta": 20616.86,
               "investimento": 208281.54,
               "receita_ads": 872495.12,
               "conversoes": 39198,
-              "roas": 4.19,
+              "roas": 0.1,
               "cac": 5.31
             }
           ],
@@ -62126,65 +62154,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 37399.19,
+              "receita_bruta": 33337.4,
               "investimento": 150159.25,
               "receita_ads": 591766.15,
               "conversoes": 77512,
-              "roas": 3.94,
+              "roas": 0.22,
               "cac": 1.94
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 84699.34,
+              "receita_bruta": 76258.54,
               "investimento": 127548.8,
               "receita_ads": 459145.41,
               "conversoes": 110556,
-              "roas": 3.6,
+              "roas": 0.6,
               "cac": 1.15
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 45422.8,
+              "receita_bruta": 39496.06,
               "investimento": 43353.72,
               "receita_ads": 50723.85,
               "conversoes": 8819,
-              "roas": 1.17,
+              "roas": 0.91,
               "cac": 4.92
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 59522.39,
+              "receita_bruta": 48992.05,
               "investimento": 33514.04,
               "receita_ads": 136726.74,
               "conversoes": 8566,
-              "roas": 4.08,
+              "roas": 1.46,
               "cac": 3.91
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 84870.19,
+              "receita_bruta": 79792.67,
               "investimento": 398033.14,
               "receita_ads": 922118.99,
               "conversoes": 184482,
-              "roas": 2.32,
+              "roas": 0.2,
               "cac": 2.16
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 52193.66,
+              "receita_bruta": 47507.73,
               "investimento": 180107.99,
               "receita_ads": 372139.13,
               "conversoes": 43114,
-              "roas": 2.07,
+              "roas": 0.26,
               "cac": 4.18
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 30456.71,
+              "receita_bruta": 26567.95,
               "investimento": 198244.96,
               "receita_ads": 1295822.99,
               "conversoes": 41604,
-              "roas": 6.54,
+              "roas": 0.13,
               "cac": 4.77
             }
           ],
@@ -62379,25 +62407,25 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 43567.27,
+              "receita_bruta": 39838.02,
               "investimento": 72003.03,
               "receita_ads": 344894.51,
               "conversoes": 14987.0,
-              "roas": 4.79,
+              "roas": 0.55,
               "cac": 4.8
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 81943.61,
+              "receita_bruta": 63812.23,
               "investimento": 71685.72,
               "receita_ads": 230766.9,
               "conversoes": 20665.0,
-              "roas": 3.22,
+              "roas": 0.89,
               "cac": 3.47
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 59591.67,
+              "receita_bruta": 49250.3,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -62406,38 +62434,38 @@
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 66140.55,
+              "receita_bruta": 54479.64,
               "investimento": 115898.69,
               "receita_ads": 414626.91,
               "conversoes": 15195.0,
-              "roas": 3.58,
+              "roas": 0.47,
               "cac": 7.63
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 81634.73,
+              "receita_bruta": 69976.92,
               "investimento": 260260.25,
               "receita_ads": 757695.96,
               "conversoes": 200147.0,
-              "roas": 2.91,
+              "roas": 0.27,
               "cac": 1.3
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 60166.37,
+              "receita_bruta": 50138.31,
               "investimento": 215185.55,
               "receita_ads": 546921.96,
               "conversoes": 80889.0,
-              "roas": 2.54,
+              "roas": 0.23,
               "cac": 2.66
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 41384.62,
+              "receita_bruta": 35529.01,
               "investimento": 387063.13,
               "receita_ads": 2231546.84,
               "conversoes": 207737.0,
-              "roas": 5.77,
+              "roas": 0.09,
               "cac": 1.86
             }
           ],
@@ -62632,65 +62660,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 81263.52,
+              "receita_bruta": 73295.29,
               "investimento": 166445.11,
               "receita_ads": 629015.89,
               "conversoes": 129929,
-              "roas": 3.78,
+              "roas": 0.44,
               "cac": 1.28
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 129342.68,
+              "receita_bruta": 113025.39,
               "investimento": 326821.76,
               "receita_ads": 1171996.36,
               "conversoes": 159055,
-              "roas": 3.59,
+              "roas": 0.35,
               "cac": 2.05
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 91167.13,
+              "receita_bruta": 80764.41,
               "investimento": 15508.03,
               "receita_ads": 134454.62,
               "conversoes": 5766,
-              "roas": 8.67,
+              "roas": 5.21,
               "cac": 2.69
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 129918.18,
+              "receita_bruta": 115056.28,
               "investimento": 305577.25,
               "receita_ads": 1041734.45,
               "conversoes": 127223,
-              "roas": 3.41,
+              "roas": 0.38,
               "cac": 2.4
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 154614.38,
+              "receita_bruta": 142060.28,
               "investimento": 343848.44,
               "receita_ads": 1284071.3,
               "conversoes": 153290,
-              "roas": 3.73,
+              "roas": 0.41,
               "cac": 2.24
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 99411.04,
+              "receita_bruta": 86075.17,
               "investimento": 53668.21,
               "receita_ads": 206341.75,
               "conversoes": 29518,
-              "roas": 3.84,
+              "roas": 1.6,
               "cac": 1.82
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 74837.17,
+              "receita_bruta": 66719.7,
               "investimento": 330495.7,
               "receita_ads": 1434262.67,
               "conversoes": 211090,
-              "roas": 4.34,
+              "roas": 0.2,
               "cac": 1.57
             }
           ],
@@ -62885,65 +62913,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 54725.17,
+              "receita_bruta": 47214.84,
               "investimento": 574837.25,
               "receita_ads": 1799066.37,
               "conversoes": 206978,
-              "roas": 3.13,
+              "roas": 0.08,
               "cac": 2.78
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 113565.63,
+              "receita_bruta": 100547.38,
               "investimento": 48400.62,
               "receita_ads": 178558.15,
               "conversoes": 15469,
-              "roas": 3.69,
+              "roas": 2.08,
               "cac": 3.13
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 80169.45,
+              "receita_bruta": 65065.82,
               "investimento": 331319.24,
               "receita_ads": 3485346.3,
               "conversoes": 213148,
-              "roas": 10.52,
+              "roas": 0.2,
               "cac": 1.55
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 85707.35,
+              "receita_bruta": 80214.06,
               "investimento": 442436.12,
               "receita_ads": 1910378.99,
               "conversoes": 176057,
-              "roas": 4.32,
+              "roas": 0.18,
               "cac": 2.51
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 109667.43,
+              "receita_bruta": 92126.38,
               "investimento": 185600.89,
               "receita_ads": 620942.58,
               "conversoes": 77765,
-              "roas": 3.35,
+              "roas": 0.5,
               "cac": 2.39
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 65164.36,
+              "receita_bruta": 61959.65,
               "investimento": 81384.16,
               "receita_ads": 237745.96,
               "conversoes": 38549,
-              "roas": 2.92,
+              "roas": 0.76,
               "cac": 2.11
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 59205.07,
+              "receita_bruta": 52355.29,
               "investimento": 337493.87,
               "receita_ads": 1787203.87,
               "conversoes": 165230,
-              "roas": 5.3,
+              "roas": 0.16,
               "cac": 2.04
             }
           ],
@@ -63138,16 +63166,16 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 34776.19,
+              "receita_bruta": 32926.92,
               "investimento": 225905.19,
               "receita_ads": 918973.73,
               "conversoes": 95150.0,
-              "roas": 4.07,
+              "roas": 0.15,
               "cac": 2.37
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 88806.97,
+              "receita_bruta": 81568.91,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -63156,43 +63184,43 @@
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 40902.85,
+              "receita_bruta": 38729.74,
               "investimento": 103635.02,
               "receita_ads": 860863.96,
               "conversoes": 56853.0,
-              "roas": 8.31,
+              "roas": 0.37,
               "cac": 1.82
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 68511.82,
+              "receita_bruta": 59420.83,
               "investimento": 8520.6,
               "receita_ads": 47885.77,
               "conversoes": 2004.0,
-              "roas": 5.62,
+              "roas": 6.97,
               "cac": 4.25
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 101227.89,
+              "receita_bruta": 89165.65,
               "investimento": 187683.28,
               "receita_ads": 559151.37,
               "conversoes": 41929.0,
-              "roas": 2.98,
+              "roas": 0.48,
               "cac": 4.48
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 46646.05,
+              "receita_bruta": 36866.28,
               "investimento": 92894.49,
               "receita_ads": 232236.23,
               "conversoes": 24577.0,
-              "roas": 2.5,
+              "roas": 0.4,
               "cac": 3.78
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 38716.03,
+              "receita_bruta": 27918.21,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -63391,65 +63419,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 32254.92,
+              "receita_bruta": 29040.09,
               "investimento": 180474.99,
               "receita_ads": 451338.6,
               "conversoes": 147757,
-              "roas": 2.5,
+              "roas": 0.16,
               "cac": 1.22
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 53771.9,
+              "receita_bruta": 48907.4,
               "investimento": 150994.73,
               "receita_ads": 546372.16,
               "conversoes": 96600,
-              "roas": 3.62,
+              "roas": 0.32,
               "cac": 1.56
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 27760.26,
+              "receita_bruta": 23678.38,
               "investimento": 97776.06,
               "receita_ads": 1274999.82,
               "conversoes": 79596,
-              "roas": 13.04,
+              "roas": 0.24,
               "cac": 1.23
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 53723.24,
+              "receita_bruta": 50841.74,
               "investimento": 304907.29,
               "receita_ads": 1290102.44,
               "conversoes": 90897,
-              "roas": 4.23,
+              "roas": 0.17,
               "cac": 3.35
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 78767.36,
+              "receita_bruta": 71397.58,
               "investimento": 83213.99,
               "receita_ads": 185567.2,
               "conversoes": 44283,
-              "roas": 2.23,
+              "roas": 0.86,
               "cac": 1.88
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 33138.98,
+              "receita_bruta": 28786.82,
               "investimento": 93513.32,
               "receita_ads": 394626.21,
               "conversoes": 54610,
-              "roas": 4.22,
+              "roas": 0.31,
               "cac": 1.71
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 16419.92,
+              "receita_bruta": 12267.1,
               "investimento": 310750.92,
               "receita_ads": 1345853.06,
               "conversoes": 107059,
-              "roas": 4.33,
+              "roas": 0.04,
               "cac": 2.9
             }
           ],
@@ -63644,65 +63672,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 22133.53,
+              "receita_bruta": 19460.96,
               "investimento": 200046.94,
               "receita_ads": 676175.27,
               "conversoes": 144749,
-              "roas": 3.38,
+              "roas": 0.1,
               "cac": 1.38
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 62450.47,
+              "receita_bruta": 55739.56,
               "investimento": 40496.41,
               "receita_ads": 153495.12,
               "conversoes": 5465,
-              "roas": 3.79,
+              "roas": 1.38,
               "cac": 7.41
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 39240.46,
+              "receita_bruta": 31347.28,
               "investimento": 96256.11,
               "receita_ads": 1157970.85,
               "conversoes": 45280,
-              "roas": 12.03,
+              "roas": 0.33,
               "cac": 2.13
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 41948.15,
+              "receita_bruta": 36470.18,
               "investimento": 74904.07,
               "receita_ads": 186890.4,
               "conversoes": 97275,
-              "roas": 2.5,
+              "roas": 0.49,
               "cac": 0.77
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 61043.67,
+              "receita_bruta": 51539.81,
               "investimento": 227467.1,
               "receita_ads": 658935.05,
               "conversoes": 83283,
-              "roas": 2.9,
+              "roas": 0.23,
               "cac": 2.73
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 29570.65,
+              "receita_bruta": 27525.27,
               "investimento": 2024.95,
               "receita_ads": 7512.56,
               "conversoes": 2046,
-              "roas": 3.71,
+              "roas": 13.59,
               "cac": 0.99
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 20298.39,
+              "receita_bruta": 17814.88,
               "investimento": 257631.31,
               "receita_ads": 1380752.95,
               "conversoes": 143228,
-              "roas": 5.36,
+              "roas": 0.07,
               "cac": 1.8
             }
           ],
@@ -63897,65 +63925,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 28038.54,
+              "receita_bruta": 25616.79,
               "investimento": 312591.04,
               "receita_ads": 877846.68,
               "conversoes": 207956,
-              "roas": 2.81,
+              "roas": 0.08,
               "cac": 1.5
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 50109.26,
+              "receita_bruta": 40021.97,
               "investimento": 129224.55,
               "receita_ads": 449741.54,
               "conversoes": 131563,
-              "roas": 3.48,
+              "roas": 0.31,
               "cac": 0.98
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 30045.17,
+              "receita_bruta": 28152.05,
               "investimento": 270756.5,
               "receita_ads": 2349330.86,
               "conversoes": 113914,
-              "roas": 8.68,
+              "roas": 0.1,
               "cac": 2.38
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 51451.83,
+              "receita_bruta": 44140.4,
               "investimento": 153034.3,
               "receita_ads": 759952.46,
               "conversoes": 91511,
-              "roas": 4.97,
+              "roas": 0.29,
               "cac": 1.67
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 49428.68,
+              "receita_bruta": 38555.21,
               "investimento": 95483.77,
               "receita_ads": 171870.79,
               "conversoes": 98624,
-              "roas": 1.8,
+              "roas": 0.4,
               "cac": 0.97
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 32380.89,
+              "receita_bruta": 28504.87,
               "investimento": 110558.77,
               "receita_ads": 417912.15,
               "conversoes": 71350,
-              "roas": 3.78,
+              "roas": 0.26,
               "cac": 1.55
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 31867.77,
+              "receita_bruta": 28183.28,
               "investimento": 112657.33,
               "receita_ads": 401239.21,
               "conversoes": 73045,
-              "roas": 3.56,
+              "roas": 0.25,
               "cac": 1.54
             }
           ],
@@ -64150,65 +64178,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 31536.7,
+              "receita_bruta": 28764.15,
               "investimento": 131233.03,
               "receita_ads": 267301.56,
               "conversoes": 89326,
-              "roas": 2.04,
+              "roas": 0.22,
               "cac": 1.47
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 47040.94,
+              "receita_bruta": 40853.11,
               "investimento": 114589.7,
               "receita_ads": 376113.89,
               "conversoes": 47555,
-              "roas": 3.28,
+              "roas": 0.36,
               "cac": 2.41
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 24346.64,
+              "receita_bruta": 20155.16,
               "investimento": 297911.58,
               "receita_ads": 1961200.13,
               "conversoes": 98837,
-              "roas": 6.58,
+              "roas": 0.07,
               "cac": 3.01
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 44936.1,
+              "receita_bruta": 36893.55,
               "investimento": 92662.33,
               "receita_ads": 492036.97,
               "conversoes": 59966,
-              "roas": 5.31,
+              "roas": 0.4,
               "cac": 1.55
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 59069.33,
+              "receita_bruta": 55637.31,
               "investimento": 242388.27,
               "receita_ads": 503228.32,
               "conversoes": 125441,
-              "roas": 2.08,
+              "roas": 0.23,
               "cac": 1.93
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 28043.63,
+              "receita_bruta": 24161.54,
               "investimento": 127882.95,
               "receita_ads": 217458.64,
               "conversoes": 48234,
-              "roas": 1.7,
+              "roas": 0.19,
               "cac": 2.65
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 24906.92,
+              "receita_bruta": 21190.7,
               "investimento": 96481.52,
               "receita_ads": 404257.57,
               "conversoes": 96864,
-              "roas": 4.19,
+              "roas": 0.22,
               "cac": 1.0
             }
           ],
@@ -64403,65 +64431,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 40193.65,
+              "receita_bruta": 33374.96,
               "investimento": 55433.07,
               "receita_ads": 257763.78,
               "conversoes": 7035,
-              "roas": 4.65,
+              "roas": 0.6,
               "cac": 7.88
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 85161.91,
+              "receita_bruta": 74808.59,
               "investimento": 135381.76,
               "receita_ads": 522427.63,
               "conversoes": 61787,
-              "roas": 3.86,
+              "roas": 0.55,
               "cac": 2.19
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 46583.25,
+              "receita_bruta": 39490.91,
               "investimento": 434623.64,
               "receita_ads": 3772926.9,
               "conversoes": 219405,
-              "roas": 8.68,
+              "roas": 0.09,
               "cac": 1.98
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 67939.29,
+              "receita_bruta": 61744.55,
               "investimento": 214986.94,
               "receita_ads": 620590.42,
               "conversoes": 102439,
-              "roas": 2.89,
+              "roas": 0.29,
               "cac": 2.1
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 89904.35,
+              "receita_bruta": 82499.72,
               "investimento": 312152.24,
               "receita_ads": 829621.83,
               "conversoes": 120126,
-              "roas": 2.66,
+              "roas": 0.26,
               "cac": 2.6
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 36892.49,
+              "receita_bruta": 32788.45,
               "investimento": 137406.53,
               "receita_ads": 370635.68,
               "conversoes": 55365,
-              "roas": 2.7,
+              "roas": 0.24,
               "cac": 2.48
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 57483.62,
+              "receita_bruta": 52597.93,
               "investimento": 114364.02,
               "receita_ads": 661209.31,
               "conversoes": 164528,
-              "roas": 5.78,
+              "roas": 0.46,
               "cac": 0.7
             }
           ],
@@ -64656,65 +64684,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 123837.75,
+              "receita_bruta": 111774.02,
               "investimento": 85231.8,
               "receita_ads": 241861.3,
               "conversoes": 92794,
-              "roas": 2.84,
+              "roas": 1.31,
               "cac": 0.92
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 225243.61,
+              "receita_bruta": 200730.03,
               "investimento": 95104.88,
               "receita_ads": 344504.85,
               "conversoes": 55038,
-              "roas": 3.62,
+              "roas": 2.11,
               "cac": 1.73
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 129225.74,
+              "receita_bruta": 114753.15,
               "investimento": 277097.85,
               "receita_ads": 2700212.93,
               "conversoes": 217862,
-              "roas": 9.74,
+              "roas": 0.41,
               "cac": 1.27
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 212137.99,
+              "receita_bruta": 189765.27,
               "investimento": 409197.76,
               "receita_ads": 2027642.84,
               "conversoes": 229596,
-              "roas": 4.96,
+              "roas": 0.46,
               "cac": 1.78
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 238651.21,
+              "receita_bruta": 209570.96,
               "investimento": 161532.12,
               "receita_ads": 368695.36,
               "conversoes": 166940,
-              "roas": 2.28,
+              "roas": 1.3,
               "cac": 0.97
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 117968.04,
+              "receita_bruta": 105402.03,
               "investimento": 100812.21,
               "receita_ads": 204648.79,
               "conversoes": 139152,
-              "roas": 2.03,
+              "roas": 1.05,
               "cac": 0.72
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 81929.67,
+              "receita_bruta": 73902.79,
               "investimento": 42256.4,
               "receita_ads": 199871.2,
               "conversoes": 7892,
-              "roas": 4.73,
+              "roas": 1.75,
               "cac": 5.35
             }
           ],
@@ -64909,65 +64937,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 42731.44,
+              "receita_bruta": 34052.99,
               "investimento": 151600.35,
               "receita_ads": 550167.68,
               "conversoes": 80082,
-              "roas": 3.63,
+              "roas": 0.22,
               "cac": 1.89
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 89725.22,
+              "receita_bruta": 83883.54,
               "investimento": 93860.18,
               "receita_ads": 341954.7,
               "conversoes": 42942,
-              "roas": 3.64,
+              "roas": 0.89,
               "cac": 2.19
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 50942.08,
+              "receita_bruta": 47584.57,
               "investimento": 106757.07,
               "receita_ads": 561542.19,
               "conversoes": 17671,
-              "roas": 5.26,
+              "roas": 0.45,
               "cac": 6.04
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 63991.78,
+              "receita_bruta": 57499.35,
               "investimento": 168414.78,
               "receita_ads": 794291.96,
               "conversoes": 156205,
-              "roas": 4.72,
+              "roas": 0.34,
               "cac": 1.08
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 91748.3,
+              "receita_bruta": 81960.77,
               "investimento": 372513.43,
               "receita_ads": 1310777.63,
               "conversoes": 158525,
-              "roas": 3.52,
+              "roas": 0.22,
               "cac": 2.35
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 53889.55,
+              "receita_bruta": 42423.83,
               "investimento": 49976.71,
               "receita_ads": 159628.16,
               "conversoes": 16000,
-              "roas": 3.19,
+              "roas": 0.85,
               "cac": 3.12
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 45780.56,
+              "receita_bruta": 38448.07,
               "investimento": 421575.3,
               "receita_ads": 2141874.91,
               "conversoes": 155159,
-              "roas": 5.08,
+              "roas": 0.09,
               "cac": 2.72
             }
           ],
@@ -65162,65 +65190,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 32702.87,
+              "receita_bruta": 26247.79,
               "investimento": 283673.23,
               "receita_ads": 1165893.96,
               "conversoes": 115163,
-              "roas": 4.11,
+              "roas": 0.09,
               "cac": 2.46
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 74464.87,
+              "receita_bruta": 66768.63,
               "investimento": 192713.18,
               "receita_ads": 636400.42,
               "conversoes": 128985,
-              "roas": 3.3,
+              "roas": 0.35,
               "cac": 1.49
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 38345.61,
+              "receita_bruta": 35711.54,
               "investimento": 174596.5,
               "receita_ads": 1231492.65,
               "conversoes": 26586,
-              "roas": 7.05,
+              "roas": 0.2,
               "cac": 6.57
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 75693.03,
+              "receita_bruta": 68199.83,
               "investimento": 278967.82,
               "receita_ads": 1313157.88,
               "conversoes": 92613,
-              "roas": 4.71,
+              "roas": 0.24,
               "cac": 3.01
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 88527.68,
+              "receita_bruta": 77205.56,
               "investimento": 154215.53,
               "receita_ads": 301329.64,
               "conversoes": 85082,
-              "roas": 1.95,
+              "roas": 0.5,
               "cac": 1.81
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 46198.58,
+              "receita_bruta": 42766.52,
               "investimento": 149518.07,
               "receita_ads": 322212.49,
               "conversoes": 116563,
-              "roas": 2.16,
+              "roas": 0.29,
               "cac": 1.28
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 47766.97,
+              "receita_bruta": 42413.03,
               "investimento": 379591.07,
               "receita_ads": 1641937.04,
               "conversoes": 324979,
-              "roas": 4.33,
+              "roas": 0.11,
               "cac": 1.17
             }
           ],
@@ -65415,65 +65443,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 22072.83,
+              "receita_bruta": 20287.26,
               "investimento": 119565.71,
               "receita_ads": 552393.58,
               "conversoes": 83158,
-              "roas": 4.62,
+              "roas": 0.17,
               "cac": 1.44
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 53921.74,
+              "receita_bruta": 48950.55,
               "investimento": 145190.31,
               "receita_ads": 512715.61,
               "conversoes": 80379,
-              "roas": 3.53,
+              "roas": 0.34,
               "cac": 1.81
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 24200.76,
+              "receita_bruta": 20157.62,
               "investimento": 176605.8,
               "receita_ads": 1046415.9,
               "conversoes": 64841,
-              "roas": 5.93,
+              "roas": 0.11,
               "cac": 2.72
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 54474.06,
+              "receita_bruta": 50424.78,
               "investimento": 142537.74,
               "receita_ads": 674066.12,
               "conversoes": 68415,
-              "roas": 4.73,
+              "roas": 0.35,
               "cac": 2.08
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 87825.21,
+              "receita_bruta": 78273.06,
               "investimento": 175063.74,
               "receita_ads": 768359.94,
               "conversoes": 86618,
-              "roas": 4.39,
+              "roas": 0.45,
               "cac": 2.02
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 34025.71,
+              "receita_bruta": 32074.26,
               "investimento": 338514.63,
               "receita_ads": 1040220.03,
               "conversoes": 86102,
-              "roas": 3.07,
+              "roas": 0.09,
               "cac": 3.93
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 34555.33,
+              "receita_bruta": 31432.04,
               "investimento": 108799.37,
               "receita_ads": 611452.46,
               "conversoes": 87961,
-              "roas": 5.62,
+              "roas": 0.29,
               "cac": 1.24
             }
           ],
@@ -65668,65 +65696,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 19229.93,
+              "receita_bruta": 18343.96,
               "investimento": 216518.83,
               "receita_ads": 727460.92,
               "conversoes": 18174,
-              "roas": 3.36,
+              "roas": 0.08,
               "cac": 11.91
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 50480.43,
+              "receita_bruta": 46312.07,
               "investimento": 68807.85,
               "receita_ads": 262157.91,
               "conversoes": 162735,
-              "roas": 3.81,
+              "roas": 0.67,
               "cac": 0.42
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 20478.64,
+              "receita_bruta": 17276.81,
               "investimento": 264382.8,
               "receita_ads": 1034742.62,
               "conversoes": 70602,
-              "roas": 3.91,
+              "roas": 0.07,
               "cac": 3.74
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 56064.81,
+              "receita_bruta": 53755.2,
               "investimento": 404024.24,
               "receita_ads": 1961382.09,
               "conversoes": 200890,
-              "roas": 4.85,
+              "roas": 0.13,
               "cac": 2.01
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 63276.17,
+              "receita_bruta": 58197.83,
               "investimento": 276725.76,
               "receita_ads": 797525.84,
               "conversoes": 80369,
-              "roas": 2.88,
+              "roas": 0.21,
               "cac": 3.44
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 26298.96,
+              "receita_bruta": 23030.54,
               "investimento": 187961.9,
               "receita_ads": 599245.87,
               "conversoes": 137282,
-              "roas": 3.19,
+              "roas": 0.12,
               "cac": 1.37
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 28746.46,
+              "receita_bruta": 25555.32,
               "investimento": 94878.63,
               "receita_ads": 410824.47,
               "conversoes": 34735,
-              "roas": 4.33,
+              "roas": 0.27,
               "cac": 2.73
             }
           ],
@@ -65921,65 +65949,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 36089.62,
+              "receita_bruta": 30063.77,
               "investimento": 113466.73,
               "receita_ads": 228470.81,
               "conversoes": 36943,
-              "roas": 2.01,
+              "roas": 0.26,
               "cac": 3.07
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 58258.22,
+              "receita_bruta": 44182.39,
               "investimento": 73511.41,
               "receita_ads": 250673.91,
               "conversoes": 22848,
-              "roas": 3.41,
+              "roas": 0.6,
               "cac": 3.22
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 37400.64,
+              "receita_bruta": 36081.11,
               "investimento": 235197.09,
               "receita_ads": 1438192.77,
               "conversoes": 35219,
-              "roas": 6.11,
+              "roas": 0.15,
               "cac": 6.68
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 43378.92,
+              "receita_bruta": 38038.45,
               "investimento": 57801.73,
               "receita_ads": 256514.9,
               "conversoes": 33298,
-              "roas": 4.44,
+              "roas": 0.66,
               "cac": 1.74
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 55816.13,
+              "receita_bruta": 43116.62,
               "investimento": 171559.0,
               "receita_ads": 567913.99,
               "conversoes": 14977,
-              "roas": 3.31,
+              "roas": 0.25,
               "cac": 11.45
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 32021.46,
+              "receita_bruta": 29354.84,
               "investimento": 145151.33,
               "receita_ads": 292888.22,
               "conversoes": 34997,
-              "roas": 2.02,
+              "roas": 0.2,
               "cac": 4.15
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 37224.0,
+              "receita_bruta": 34557.89,
               "investimento": 201663.49,
               "receita_ads": 1291784.1,
               "conversoes": 61263,
-              "roas": 6.41,
+              "roas": 0.17,
               "cac": 3.29
             }
           ],
@@ -66174,25 +66202,25 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 20260.59,
+              "receita_bruta": 19779.75,
               "investimento": 16309.36,
               "receita_ads": 71924.28,
               "conversoes": 1795.0,
-              "roas": 4.41,
+              "roas": 1.21,
               "cac": 9.09
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 64149.99,
+              "receita_bruta": 55136.48,
               "investimento": 330463.39,
               "receita_ads": 1226413.85,
               "conversoes": 290466.0,
-              "roas": 3.71,
+              "roas": 0.17,
               "cac": 1.14
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 28599.96,
+              "receita_bruta": 25701.28,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -66201,7 +66229,7 @@
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 54748.53,
+              "receita_bruta": 46271.34,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -66210,29 +66238,29 @@
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 60708.96,
+              "receita_bruta": 51213.59,
               "investimento": 145965.16,
               "receita_ads": 356834.58,
               "conversoes": 150775.0,
-              "roas": 2.44,
+              "roas": 0.35,
               "cac": 0.97
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 22523.69,
+              "receita_bruta": 17831.64,
               "investimento": 113895.62,
               "receita_ads": 445833.88,
               "conversoes": 84761.0,
-              "roas": 3.91,
+              "roas": 0.16,
               "cac": 1.34
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23822.38,
+              "receita_bruta": 20111.06,
               "investimento": 191801.18,
               "receita_ads": 915229.35,
               "conversoes": 46331.0,
-              "roas": 4.77,
+              "roas": 0.1,
               "cac": 4.14
             }
           ],
@@ -66427,65 +66455,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 23725.71,
+              "receita_bruta": 19650.61,
               "investimento": 202985.27,
               "receita_ads": 456974.15,
               "conversoes": 219197,
-              "roas": 2.25,
+              "roas": 0.1,
               "cac": 0.93
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 43948.61,
+              "receita_bruta": 39482.44,
               "investimento": 226627.55,
               "receita_ads": 865488.46,
               "conversoes": 86418,
-              "roas": 3.82,
+              "roas": 0.17,
               "cac": 2.62
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 23541.07,
+              "receita_bruta": 22140.58,
               "investimento": 163753.62,
               "receita_ads": 528424.67,
               "conversoes": 56522,
-              "roas": 3.23,
+              "roas": 0.14,
               "cac": 2.9
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 56172.18,
+              "receita_bruta": 47106.06,
               "investimento": 54425.71,
               "receita_ads": 363563.74,
               "conversoes": 9234,
-              "roas": 6.68,
+              "roas": 0.87,
               "cac": 5.89
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 50827.1,
+              "receita_bruta": 44065.32,
               "investimento": 98883.93,
               "receita_ads": 258087.06,
               "conversoes": 46753,
-              "roas": 2.61,
+              "roas": 0.45,
               "cac": 2.12
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 25667.17,
+              "receita_bruta": 23805.99,
               "investimento": 212641.53,
               "receita_ads": 540984.15,
               "conversoes": 138089,
-              "roas": 2.54,
+              "roas": 0.11,
               "cac": 1.54
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 35380.07,
+              "receita_bruta": 32402.83,
               "investimento": 195070.74,
               "receita_ads": 695810.71,
               "conversoes": 135358,
-              "roas": 3.57,
+              "roas": 0.17,
               "cac": 1.44
             }
           ],
@@ -66680,61 +66708,61 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 28858.28,
+              "receita_bruta": 27942.56,
               "investimento": 338732.14,
               "receita_ads": 853809.8,
               "conversoes": 193372.0,
-              "roas": 2.52,
+              "roas": 0.08,
               "cac": 1.75
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 57132.18,
+              "receita_bruta": 52498.26,
               "investimento": 428305.39,
               "receita_ads": 1491522.77,
               "conversoes": 201100.0,
-              "roas": 3.48,
+              "roas": 0.12,
               "cac": 2.13
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 38169.54,
+              "receita_bruta": 23412.1,
               "investimento": 7303.44,
               "receita_ads": 107433.6,
               "conversoes": 2679.0,
-              "roas": 14.71,
+              "roas": 3.21,
               "cac": 2.73
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 47619.97,
+              "receita_bruta": 44106.86,
               "investimento": 135602.31,
               "receita_ads": 426681.88,
               "conversoes": 49673.0,
-              "roas": 3.15,
+              "roas": 0.33,
               "cac": 2.73
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 62961.13,
+              "receita_bruta": 52574.28,
               "investimento": 87376.36,
               "receita_ads": 258848.99,
               "conversoes": 30768.0,
-              "roas": 2.96,
+              "roas": 0.6,
               "cac": 2.84
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 27415.01,
+              "receita_bruta": 26656.09,
               "investimento": 194978.41,
               "receita_ads": 564084.12,
               "conversoes": 147303.0,
-              "roas": 2.89,
+              "roas": 0.14,
               "cac": 1.32
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23825.16,
+              "receita_bruta": 18099.35,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -66933,65 +66961,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 27059.58,
+              "receita_bruta": 24679.3,
               "investimento": 68471.14,
               "receita_ads": 157483.62,
               "conversoes": 34492,
-              "roas": 2.3,
+              "roas": 0.36,
               "cac": 1.99
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 41728.53,
+              "receita_bruta": 37664.46,
               "investimento": 332097.36,
               "receita_ads": 1232657.54,
               "conversoes": 148209,
-              "roas": 3.71,
+              "roas": 0.11,
               "cac": 2.24
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 19378.61,
+              "receita_bruta": 18565.71,
               "investimento": 109755.82,
               "receita_ads": 1499271.4,
               "conversoes": 99517,
-              "roas": 13.66,
+              "roas": 0.17,
               "cac": 1.1
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 39969.62,
+              "receita_bruta": 33581.91,
               "investimento": 181226.09,
               "receita_ads": 703801.09,
               "conversoes": 42532,
-              "roas": 3.88,
+              "roas": 0.19,
               "cac": 4.26
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 53555.69,
+              "receita_bruta": 43507.47,
               "investimento": 185867.38,
               "receita_ads": 522029.54,
               "conversoes": 86049,
-              "roas": 2.81,
+              "roas": 0.23,
               "cac": 2.16
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 29612.51,
+              "receita_bruta": 25199.48,
               "investimento": 187865.97,
               "receita_ads": 776176.88,
               "conversoes": 269467,
-              "roas": 4.13,
+              "roas": 0.13,
               "cac": 0.7
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 26980.07,
+              "receita_bruta": 24186.24,
               "investimento": 335240.36,
               "receita_ads": 1442677.84,
               "conversoes": 187014,
-              "roas": 4.3,
+              "roas": 0.07,
               "cac": 1.79
             }
           ],
@@ -67186,20 +67214,20 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 35206.05,
+              "receita_bruta": 25997.94,
               "investimento": 192874.17,
               "receita_ads": 745633.08,
               "conversoes": 177152,
-              "roas": 3.87,
+              "roas": 0.13,
               "cac": 1.09
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 55823.58,
+              "receita_bruta": 44083.44,
               "investimento": 136654.39,
               "receita_ads": 449464.25,
               "conversoes": 72016,
-              "roas": 3.29,
+              "roas": 0.32,
               "cac": 1.9
             },
             {
@@ -67208,43 +67236,43 @@
               "investimento": 220753.23,
               "receita_ads": 1642684.3,
               "conversoes": 271168,
-              "roas": 7.44,
+              "roas": 0.14,
               "cac": 0.81
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 42136.19,
+              "receita_bruta": 35447.68,
               "investimento": 405017.02,
               "receita_ads": 2299097.55,
               "conversoes": 198522,
-              "roas": 5.68,
+              "roas": 0.09,
               "cac": 2.04
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 66199.1,
+              "receita_bruta": 60634.36,
               "investimento": 140559.64,
               "receita_ads": 496637.74,
               "conversoes": 33132,
-              "roas": 3.53,
+              "roas": 0.43,
               "cac": 4.24
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 25677.75,
+              "receita_bruta": 24301.13,
               "investimento": 527710.69,
               "receita_ads": 1700333.11,
               "conversoes": 247567,
-              "roas": 3.22,
+              "roas": 0.05,
               "cac": 2.13
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 26492.32,
+              "receita_bruta": 20369.87,
               "investimento": 147929.12,
               "receita_ads": 496679.76,
               "conversoes": 35814,
-              "roas": 3.36,
+              "roas": 0.14,
               "cac": 4.13
             }
           ],
@@ -67439,65 +67467,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 26374.32,
+              "receita_bruta": 19879.71,
               "investimento": 224349.09,
               "receita_ads": 805543.55,
               "conversoes": 102611,
-              "roas": 3.59,
+              "roas": 0.09,
               "cac": 2.19
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 44801.41,
+              "receita_bruta": 40493.83,
               "investimento": 111236.97,
               "receita_ads": 406014.94,
               "conversoes": 39180,
-              "roas": 3.65,
+              "roas": 0.36,
               "cac": 2.84
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 21255.78,
+              "receita_bruta": 19993.35,
               "investimento": 195657.91,
               "receita_ads": 998999.87,
               "conversoes": 71496,
-              "roas": 5.11,
+              "roas": 0.1,
               "cac": 2.74
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 38667.03,
+              "receita_bruta": 33669.87,
               "investimento": 101118.29,
               "receita_ads": 338746.27,
               "conversoes": 30230,
-              "roas": 3.35,
+              "roas": 0.33,
               "cac": 3.34
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 43497.78,
+              "receita_bruta": 40193.29,
               "investimento": 92748.51,
               "receita_ads": 211769.53,
               "conversoes": 20757,
-              "roas": 2.28,
+              "roas": 0.43,
               "cac": 4.47
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 34791.58,
+              "receita_bruta": 27330.54,
               "investimento": 96329.13,
               "receita_ads": 355454.49,
               "conversoes": 11190,
-              "roas": 3.69,
+              "roas": 0.28,
               "cac": 8.61
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 18204.04,
+              "receita_bruta": 15628.12,
               "investimento": 71071.39,
               "receita_ads": 221032.02,
               "conversoes": 50266,
-              "roas": 3.11,
+              "roas": 0.22,
               "cac": 1.41
             }
           ],
@@ -67692,65 +67720,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 22695.45,
+              "receita_bruta": 21039.11,
               "investimento": 336128.69,
               "receita_ads": 879895.59,
               "conversoes": 100066,
-              "roas": 2.62,
+              "roas": 0.06,
               "cac": 3.36
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 54913.21,
+              "receita_bruta": 53946.62,
               "investimento": 2365.77,
               "receita_ads": 8918.95,
               "conversoes": 1349,
-              "roas": 3.77,
+              "roas": 22.8,
               "cac": 1.75
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 26721.09,
+              "receita_bruta": 26241.3,
               "investimento": 98799.5,
               "receita_ads": 1051330.14,
               "conversoes": 38651,
-              "roas": 10.64,
+              "roas": 0.27,
               "cac": 2.56
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 54570.81,
+              "receita_bruta": 49081.76,
               "investimento": 95376.6,
               "receita_ads": 443401.51,
               "conversoes": 18366,
-              "roas": 4.65,
+              "roas": 0.51,
               "cac": 5.19
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 56210.96,
+              "receita_bruta": 49644.6,
               "investimento": 354613.67,
               "receita_ads": 1066139.44,
               "conversoes": 220857,
-              "roas": 3.01,
+              "roas": 0.14,
               "cac": 1.61
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 30636.95,
+              "receita_bruta": 26114.53,
               "investimento": 271996.89,
               "receita_ads": 789119.44,
               "conversoes": 208247,
-              "roas": 2.9,
+              "roas": 0.1,
               "cac": 1.31
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23225.86,
+              "receita_bruta": 20097.82,
               "investimento": 8081.67,
               "receita_ads": 44530.0,
               "conversoes": 3775,
-              "roas": 5.51,
+              "roas": 2.49,
               "cac": 2.14
             }
           ],
@@ -67945,16 +67973,16 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 32567.83,
+              "receita_bruta": 30016.44,
               "investimento": 518354.36,
               "receita_ads": 1814119.1,
               "conversoes": 209320.0,
-              "roas": 3.5,
+              "roas": 0.06,
               "cac": 2.48
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 47343.29,
+              "receita_bruta": 40305.27,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -67963,47 +67991,47 @@
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 29123.81,
+              "receita_bruta": 25899.85,
               "investimento": 198397.59,
               "receita_ads": 1823823.4,
               "conversoes": 260371.0,
-              "roas": 9.19,
+              "roas": 0.13,
               "cac": 0.76
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 33808.95,
+              "receita_bruta": 30180.72,
               "investimento": 301486.04,
               "receita_ads": 1171652.19,
               "conversoes": 130010.0,
-              "roas": 3.89,
+              "roas": 0.1,
               "cac": 2.32
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 69578.63,
+              "receita_bruta": 63422.26,
               "investimento": 95643.6,
               "receita_ads": 419875.4,
               "conversoes": 80428.0,
-              "roas": 4.39,
+              "roas": 0.66,
               "cac": 1.19
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 21305.63,
+              "receita_bruta": 17977.02,
               "investimento": 184828.52,
               "receita_ads": 631369.87,
               "conversoes": 104000.0,
-              "roas": 3.42,
+              "roas": 0.1,
               "cac": 1.78
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 26452.09,
+              "receita_bruta": 22053.09,
               "investimento": 107338.95,
               "receita_ads": 712750.79,
               "conversoes": 49633.0,
-              "roas": 6.64,
+              "roas": 0.21,
               "cac": 2.16
             }
           ],
@@ -68198,61 +68226,61 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 27539.73,
+              "receita_bruta": 24155.3,
               "investimento": 127047.58,
               "receita_ads": 396215.55,
               "conversoes": 80590.0,
-              "roas": 3.12,
+              "roas": 0.19,
               "cac": 1.58
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 54996.28,
+              "receita_bruta": 45994.42,
               "investimento": 277648.54,
               "receita_ads": 965170.92,
               "conversoes": 143320.0,
-              "roas": 3.48,
+              "roas": 0.17,
               "cac": 1.94
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 34116.5,
+              "receita_bruta": 30963.98,
               "investimento": 113690.24,
               "receita_ads": 1628044.24,
               "conversoes": 14429.0,
-              "roas": 14.32,
+              "roas": 0.27,
               "cac": 7.88
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 43043.11,
+              "receita_bruta": 39223.08,
               "investimento": 330491.53,
               "receita_ads": 1442686.47,
               "conversoes": 108751.0,
-              "roas": 4.37,
+              "roas": 0.12,
               "cac": 3.04
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 64391.47,
+              "receita_bruta": 58408.24,
               "investimento": 115451.71,
               "receita_ads": 302995.21,
               "conversoes": 33364.0,
-              "roas": 2.62,
+              "roas": 0.51,
               "cac": 3.46
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 25823.52,
+              "receita_bruta": 24112.58,
               "investimento": 905.75,
               "receita_ads": 1576.0,
               "conversoes": 105.0,
-              "roas": 1.74,
+              "roas": 26.62,
               "cac": 8.63
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 19074.77,
+              "receita_bruta": 16543.8,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -68451,20 +68479,20 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 28422.08,
+              "receita_bruta": 25331.1,
               "investimento": 116748.56,
               "receita_ads": 365470.51,
               "conversoes": 146583.0,
-              "roas": 3.13,
+              "roas": 0.22,
               "cac": 0.8
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 61522.68,
+              "receita_bruta": 57342.33,
               "investimento": 202762.69,
               "receita_ads": 686014.81,
               "conversoes": 96026.0,
-              "roas": 3.38,
+              "roas": 0.28,
               "cac": 2.11
             },
             {
@@ -68473,12 +68501,12 @@
               "investimento": 262502.06,
               "receita_ads": 2540511.21,
               "conversoes": 50820.0,
-              "roas": 9.68,
+              "roas": 0.08,
               "cac": 5.17
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 48877.86,
+              "receita_bruta": 47303.65,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -68487,29 +68515,29 @@
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 56018.05,
+              "receita_bruta": 50310.51,
               "investimento": 129449.48,
               "receita_ads": 549327.65,
               "conversoes": 21049.0,
-              "roas": 4.24,
+              "roas": 0.39,
               "cac": 6.15
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 26523.4,
+              "receita_bruta": 25849.43,
               "investimento": 73097.63,
               "receita_ads": 138931.26,
               "conversoes": 50628.0,
-              "roas": 1.9,
+              "roas": 0.35,
               "cac": 1.44
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 36494.18,
+              "receita_bruta": 33192.02,
               "investimento": 88144.66,
               "receita_ads": 542794.21,
               "conversoes": 53539.0,
-              "roas": 6.16,
+              "roas": 0.38,
               "cac": 1.65
             }
           ],
@@ -68704,7 +68732,7 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 30403.87,
+              "receita_bruta": 27597.17,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -68713,56 +68741,56 @@
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 48745.56,
+              "receita_bruta": 42256.47,
               "investimento": 154771.16,
               "receita_ads": 565008.67,
               "conversoes": 43825.0,
-              "roas": 3.65,
+              "roas": 0.27,
               "cac": 3.53
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 20759.27,
+              "receita_bruta": 18542.26,
               "investimento": 260982.04,
               "receita_ads": 1438118.05,
               "conversoes": 236169.0,
-              "roas": 5.51,
+              "roas": 0.07,
               "cac": 1.11
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 34332.58,
+              "receita_bruta": 31491.72,
               "investimento": 45773.9,
               "receita_ads": 119927.62,
               "conversoes": 9574.0,
-              "roas": 2.62,
+              "roas": 0.69,
               "cac": 4.78
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 48280.39,
+              "receita_bruta": 40308.0,
               "investimento": 100823.04,
               "receita_ads": 294404.69,
               "conversoes": 146165.0,
-              "roas": 2.92,
+              "roas": 0.4,
               "cac": 0.69
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 40442.1,
+              "receita_bruta": 37375.96,
               "investimento": 22701.82,
               "receita_ads": 47900.84,
               "conversoes": 7375.0,
-              "roas": 2.11,
+              "roas": 1.65,
               "cac": 3.08
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 37779.69,
+              "receita_bruta": 33010.48,
               "investimento": 160769.62,
               "receita_ads": 1115406.31,
               "conversoes": 34876.0,
-              "roas": 6.94,
+              "roas": 0.21,
               "cac": 4.61
             }
           ],
@@ -68957,65 +68985,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 26546.51,
+              "receita_bruta": 23630.08,
               "investimento": 141569.25,
               "receita_ads": 226347.94,
               "conversoes": 52006,
-              "roas": 1.6,
+              "roas": 0.17,
               "cac": 2.72
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 59319.88,
+              "receita_bruta": 51985.87,
               "investimento": 280962.51,
               "receita_ads": 1012476.56,
               "conversoes": 128249,
-              "roas": 3.6,
+              "roas": 0.19,
               "cac": 2.19
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 24779.98,
+              "receita_bruta": 18638.67,
               "investimento": 169741.02,
               "receita_ads": 1028600.12,
               "conversoes": 152617,
-              "roas": 6.06,
+              "roas": 0.11,
               "cac": 1.11
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 53888.98,
+              "receita_bruta": 50574.53,
               "investimento": 435800.15,
               "receita_ads": 2198336.55,
               "conversoes": 209598,
-              "roas": 5.04,
+              "roas": 0.12,
               "cac": 2.08
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 58255.13,
+              "receita_bruta": 52609.62,
               "investimento": 103375.4,
               "receita_ads": 406394.08,
               "conversoes": 55805,
-              "roas": 3.93,
+              "roas": 0.51,
               "cac": 1.85
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 38203.77,
+              "receita_bruta": 32871.37,
               "investimento": 65236.33,
               "receita_ads": 206079.4,
               "conversoes": 59016,
-              "roas": 3.16,
+              "roas": 0.5,
               "cac": 1.11
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 26816.43,
+              "receita_bruta": 22715.99,
               "investimento": 357350.95,
               "receita_ads": 1530664.57,
               "conversoes": 342526,
-              "roas": 4.28,
+              "roas": 0.06,
               "cac": 1.04
             }
           ],
@@ -69210,65 +69238,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 35638.31,
+              "receita_bruta": 33286.38,
               "investimento": 183514.72,
               "receita_ads": 636377.75,
               "conversoes": 55879,
-              "roas": 3.47,
+              "roas": 0.18,
               "cac": 3.28
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 67099.36,
+              "receita_bruta": 59200.35,
               "investimento": 256135.95,
               "receita_ads": 864316.27,
               "conversoes": 73554,
-              "roas": 3.37,
+              "roas": 0.23,
               "cac": 3.48
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 29658.67,
+              "receita_bruta": 25897.88,
               "investimento": 211066.34,
               "receita_ads": 1383894.59,
               "conversoes": 183849,
-              "roas": 6.56,
+              "roas": 0.12,
               "cac": 1.15
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 50498.29,
+              "receita_bruta": 43252.39,
               "investimento": 80687.5,
               "receita_ads": 375863.96,
               "conversoes": 13483,
-              "roas": 4.66,
+              "roas": 0.54,
               "cac": 5.98
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 34949.18,
+              "receita_bruta": 33119.78,
               "investimento": 145285.68,
               "receita_ads": 329363.06,
               "conversoes": 72903,
-              "roas": 2.27,
+              "roas": 0.23,
               "cac": 1.99
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 35309.62,
+              "receita_bruta": 30542.67,
               "investimento": 447262.45,
               "receita_ads": 1360918.63,
               "conversoes": 186841,
-              "roas": 3.04,
+              "roas": 0.07,
               "cac": 2.39
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 31252.37,
+              "receita_bruta": 30675.56,
               "investimento": 139501.7,
               "receita_ads": 595560.55,
               "conversoes": 61455,
-              "roas": 4.27,
+              "roas": 0.22,
               "cac": 2.27
             }
           ],
@@ -69463,65 +69491,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 29959.9,
+              "receita_bruta": 27587.15,
               "investimento": 246555.76,
               "receita_ads": 848121.33,
               "conversoes": 231897,
-              "roas": 3.44,
+              "roas": 0.11,
               "cac": 1.06
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 47238.35,
+              "receita_bruta": 41877.62,
               "investimento": 25895.92,
               "receita_ads": 100476.17,
               "conversoes": 6385,
-              "roas": 3.88,
+              "roas": 1.62,
               "cac": 4.06
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 43184.14,
+              "receita_bruta": 37665.79,
               "investimento": 148712.02,
               "receita_ads": 306122.14,
               "conversoes": 64411,
-              "roas": 2.06,
+              "roas": 0.25,
               "cac": 2.31
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 48426.42,
+              "receita_bruta": 43826.46,
               "investimento": 322368.52,
               "receita_ads": 1498362.77,
               "conversoes": 269469,
-              "roas": 4.65,
+              "roas": 0.14,
               "cac": 1.2
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 62506.61,
+              "receita_bruta": 57422.46,
               "investimento": 261918.87,
               "receita_ads": 1003698.16,
               "conversoes": 188468,
-              "roas": 3.83,
+              "roas": 0.22,
               "cac": 1.39
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 41291.79,
+              "receita_bruta": 37178.17,
               "investimento": 399390.25,
               "receita_ads": 1241482.88,
               "conversoes": 340530,
-              "roas": 3.11,
+              "roas": 0.09,
               "cac": 1.17
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 32841.52,
+              "receita_bruta": 26761.44,
               "investimento": 331624.43,
               "receita_ads": 1678364.85,
               "conversoes": 161128,
-              "roas": 5.06,
+              "roas": 0.08,
               "cac": 2.06
             }
           ],
@@ -69716,65 +69744,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 37429.17,
+              "receita_bruta": 29641.78,
               "investimento": 86782.3,
               "receita_ads": 344525.73,
               "conversoes": 29654,
-              "roas": 3.97,
+              "roas": 0.34,
               "cac": 2.93
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 63655.83,
+              "receita_bruta": 54357.62,
               "investimento": 113101.89,
               "receita_ads": 375690.31,
               "conversoes": 142535,
-              "roas": 3.32,
+              "roas": 0.48,
               "cac": 0.79
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 33897.37,
+              "receita_bruta": 31095.35,
               "investimento": 227757.08,
               "receita_ads": 817080.38,
               "conversoes": 115055,
-              "roas": 3.59,
+              "roas": 0.14,
               "cac": 1.98
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 50937.0,
+              "receita_bruta": 46292.74,
               "investimento": 210678.27,
               "receita_ads": 1045154.04,
               "conversoes": 107683,
-              "roas": 4.96,
+              "roas": 0.22,
               "cac": 1.96
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 70581.31,
+              "receita_bruta": 58322.42,
               "investimento": 225510.11,
               "receita_ads": 843934.6,
               "conversoes": 57223,
-              "roas": 3.74,
+              "roas": 0.26,
               "cac": 3.94
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 29568.21,
+              "receita_bruta": 28493.0,
               "investimento": 282633.08,
               "receita_ads": 1007738.65,
               "conversoes": 155257,
-              "roas": 3.57,
+              "roas": 0.1,
               "cac": 1.82
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 28113.01,
+              "receita_bruta": 22040.19,
               "investimento": 150058.92,
               "receita_ads": 813319.84,
               "conversoes": 95511,
-              "roas": 5.42,
+              "roas": 0.15,
               "cac": 1.57
             }
           ],
@@ -69969,65 +69997,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 28356.18,
+              "receita_bruta": 22870.97,
               "investimento": 93322.3,
               "receita_ads": 419017.13,
               "conversoes": 9077,
-              "roas": 4.49,
+              "roas": 0.25,
               "cac": 10.28
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 54703.08,
+              "receita_bruta": 50005.83,
               "investimento": 261491.66,
               "receita_ads": 894948.01,
               "conversoes": 195658,
-              "roas": 3.42,
+              "roas": 0.19,
               "cac": 1.34
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 29177.66,
+              "receita_bruta": 27517.96,
               "investimento": 186403.83,
               "receita_ads": 934772.42,
               "conversoes": 43461,
-              "roas": 5.01,
+              "roas": 0.15,
               "cac": 4.29
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 55135.53,
+              "receita_bruta": 45899.64,
               "investimento": 280844.07,
               "receita_ads": 1391464.81,
               "conversoes": 127033,
-              "roas": 4.95,
+              "roas": 0.16,
               "cac": 2.21
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 62634.13,
+              "receita_bruta": 54409.19,
               "investimento": 202032.99,
               "receita_ads": 685690.17,
               "conversoes": 55678,
-              "roas": 3.39,
+              "roas": 0.27,
               "cac": 3.63
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 30607.86,
+              "receita_bruta": 27384.37,
               "investimento": 90606.81,
               "receita_ads": 349379.65,
               "conversoes": 38880,
-              "roas": 3.86,
+              "roas": 0.3,
               "cac": 2.33
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 25654.16,
+              "receita_bruta": 22733.86,
               "investimento": 239800.92,
               "receita_ads": 823482.01,
               "conversoes": 200897,
-              "roas": 3.43,
+              "roas": 0.09,
               "cac": 1.19
             }
           ],
@@ -70222,65 +70250,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 23542.78,
+              "receita_bruta": 19014.8,
               "investimento": 85469.36,
               "receita_ads": 182904.43,
               "conversoes": 2766,
-              "roas": 2.14,
+              "roas": 0.22,
               "cac": 30.9
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 50572.14,
+              "receita_bruta": 45317.5,
               "investimento": 125935.64,
               "receita_ads": 435762.46,
               "conversoes": 71702,
-              "roas": 3.46,
+              "roas": 0.36,
               "cac": 1.76
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 26665.67,
+              "receita_bruta": 24418.41,
               "investimento": 244699.21,
               "receita_ads": 1530219.38,
               "conversoes": 126651,
-              "roas": 6.25,
+              "roas": 0.1,
               "cac": 1.93
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 53987.84,
+              "receita_bruta": 47904.92,
               "investimento": 191925.13,
               "receita_ads": 989491.49,
               "conversoes": 72441,
-              "roas": 5.16,
+              "roas": 0.25,
               "cac": 2.65
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 52648.5,
+              "receita_bruta": 47883.5,
               "investimento": 242160.63,
               "receita_ads": 697015.27,
               "conversoes": 34445,
-              "roas": 2.88,
+              "roas": 0.2,
               "cac": 7.03
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 37047.91,
+              "receita_bruta": 32312.14,
               "investimento": 329619.94,
               "receita_ads": 1360136.62,
               "conversoes": 187434,
-              "roas": 4.13,
+              "roas": 0.1,
               "cac": 1.76
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 18346.76,
+              "receita_bruta": 17608.37,
               "investimento": 226446.8,
               "receita_ads": 1181430.02,
               "conversoes": 106067,
-              "roas": 5.22,
+              "roas": 0.08,
               "cac": 2.13
             }
           ],
@@ -70475,65 +70503,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 35832.32,
+              "receita_bruta": 31855.61,
               "investimento": 83180.18,
               "receita_ads": 143285.95,
               "conversoes": 78571,
-              "roas": 1.72,
+              "roas": 0.38,
               "cac": 1.06
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 49415.81,
+              "receita_bruta": 41832.01,
               "investimento": 135255.01,
               "receita_ads": 498772.71,
               "conversoes": 42558,
-              "roas": 3.69,
+              "roas": 0.31,
               "cac": 3.18
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 37487.54,
+              "receita_bruta": 31402.71,
               "investimento": 178094.24,
               "receita_ads": 1865218.13,
               "conversoes": 58788,
-              "roas": 10.47,
+              "roas": 0.18,
               "cac": 3.03
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 57348.06,
+              "receita_bruta": 54663.55,
               "investimento": 75405.11,
               "receita_ads": 348058.19,
               "conversoes": 14012,
-              "roas": 4.62,
+              "roas": 0.72,
               "cac": 5.38
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 62006.0,
+              "receita_bruta": 58110.68,
               "investimento": 138603.61,
               "receita_ads": 323556.02,
               "conversoes": 76998,
-              "roas": 2.33,
+              "roas": 0.42,
               "cac": 1.8
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 26231.21,
+              "receita_bruta": 23030.25,
               "investimento": 73813.83,
               "receita_ads": 293819.72,
               "conversoes": 20651,
-              "roas": 3.98,
+              "roas": 0.31,
               "cac": 3.57
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 30379.8,
+              "receita_bruta": 26815.99,
               "investimento": 155491.38,
               "receita_ads": 600618.63,
               "conversoes": 66556,
-              "roas": 3.86,
+              "roas": 0.17,
               "cac": 2.34
             }
           ],
@@ -70728,65 +70756,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 32677.1,
+              "receita_bruta": 25549.98,
               "investimento": 89380.17,
               "receita_ads": 222556.62,
               "conversoes": 136792,
-              "roas": 2.49,
+              "roas": 0.29,
               "cac": 0.65
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 58755.98,
+              "receita_bruta": 56349.34,
               "investimento": 82331.73,
               "receita_ads": 256051.68,
               "conversoes": 28697,
-              "roas": 3.11,
+              "roas": 0.68,
               "cac": 2.87
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 29900.14,
+              "receita_bruta": 24785.07,
               "investimento": 176243.91,
               "receita_ads": 1587938.91,
               "conversoes": 72248,
-              "roas": 9.01,
+              "roas": 0.14,
               "cac": 2.44
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 50296.44,
+              "receita_bruta": 40661.08,
               "investimento": 314316.27,
               "receita_ads": 1517370.81,
               "conversoes": 124698,
-              "roas": 4.83,
+              "roas": 0.13,
               "cac": 2.52
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 51140.52,
+              "receita_bruta": 41030.97,
               "investimento": 157690.25,
               "receita_ads": 325567.04,
               "conversoes": 98604,
-              "roas": 2.06,
+              "roas": 0.26,
               "cac": 1.6
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 41580.32,
+              "receita_bruta": 36366.21,
               "investimento": 275655.48,
               "receita_ads": 1120116.99,
               "conversoes": 130324,
-              "roas": 4.06,
+              "roas": 0.13,
               "cac": 2.12
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 21479.55,
+              "receita_bruta": 18410.7,
               "investimento": 343906.76,
               "receita_ads": 1025262.84,
               "conversoes": 205508,
-              "roas": 2.98,
+              "roas": 0.05,
               "cac": 1.67
             }
           ],
@@ -70981,25 +71009,25 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 59133.28,
+              "receita_bruta": 53407.22,
               "investimento": 103644.86,
               "receita_ads": 487130.84,
               "conversoes": 164305.0,
-              "roas": 4.7,
+              "roas": 0.52,
               "cac": 0.63
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 124538.3,
+              "receita_bruta": 109398.42,
               "investimento": 140678.69,
               "receita_ads": 461837.06,
               "conversoes": 85843.0,
-              "roas": 3.28,
+              "roas": 0.78,
               "cac": 1.64
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 68965.63,
+              "receita_bruta": 61020.46,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -71008,34 +71036,34 @@
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 84346.76,
+              "receita_bruta": 76430.38,
               "investimento": 138781.91,
               "receita_ads": 807683.55,
               "conversoes": 46343.0,
-              "roas": 5.82,
+              "roas": 0.55,
               "cac": 2.99
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 110907.61,
+              "receita_bruta": 103733.02,
               "investimento": 656144.25,
               "receita_ads": 2041957.1,
               "conversoes": 236450.0,
-              "roas": 3.11,
+              "roas": 0.16,
               "cac": 2.77
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 58637.19,
+              "receita_bruta": 54377.67,
               "investimento": 198174.12,
               "receita_ads": 472776.12,
               "conversoes": 168064.0,
-              "roas": 2.39,
+              "roas": 0.27,
               "cac": 1.18
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 70188.37,
+              "receita_bruta": 59094.98,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -71234,65 +71262,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 60033.13,
+              "receita_bruta": 51995.08,
               "investimento": 24979.8,
               "receita_ads": 78936.17,
               "conversoes": 5349,
-              "roas": 3.16,
+              "roas": 2.08,
               "cac": 4.67
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 130000.3,
+              "receita_bruta": 113476.41,
               "investimento": 135161.24,
               "receita_ads": 437854.66,
               "conversoes": 180814,
-              "roas": 3.24,
+              "roas": 0.84,
               "cac": 0.75
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 57721.59,
+              "receita_bruta": 51773.06,
               "investimento": 489400.77,
               "receita_ads": 2614554.63,
               "conversoes": 212800,
-              "roas": 5.34,
+              "roas": 0.11,
               "cac": 2.3
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 107916.62,
+              "receita_bruta": 97266.94,
               "investimento": 275954.78,
               "receita_ads": 1579676.24,
               "conversoes": 121092,
-              "roas": 5.72,
+              "roas": 0.35,
               "cac": 2.28
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 127627.8,
+              "receita_bruta": 106991.49,
               "investimento": 427522.45,
               "receita_ads": 971271.33,
               "conversoes": 316010,
-              "roas": 2.27,
+              "roas": 0.25,
               "cac": 1.35
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 69882.82,
+              "receita_bruta": 59416.03,
               "investimento": 148287.29,
               "receita_ads": 637910.65,
               "conversoes": 117594,
-              "roas": 4.3,
+              "roas": 0.4,
               "cac": 1.26
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 65958.95,
+              "receita_bruta": 60530.4,
               "investimento": 115790.54,
               "receita_ads": 392024.64,
               "conversoes": 124349,
-              "roas": 3.39,
+              "roas": 0.52,
               "cac": 0.93
             }
           ],
@@ -71487,65 +71515,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 70341.98,
+              "receita_bruta": 62421.66,
               "investimento": 138210.71,
               "receita_ads": 445055.5,
               "conversoes": 148286,
-              "roas": 3.22,
+              "roas": 0.45,
               "cac": 0.93
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 124085.33,
+              "receita_bruta": 112927.32,
               "investimento": 249739.41,
               "receita_ads": 867722.22,
               "conversoes": 72913,
-              "roas": 3.47,
+              "roas": 0.45,
               "cac": 3.43
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 65356.7,
+              "receita_bruta": 62695.76,
               "investimento": 346908.18,
               "receita_ads": 2575754.39,
               "conversoes": 156398,
-              "roas": 7.42,
+              "roas": 0.18,
               "cac": 2.22
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 94609.43,
+              "receita_bruta": 82121.32,
               "investimento": 52391.06,
               "receita_ads": 269290.05,
               "conversoes": 6068,
-              "roas": 5.14,
+              "roas": 1.57,
               "cac": 8.63
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 135931.37,
+              "receita_bruta": 114072.49,
               "investimento": 133544.73,
               "receita_ads": 522027.28,
               "conversoes": 43804,
-              "roas": 3.91,
+              "roas": 0.85,
               "cac": 3.05
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 55823.85,
+              "receita_bruta": 44069.75,
               "investimento": 135820.14,
               "receita_ads": 252603.65,
               "conversoes": 34483,
-              "roas": 1.86,
+              "roas": 0.32,
               "cac": 3.94
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 67986.36,
+              "receita_bruta": 56516.77,
               "investimento": 397377.58,
               "receita_ads": 1300486.11,
               "conversoes": 101485,
-              "roas": 3.27,
+              "roas": 0.14,
               "cac": 3.92
             }
           ],
@@ -71740,65 +71768,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 69949.29,
+              "receita_bruta": 54120.46,
               "investimento": 127700.79,
               "receita_ads": 472037.28,
               "conversoes": 48710,
-              "roas": 3.7,
+              "roas": 0.42,
               "cac": 2.62
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 161461.66,
+              "receita_bruta": 144061.23,
               "investimento": 168816.6,
               "receita_ads": 601285.0,
               "conversoes": 151751,
-              "roas": 3.56,
+              "roas": 0.85,
               "cac": 1.11
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 111752.91,
+              "receita_bruta": 95046.76,
               "investimento": 294299.67,
               "receita_ads": 2920270.24,
               "conversoes": 345669,
-              "roas": 9.92,
+              "roas": 0.32,
               "cac": 0.85
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 150349.91,
+              "receita_bruta": 134245.99,
               "investimento": 191198.44,
               "receita_ads": 658188.97,
               "conversoes": 201514,
-              "roas": 3.44,
+              "roas": 0.7,
               "cac": 0.95
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 183090.78,
+              "receita_bruta": 162103.75,
               "investimento": 283321.62,
               "receita_ads": 1016994.4,
               "conversoes": 261154,
-              "roas": 3.59,
+              "roas": 0.57,
               "cac": 1.08
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 103619.11,
+              "receita_bruta": 96511.75,
               "investimento": 477271.96,
               "receita_ads": 1697640.92,
               "conversoes": 185280,
-              "roas": 3.56,
+              "roas": 0.2,
               "cac": 2.58
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 109001.59,
+              "receita_bruta": 99012.06,
               "investimento": 308272.16,
               "receita_ads": 1611933.77,
               "conversoes": 146159,
-              "roas": 5.23,
+              "roas": 0.32,
               "cac": 2.11
             }
           ],
@@ -71993,65 +72021,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 52810.31,
+              "receita_bruta": 49226.96,
               "investimento": 173422.52,
               "receita_ads": 344613.98,
               "conversoes": 111615,
-              "roas": 1.99,
+              "roas": 0.28,
               "cac": 1.55
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 125448.63,
+              "receita_bruta": 103431.26,
               "investimento": 248744.1,
               "receita_ads": 828045.03,
               "conversoes": 150233,
-              "roas": 3.33,
+              "roas": 0.42,
               "cac": 1.66
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 73840.19,
+              "receita_bruta": 65087.01,
               "investimento": 306370.74,
               "receita_ads": 3663667.28,
               "conversoes": 38606,
-              "roas": 11.96,
+              "roas": 0.21,
               "cac": 7.94
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 107821.11,
+              "receita_bruta": 95895.84,
               "investimento": 203622.59,
               "receita_ads": 800499.85,
               "conversoes": 151371,
-              "roas": 3.93,
+              "roas": 0.47,
               "cac": 1.35
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 139390.97,
+              "receita_bruta": 128675.67,
               "investimento": 84364.9,
               "receita_ads": 192425.39,
               "conversoes": 42057,
-              "roas": 2.28,
+              "roas": 1.53,
               "cac": 2.01
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 92763.31,
+              "receita_bruta": 86749.93,
               "investimento": 195864.53,
               "receita_ads": 410212.49,
               "conversoes": 58978,
-              "roas": 2.09,
+              "roas": 0.44,
               "cac": 3.32
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 71706.22,
+              "receita_bruta": 65379.73,
               "investimento": 426761.04,
               "receita_ads": 1960411.86,
               "conversoes": 252475,
-              "roas": 4.59,
+              "roas": 0.15,
               "cac": 1.69
             }
           ],
@@ -72246,65 +72274,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 42740.7,
+              "receita_bruta": 33072.5,
               "investimento": 480291.49,
               "receita_ads": 1617551.32,
               "conversoes": 296628,
-              "roas": 3.37,
+              "roas": 0.07,
               "cac": 1.62
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 91194.49,
+              "receita_bruta": 80299.12,
               "investimento": 302936.2,
               "receita_ads": 1111921.28,
               "conversoes": 260890,
-              "roas": 3.67,
+              "roas": 0.27,
               "cac": 1.16
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 44262.4,
+              "receita_bruta": 42461.67,
               "investimento": 381629.61,
               "receita_ads": 2071464.64,
               "conversoes": 173583,
-              "roas": 5.43,
+              "roas": 0.11,
               "cac": 2.2
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 101965.2,
+              "receita_bruta": 91313.62,
               "investimento": 339198.51,
               "receita_ads": 1913700.35,
               "conversoes": 85377,
-              "roas": 5.64,
+              "roas": 0.27,
               "cac": 3.97
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 118295.45,
+              "receita_bruta": 102688.46,
               "investimento": 200810.89,
               "receita_ads": 413789.58,
               "conversoes": 87354,
-              "roas": 2.06,
+              "roas": 0.51,
               "cac": 2.3
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 51883.09,
+              "receita_bruta": 46641.81,
               "investimento": 535444.47,
               "receita_ads": 1434471.99,
               "conversoes": 167551,
-              "roas": 2.68,
+              "roas": 0.09,
               "cac": 3.2
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 53040.79,
+              "receita_bruta": 46421.3,
               "investimento": 49448.7,
               "receita_ads": 282846.56,
               "conversoes": 29590,
-              "roas": 5.72,
+              "roas": 0.94,
               "cac": 1.67
             }
           ],
@@ -72499,65 +72527,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 63879.03,
+              "receita_bruta": 57255.22,
               "investimento": 150527.34,
               "receita_ads": 272128.85,
               "conversoes": 108458,
-              "roas": 1.81,
+              "roas": 0.38,
               "cac": 1.39
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 92294.82,
+              "receita_bruta": 87250.84,
               "investimento": 7491.7,
               "receita_ads": 23299.19,
               "conversoes": 8398,
-              "roas": 3.11,
+              "roas": 11.65,
               "cac": 0.89
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 44739.01,
+              "receita_bruta": 38286.03,
               "investimento": 287417.78,
               "receita_ads": 712825.48,
               "conversoes": 70745,
-              "roas": 2.48,
+              "roas": 0.13,
               "cac": 4.06
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 95562.89,
+              "receita_bruta": 85929.18,
               "investimento": 491805.54,
               "receita_ads": 2090595.15,
               "conversoes": 222688,
-              "roas": 4.25,
+              "roas": 0.17,
               "cac": 2.21
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 108065.66,
+              "receita_bruta": 100695.24,
               "investimento": 322102.59,
               "receita_ads": 938362.76,
               "conversoes": 205060,
-              "roas": 2.91,
+              "roas": 0.31,
               "cac": 1.57
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 59232.03,
+              "receita_bruta": 54092.46,
               "investimento": 136408.09,
               "receita_ads": 473542.09,
               "conversoes": 122776,
-              "roas": 3.47,
+              "roas": 0.4,
               "cac": 1.11
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 55795.16,
+              "receita_bruta": 49006.03,
               "investimento": 212799.2,
               "receita_ads": 1045264.17,
               "conversoes": 201334,
-              "roas": 4.91,
+              "roas": 0.23,
               "cac": 1.06
             }
           ],
@@ -72752,65 +72780,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 51123.84,
+              "receita_bruta": 45081.5,
               "investimento": 273278.96,
               "receita_ads": 558069.24,
               "conversoes": 204569,
-              "roas": 2.04,
+              "roas": 0.16,
               "cac": 1.34
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 87151.22,
+              "receita_bruta": 79949.8,
               "investimento": 78266.11,
               "receita_ads": 264748.14,
               "conversoes": 48390,
-              "roas": 3.38,
+              "roas": 1.02,
               "cac": 1.62
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 73248.54,
+              "receita_bruta": 64438.06,
               "investimento": 362475.6,
               "receita_ads": 2460397.45,
               "conversoes": 266274,
-              "roas": 6.79,
+              "roas": 0.18,
               "cac": 1.36
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 102490.67,
+              "receita_bruta": 96642.33,
               "investimento": 420261.6,
               "receita_ads": 1909644.6,
               "conversoes": 207197,
-              "roas": 4.54,
+              "roas": 0.23,
               "cac": 2.03
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 122991.45,
+              "receita_bruta": 107934.49,
               "investimento": 519466.92,
               "receita_ads": 1427955.31,
               "conversoes": 414657,
-              "roas": 2.75,
+              "roas": 0.21,
               "cac": 1.25
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 73232.28,
+              "receita_bruta": 67221.58,
               "investimento": 257260.76,
               "receita_ads": 894784.96,
               "conversoes": 201992,
-              "roas": 3.48,
+              "roas": 0.26,
               "cac": 1.27
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 57567.87,
+              "receita_bruta": 53135.61,
               "investimento": 148349.85,
               "receita_ads": 425506.37,
               "conversoes": 132949,
-              "roas": 2.87,
+              "roas": 0.36,
               "cac": 1.12
             }
           ],
@@ -73005,7 +73033,7 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 48141.25,
+              "receita_bruta": 36875.7,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -73014,25 +73042,25 @@
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 104520.45,
+              "receita_bruta": 92511.04,
               "investimento": 267745.91,
               "receita_ads": 848825.16,
               "conversoes": 267264.0,
-              "roas": 3.17,
+              "roas": 0.35,
               "cac": 1.0
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 62982.86,
+              "receita_bruta": 48440.9,
               "investimento": 154037.61,
               "receita_ads": 1325834.51,
               "conversoes": 63631.0,
-              "roas": 8.61,
+              "roas": 0.31,
               "cac": 2.42
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 106073.73,
+              "receita_bruta": 83286.66,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -73041,25 +73069,25 @@
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 128292.54,
+              "receita_bruta": 116977.14,
               "investimento": 34227.84,
               "receita_ads": 56133.66,
               "conversoes": 19521.0,
-              "roas": 1.64,
+              "roas": 3.42,
               "cac": 1.75
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 64471.33,
+              "receita_bruta": 55439.34,
               "investimento": 165023.93,
               "receita_ads": 722415.18,
               "conversoes": 129870.0,
-              "roas": 4.38,
+              "roas": 0.34,
               "cac": 1.27
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 58816.28,
+              "receita_bruta": 53259.46,
               "investimento": 0.0,
               "receita_ads": 0.0,
               "conversoes": 0.0,
@@ -73258,65 +73286,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 21871.0,
+              "receita_bruta": 17008.69,
               "investimento": 335605.65,
               "receita_ads": 860052.77,
               "conversoes": 106815,
-              "roas": 2.56,
+              "roas": 0.05,
               "cac": 3.14
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 58218.98,
+              "receita_bruta": 51944.39,
               "investimento": 277610.92,
               "receita_ads": 974135.21,
               "conversoes": 132728,
-              "roas": 3.51,
+              "roas": 0.19,
               "cac": 2.09
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 25821.73,
+              "receita_bruta": 23149.78,
               "investimento": 161174.3,
               "receita_ads": 1285107.99,
               "conversoes": 60142,
-              "roas": 7.97,
+              "roas": 0.14,
               "cac": 2.68
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 38495.03,
+              "receita_bruta": 31935.79,
               "investimento": 76723.85,
               "receita_ads": 300648.18,
               "conversoes": 6467,
-              "roas": 3.92,
+              "roas": 0.42,
               "cac": 11.86
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 58153.48,
+              "receita_bruta": 49841.76,
               "investimento": 468055.85,
               "receita_ads": 1268337.33,
               "conversoes": 264230,
-              "roas": 2.71,
+              "roas": 0.11,
               "cac": 1.77
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 32680.34,
+              "receita_bruta": 29151.31,
               "investimento": 195809.82,
               "receita_ads": 464217.14,
               "conversoes": 139819,
-              "roas": 2.37,
+              "roas": 0.15,
               "cac": 1.4
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 23353.68,
+              "receita_bruta": 19673.08,
               "investimento": 145535.39,
               "receita_ads": 408043.24,
               "conversoes": 41058,
-              "roas": 2.8,
+              "roas": 0.14,
               "cac": 3.54
             }
           ],
@@ -73511,65 +73539,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 21816.79,
+              "receita_bruta": 20962.58,
               "investimento": 322829.86,
               "receita_ads": 615606.64,
               "conversoes": 167920,
-              "roas": 1.91,
+              "roas": 0.06,
               "cac": 1.92
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 51165.89,
+              "receita_bruta": 46065.87,
               "investimento": 285650.99,
               "receita_ads": 990403.17,
               "conversoes": 185034,
-              "roas": 3.47,
+              "roas": 0.16,
               "cac": 1.54
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 31578.89,
+              "receita_bruta": 26817.66,
               "investimento": 2902.13,
               "receita_ads": 36740.97,
               "conversoes": 759,
-              "roas": 12.66,
+              "roas": 9.24,
               "cac": 3.82
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 43504.98,
+              "receita_bruta": 37695.74,
               "investimento": 99248.23,
               "receita_ads": 662087.4,
               "conversoes": 179209,
-              "roas": 6.67,
+              "roas": 0.38,
               "cac": 0.55
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 46660.69,
+              "receita_bruta": 40526.85,
               "investimento": 448643.88,
               "receita_ads": 1272349.47,
               "conversoes": 174055,
-              "roas": 2.84,
+              "roas": 0.09,
               "cac": 2.58
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 16830.2,
+              "receita_bruta": 15918.93,
               "investimento": 81328.83,
               "receita_ads": 327577.28,
               "conversoes": 43050,
-              "roas": 4.03,
+              "roas": 0.2,
               "cac": 1.89
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 34088.05,
+              "receita_bruta": 28169.22,
               "investimento": 197545.19,
               "receita_ads": 1024354.68,
               "conversoes": 151825,
-              "roas": 5.19,
+              "roas": 0.14,
               "cac": 1.3
             }
           ],
@@ -73764,65 +73792,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 16167.45,
+              "receita_bruta": 14444.3,
               "investimento": 397538.73,
               "receita_ads": 1491086.67,
               "conversoes": 284527,
-              "roas": 3.75,
+              "roas": 0.04,
               "cac": 1.4
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 43687.66,
+              "receita_bruta": 36925.42,
               "investimento": 529052.0,
               "receita_ads": 1830106.21,
               "conversoes": 265688,
-              "roas": 3.46,
+              "roas": 0.07,
               "cac": 1.99
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 21719.6,
+              "receita_bruta": 21093.16,
               "investimento": 97518.98,
               "receita_ads": 434006.15,
               "conversoes": 56636,
-              "roas": 4.45,
+              "roas": 0.22,
               "cac": 1.72
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 35916.36,
+              "receita_bruta": 30540.74,
               "investimento": 271376.99,
               "receita_ads": 1133829.56,
               "conversoes": 82433,
-              "roas": 4.18,
+              "roas": 0.11,
               "cac": 3.29
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 49106.15,
+              "receita_bruta": 41420.72,
               "investimento": 205429.22,
               "receita_ads": 569277.17,
               "conversoes": 166894,
-              "roas": 2.77,
+              "roas": 0.2,
               "cac": 1.23
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 21896.27,
+              "receita_bruta": 17752.88,
               "investimento": 136453.03,
               "receita_ads": 323064.57,
               "conversoes": 65747,
-              "roas": 2.37,
+              "roas": 0.13,
               "cac": 2.08
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 17716.5,
+              "receita_bruta": 16174.09,
               "investimento": 110872.53,
               "receita_ads": 623142.53,
               "conversoes": 46707,
-              "roas": 5.62,
+              "roas": 0.15,
               "cac": 2.37
             }
           ],
@@ -74017,65 +74045,65 @@
           "canais": [
             {
               "canal": "Email Marketing",
-              "receita_bruta": 24520.27,
+              "receita_bruta": 23128.09,
               "investimento": 160396.2,
               "receita_ads": 571692.76,
               "conversoes": 148187,
-              "roas": 3.56,
+              "roas": 0.14,
               "cac": 1.08
             },
             {
               "canal": "Google Ads",
-              "receita_bruta": 33403.88,
+              "receita_bruta": 32474.89,
               "investimento": 56699.01,
               "receita_ads": 184440.81,
               "conversoes": 12287,
-              "roas": 3.25,
+              "roas": 0.57,
               "cac": 4.61
             },
             {
               "canal": "Influenciador",
-              "receita_bruta": 19932.44,
+              "receita_bruta": 18909.24,
               "investimento": 161302.38,
               "receita_ads": 1837250.66,
               "conversoes": 145982,
-              "roas": 11.39,
+              "roas": 0.12,
               "cac": 1.1
             },
             {
               "canal": "Instagram Ads",
-              "receita_bruta": 34988.72,
+              "receita_bruta": 27652.94,
               "investimento": 206142.98,
               "receita_ads": 866982.58,
               "conversoes": 161945,
-              "roas": 4.21,
+              "roas": 0.13,
               "cac": 1.27
             },
             {
               "canal": "Marketplace",
-              "receita_bruta": 26428.36,
+              "receita_bruta": 23877.86,
               "investimento": 117332.41,
               "receita_ads": 306237.59,
               "conversoes": 243356,
-              "roas": 2.61,
+              "roas": 0.2,
               "cac": 0.48
             },
             {
               "canal": "Orgânico",
-              "receita_bruta": 12084.38,
+              "receita_bruta": 9419.72,
               "investimento": 238165.07,
               "receita_ads": 666277.59,
               "conversoes": 189838,
-              "roas": 2.8,
+              "roas": 0.04,
               "cac": 1.25
             },
             {
               "canal": "TikTok Ads",
-              "receita_bruta": 10432.69,
+              "receita_bruta": 10141.95,
               "investimento": 82732.17,
               "receita_ads": 385307.2,
               "conversoes": 26539,
-              "roas": 4.66,
+              "roas": 0.12,
               "cac": 3.12
             }
           ],
