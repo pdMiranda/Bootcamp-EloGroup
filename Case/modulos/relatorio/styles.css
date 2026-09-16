@@ -1,0 +1,17 @@
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .card { 
+            background-color: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 0.75rem; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* Estilos de Impressão Executiva (Exportação PDF / A4) */
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: #ffffff !important; padding: 0 !important; color: #000000 !important; }
+            .card { box-shadow: none !important; border: 1px solid #cbd5e1 !important; border-radius: 0.5rem !important; break-inside: avoid; }
+            .page-break { page-break-before: always; }
+            @page { size: A4 portrait; margin: 8mm 10mm; }
+        }

@@ -4,10 +4,9 @@ Este projeto implementa a solução de dashboard analítico compacto descrita no
 A arquitetura é dividida em uma camada de processamento de dados (Python/Pandas) e uma de visualização (HTML/CSS/JS Estático).
 
 ## Arquivos do Projeto
-
-- `process_data.py`: Script Python que realiza a ingestão e transformação dos CSVs (Vendas, Clientes, Estoque, Marketing, Atendimento), calculando KPIs e hipóteses, e gerando um JSON estruturado.
-- `dashboard_data.json`: Arquivo gerado que contém todos os dados mastigados e prontos para leitura pelo front-end (zero processamento no browser).
 - `index.html`: Dashboard SPA construído com Tailwind CSS e Chart.js, seguindo um Bento Grid Minimalista.
+- `styles.css`: estilos próprios do dashboard e regras de impressão do relatório.
+- `script.js`: navegação das abas, carregamento dos dados, renderização dos gráficos e lógica do relatório periódico.
 - Arquivos CSV de entrada: `vendas.csv`, `clientes.csv`, `estoque.csv`, `marketing.csv`, `atendimento.csv`, localizados em `../data`.
 
 ## Como Executar
@@ -32,3 +31,10 @@ python -m http.server 8000
 Em seguida, acesse no seu navegador: [http://localhost:8000](http://localhost:8000)
 
 O dashboard carregará instantaneamente as respostas já processadas.
+
+## Módulos relacionados
+
+- [Atendimento Inteligente](../modulos/chatbot/README.md): chatbot de atendimento com consulta de pedidos e exportação de tickets.
+- [Relatório Executivo](../modulos/relatorio/README.md): relatório MBR/WBR independente para impressão ou exportação em PDF.
+
+O dashboard referencia os módulos relativos pelo iframe e todos os assets locais são carregados por caminhos relativos ao próprio diretório. Isso permite abrir cada módulo pelo mesmo servidor HTTP sem alterar a configuração.
