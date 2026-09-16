@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +12,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="min-h-screen p-4 md:p-6 lg:p-8">
 
     <!-- ================= TOP HEADER (COM ID EXCLUSIVO PARA NÃO OCULTAR O RELATÓRIO NA IMPRESSÃO) ================= -->
@@ -22,55 +26,67 @@
         <div>
             <div class="flex items-center gap-2 mb-1">
                 <span class="w-3 h-3 rounded-full bg-blue-600"></span>
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Plataforma Integrada de Decisão</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Plataforma Integrada de
+                    Decisão</span>
             </div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Vértice Retail <span class="text-slate-400 font-normal">| Executive Hub</span></h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Vértice Retail <span
+                    class="text-slate-400 font-normal">| Executive Hub</span></h1>
         </div>
 
         <div class="flex items-center gap-3">
-            <div class="flex items-center bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-sm text-xs text-slate-600 font-medium">
-                <span class="text-slate-400 mr-2">Granularidade:</span>
-                <select class="bg-transparent font-semibold text-slate-800 focus:outline-none cursor-pointer" id="gran_toggle">
-                    <option value="mes">Mês a Mês</option>
-                    <option value="semana">Semanal</option>
-                    <option value="ano">Anual</option>
-                </select>
-            </div>
-            <div class="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
+
+            <div
+                class="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Base Consolidada
             </div>
         </div>
     </header>
 
     <!-- ================= BARRA DE NAVEGAÇÃO POR ABAS (5 ABAS COMPLETAS) ================= -->
-    <nav class="flex items-center gap-1.5 overflow-x-auto bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm mb-6">
-        <button onclick="switchTab('overview')" id="nav-btn-overview" 
+    <nav
+        class="flex items-center gap-1.5 overflow-x-auto bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm mb-6">
+        <button onclick="switchTab('overview')" id="nav-btn-overview"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-blue-600 border border-blue-600 bg-blue-50/70 shadow-xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
             Visão Executiva
         </button>
-        <button onclick="switchTab('diagnostico')" id="nav-btn-diagnostico" 
+        <button onclick="switchTab('diagnostico')" id="nav-btn-diagnostico"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 border border-transparent hover:bg-slate-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
             Diagnóstico por Área
         </button>
-        <button onclick="switchTab('oportunidades')" id="nav-btn-oportunidades" 
+        <button onclick="switchTab('oportunidades')" id="nav-btn-oportunidades"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 border border-transparent hover:bg-slate-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
             Oportunidades & Business Cases
             <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">5 Ações</span>
         </button>
-        <button onclick="switchTab('roadmap')" id="nav-btn-roadmap" 
+        <button onclick="switchTab('roadmap')" id="nav-btn-roadmap"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 border border-transparent hover:bg-slate-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            </svg>
             Roadmap de Execução
         </button>
         <!-- ABA 5: RELATÓRIOS PERIÓDICOS (ÚLTIMA ABA DO MENU) -->
-        <button onclick="switchTab('relatorio')" id="nav-btn-relatorio" 
+        <button onclick="switchTab('relatorio')" id="nav-btn-relatorio"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 border border-transparent hover:bg-slate-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
             Relatórios Periódicos
-            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">WBR / MBR</span>
+            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">WBR /
+                MBR</span>
         </button>
     </nav>
 
@@ -79,17 +95,22 @@
     <!-- ABA 1: VISÃO EXECUTIVA (OVERVIEW)                                    -->
     <!-- ==================================================================== -->
     <div id="panel-overview" class="tab-panel space-y-6">
-        <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div
+            class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Pergunta Estratégica do Trimestre</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Pergunta Estratégica do
+                    Trimestre</span>
                 <h2 class="text-xl md:text-2xl font-bold mt-1 text-slate-50">
-                    Qual o real estado de saúde operacional da operação e onde estão as alavancas imediatas de geração de caixa?
+                    Qual o real estado de saúde operacional da operação e onde estão as alavancas imediatas de geração
+                    de caixa?
                 </h2>
                 <p class="text-xs md:text-sm text-slate-300 mt-1 max-w-3xl">
-                    Visão integrada dos drivers de receita, sangrias de margem logística e potencial de expansão do EBITDA via automação e sortimento.
+                    Visão integrada dos drivers de receita, sangrias de margem logística e potencial de expansão do
+                    EBITDA via automação e sortimento.
                 </p>
             </div>
-            <button onclick="switchTab('oportunidades')" class="self-start md:self-center shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs md:text-sm px-4 py-2.5 rounded-lg shadow transition flex items-center gap-2">
+            <button onclick="switchTab('oportunidades')"
+                class="self-start md:self-center shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs md:text-sm px-4 py-2.5 rounded-lg shadow transition flex items-center gap-2">
                 Ver Matriz de Decisão &rarr;
             </button>
         </div>
@@ -97,7 +118,8 @@
         <!-- 4 Macro KPIs Executivos com Tooltips -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="card p-5 relative">
-                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div
+                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Receita Bruta Total <span id="tt-macro-rec"></span></span>
                 </div>
                 <div id="exec-kpi-receita" class="text-2xl font-bold font-mono text-slate-900">R$ 0,00</div>
@@ -105,15 +127,18 @@
             </div>
 
             <div class="card p-5 relative">
-                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
-                    <span class="flex items-center gap-1.5">Margem Contribuição <span id="tt-macro-margem"></span></span>
+                <div
+                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                    <span class="flex items-center gap-1.5">Margem Contribuição <span
+                            id="tt-macro-margem"></span></span>
                 </div>
                 <div id="exec-kpi-margem" class="text-2xl font-bold font-mono text-emerald-600">R$ 0,00</div>
                 <div id="exec-kpi-margem-pct" class="text-xs text-slate-500 mt-1">Margem operacional real</div>
             </div>
 
             <div class="card p-5 relative">
-                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div
+                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Recuperação EBITDA <span id="tt-macro-ebitda"></span></span>
                 </div>
                 <div id="exec-kpi-ebitda" class="text-2xl font-bold font-mono text-purple-700">R$ 754,8k</div>
@@ -121,7 +146,8 @@
             </div>
 
             <div class="card p-5 relative">
-                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div
+                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Payback Estimado <span id="tt-macro-payback"></span></span>
                 </div>
                 <div id="exec-kpi-payback" class="text-2xl font-bold font-mono text-amber-600">2,6 meses</div>
@@ -131,48 +157,58 @@
 
         <!-- 4 Alavancas Estratégicas Mapeadas -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div onclick="switchTab('oportunidades')" class="card p-4 border-l-4 border-l-blue-500 cursor-pointer hover:bg-blue-50/20 group">
+            <div onclick="switchTab('oportunidades')"
+                class="card p-4 border-l-4 border-l-blue-500 cursor-pointer hover:bg-blue-50/20 group">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-[11px] font-bold text-blue-600 uppercase">Ação 1: Atendimento</span>
                     <span class="text-xs text-slate-400 group-hover:text-blue-600">&rarr;</span>
                 </div>
                 <h4 class="text-sm font-bold text-slate-800 mb-1">Automação WISMO no WhatsApp</h4>
-                <p class="text-xs text-slate-600">Economia projetada de <strong class="font-mono text-blue-700">R$ 138k</strong> com payback em 2,6 meses.</p>
+                <p class="text-xs text-slate-600">Economia projetada de <strong class="font-mono text-blue-700">R$
+                        138k</strong> com payback em 2,6 meses.</p>
             </div>
 
-            <div onclick="switchTab('oportunidades')" class="card p-4 border-l-4 border-l-red-500 cursor-pointer hover:bg-red-50/20 group">
+            <div onclick="switchTab('oportunidades')"
+                class="card p-4 border-l-4 border-l-red-500 cursor-pointer hover:bg-red-50/20 group">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-[11px] font-bold text-red-600 uppercase">Ação 2: Logística</span>
                     <span class="text-xs text-slate-400 group-hover:text-red-600">&rarr;</span>
                 </div>
                 <h4 class="text-sm font-bold text-slate-800 mb-1">Corte de Frete Grátis &lt; R$ 199</h4>
-                <p class="text-xs text-slate-600">Elimina <strong class="text-red-600 font-bold">450+ pedidos de margem negativa</strong> no e-commerce.</p>
+                <p class="text-xs text-slate-600">Elimina <strong class="text-red-600 font-bold">450+ pedidos de margem
+                        negativa</strong> no e-commerce.</p>
             </div>
 
-            <div onclick="switchTab('oportunidades')" class="card p-4 border-l-4 border-l-emerald-500 cursor-pointer hover:bg-emerald-50/20 group">
+            <div onclick="switchTab('oportunidades')"
+                class="card p-4 border-l-4 border-l-emerald-500 cursor-pointer hover:bg-emerald-50/20 group">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-[11px] font-bold text-emerald-600 uppercase">Ação 3: Marketing</span>
                     <span class="text-xs text-slate-400 group-hover:text-emerald-600">&rarr;</span>
                 </div>
                 <h4 class="text-sm font-bold text-slate-800 mb-1">Rebalanceamento de Mídia</h4>
-                <p class="text-xs text-slate-600">Prioriza canais eficientes gerando <strong class="font-mono text-emerald-700 font-bold">R$ 246k</strong> em margem adicional.</p>
+                <p class="text-xs text-slate-600">Prioriza canais eficientes gerando <strong
+                        class="font-mono text-emerald-700 font-bold">R$ 246k</strong> em margem adicional.</p>
             </div>
 
-            <div onclick="switchTab('oportunidades')" class="card p-4 border-l-4 border-l-purple-500 cursor-pointer hover:bg-purple-50/20 group">
+            <div onclick="switchTab('oportunidades')"
+                class="card p-4 border-l-4 border-l-purple-500 cursor-pointer hover:bg-purple-50/20 group">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-[11px] font-bold text-purple-600 uppercase">Ação 4: Estoque</span>
                     <span class="text-xs text-slate-400 group-hover:text-purple-600">&rarr;</span>
                 </div>
                 <h4 class="text-sm font-bold text-slate-800 mb-1">Bundles Moda + Beleza</h4>
-                <p class="text-xs text-slate-600">Giro rápido de <strong class="font-mono text-purple-700 font-bold">1.100+ peças</strong> de vestuário estagnadas.</p>
+                <p class="text-xs text-slate-600">Giro rápido de <strong
+                        class="font-mono text-purple-700 font-bold">1.100+ peças</strong> de vestuário estagnadas.</p>
             </div>
         </div>
 
         <!-- Gráfico Temporal Principal -->
         <div class="card p-6">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                 <div>
-                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Storytelling Temporal</span>
+                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Storytelling
+                        Temporal</span>
                     <h3 id="main-chart-title" class="text-lg md:text-xl font-extrabold text-slate-800 leading-snug">
                         O crescimento da receita está se convertendo em maior margem de contribuição?
                     </h3>
@@ -180,13 +216,24 @@
                         Cruzamento de receita bruta versus margem operacional retida após custos de produto e frete.
                     </p>
                 </div>
-                <select class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-medium self-start sm:self-center shadow-xs" id="secondary_toggle">
-                    <option value="margem">Receita Bruta vs Margem de Contribuição</option>
-                    <option value="receita_liquida_perdida">Margem vs Receita Perdida (Devoluções + Frete Reverso)</option>
-                    <option value="ticket">Receita Bruta vs Ticket Médio</option>
-                    <option value="cac_roas">CAC vs ROAS</option>
-                    <option value="volume_csat">Volume de Tickets vs CSAT</option>
-                </select>
+                <div>
+                    <select class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-medium self-start sm:self-center shadow-xs"
+                        id="gran_toggle">
+                        <option value="mes">Mês a Mês</option>
+                        <option value="semana">Semanal</option>
+                        <option value="ano">Anual</option>
+                    </select>
+                    <select
+                        class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-medium self-start sm:self-center shadow-xs"
+                        id="secondary_toggle">
+                        <option value="margem">Receita Bruta vs Margem de Contribuição</option>
+                        <option value="receita_liquida_perdida">Margem vs Receita Perdida (Devoluções + Frete Reverso)
+                        </option>
+                        <option value="ticket">Receita Bruta vs Ticket Médio</option>
+                        <option value="cac_roas">CAC vs ROAS</option>
+                        <option value="volume_csat">Volume de Tickets vs CSAT</option>
+                    </select>
+                </div>
             </div>
             <div class="relative w-full" style="height: 380px;">
                 <canvas id="mainChart"></canvas>
@@ -198,29 +245,35 @@
             <div class="card p-6 flex flex-col justify-between">
                 <div>
                     <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">Retenção & Base</span>
-                    <h3 class="text-base font-bold text-slate-800 mt-1">Qual a concentração da nossa base entre clientes fiéis e clientes em risco?</h3>
+                    <h3 class="text-base font-bold text-slate-800 mt-1">Qual a concentração da nossa base entre clientes
+                        fiéis e clientes em risco?</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Segmentação RFM sobre os compradores ativos.</p>
                 </div>
                 <div class="relative w-full my-4" style="height: 240px;">
                     <canvas id="rfmChart"></canvas>
                 </div>
                 <div class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                    <strong>Insight:</strong> Clientes em "Risco" e "Hibernando" concentram faturamento expressivo que pode ser blindado com réguas de reativação.
+                    <strong>Insight:</strong> Clientes em "Risco" e "Hibernando" concentram faturamento expressivo que
+                    pode ser blindado com réguas de reativação.
                 </div>
             </div>
 
             <div class="card p-6 lg:col-span-2 flex flex-col justify-between">
                 <div>
-                    <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Captura de Valor</span>
-                    <h3 class="text-base font-bold text-slate-800 mt-1">Onde estão concentradas as maiores alavancas financeiras para o EBITDA?</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Decomposição dos R$ 754,8k de ganhos anuais estimados entre as frentes de atuação.</p>
+                    <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Captura de
+                        Valor</span>
+                    <h3 class="text-base font-bold text-slate-800 mt-1">Onde estão concentradas as maiores alavancas
+                        financeiras para o EBITDA?</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Decomposição dos R$ 754,8k de ganhos anuais estimados entre
+                        as frentes de atuação.</p>
                 </div>
                 <div class="relative w-full my-4" style="height: 240px;">
                     <canvas id="impactoExecutiveChart"></canvas>
                 </div>
                 <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-3">
                     <span>* Metodologia auditada com base nos dados reais de 2023–2024.</span>
-                    <button onclick="switchTab('oportunidades')" class="text-blue-600 font-semibold hover:underline">Ver memória de cálculo detalhada &rarr;</button>
+                    <button onclick="switchTab('oportunidades')" class="text-blue-600 font-semibold hover:underline">Ver
+                        memória de cálculo detalhada &rarr;</button>
                 </div>
             </div>
         </div>
@@ -233,12 +286,15 @@
     <div id="panel-diagnostico" class="tab-panel hidden space-y-6">
         <section id="area-section" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="card p-6">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                     <div>
                         <span class="text-xs text-blue-600 uppercase font-bold tracking-wider">Painel Tático</span>
                         <h2 class="text-lg font-bold text-slate-900">Métricas & Diagnóstico Departamental</h2>
                     </div>
-                    <select class="border border-slate-300 rounded-lg px-3 py-1.5 bg-white text-xs font-semibold text-slate-700 shadow-xs cursor-pointer" id="area_toggle">
+                    <select
+                        class="border border-slate-300 rounded-lg px-3 py-1.5 bg-white text-xs font-semibold text-slate-700 shadow-xs cursor-pointer"
+                        id="area_toggle">
                         <option value="comercial">Comercial & Faturamento</option>
                         <option value="margem">Margem & Custos Unitários</option>
                         <option value="marketing">Marketing & Eficiência de Mídia</option>
@@ -254,7 +310,8 @@
             <!-- Card Visual com Gráfico Dedicado para TODAS as áreas -->
             <div id="area-visual-card" class="card p-6 flex flex-col min-h-80">
                 <div class="mb-3">
-                    <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Comportamento Visual da Área</span>
+                    <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Comportamento Visual da
+                        Área</span>
                     <h2 id="area-chart-title" class="text-lg font-bold text-slate-900">Comercial & Faturamento</h2>
                 </div>
                 <div class="flex-1 relative min-h-64" style="height: 280px;">
@@ -265,13 +322,19 @@
 
         <!-- Diagnóstico Multidimensional por Categoria (3 Modos Interativos) -->
         <div class="card p-6 overflow-hidden">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+            <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                 <div>
-                    <span class="text-xs font-semibold text-red-600 uppercase tracking-wider">Diagnóstico de Sortimento</span>
-                    <h2 id="cat-table-title" class="text-lg font-bold text-slate-900">Onde estão os gargalos operacionais e perdas por categoria?</h2>
-                    <p id="cat-table-subtitle" class="text-xs text-slate-500">Cruza receita, volume de ruptura, giro de inventário e taxa de devolução.</p>
+                    <span class="text-xs font-semibold text-red-600 uppercase tracking-wider">Diagnóstico de
+                        Sortimento</span>
+                    <h2 id="cat-table-title" class="text-lg font-bold text-slate-900">Onde estão os gargalos
+                        operacionais e perdas por categoria?</h2>
+                    <p id="cat-table-subtitle" class="text-xs text-slate-500">Cruza receita, volume de ruptura, giro de
+                        inventário e taxa de devolução.</p>
                 </div>
-                <select class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-semibold shadow-xs" id="categoria_view_toggle">
+                <select
+                    class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-semibold shadow-xs"
+                    id="categoria_view_toggle">
                     <option value="saude">Saúde Operacional & Ruptura</option>
                     <option value="sangria">Diagnóstico de Margem & Sangria Comercial</option>
                     <option value="turnover">Eficiência de Capital & Giro de Estoque</option>
@@ -279,7 +342,9 @@
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-xs whitespace-nowrap">
-                    <thead id="categoria-thead" class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50/80"></thead>
+                    <thead id="categoria-thead"
+                        class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50/80">
+                    </thead>
                     <tbody id="categoria-tbody" class="text-slate-700 divide-y divide-slate-100"></tbody>
                 </table>
             </div>
@@ -290,10 +355,13 @@
             <div class="card p-6 flex flex-col justify-between">
                 <div class="flex items-center justify-between gap-3 mb-3">
                     <div>
-                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Eficiência de Aquisição</span>
-                        <h2 id="canal-chart-title" class="text-base font-bold text-slate-800">Investimento vs Receita de Vendas</h2>
+                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Eficiência de
+                            Aquisição</span>
+                        <h2 id="canal-chart-title" class="text-base font-bold text-slate-800">Investimento vs Receita de
+                            Vendas</h2>
                     </div>
-                    <select class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-white font-medium" id="canal_toggle">
+                    <select class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-white font-medium"
+                        id="canal_toggle">
                         <option value="investimento_retorno">Investimento vs Receita de Vendas</option>
                         <option value="roas_cac">ROAS vs CAC</option>
                     </select>
@@ -305,9 +373,12 @@
 
             <div class="card p-6 flex flex-col justify-between">
                 <div>
-                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Qualidade do Tráfego</span>
-                    <h2 class="text-base font-bold text-slate-800">Quais canais atraem compradores com maior fidelidade e ticket médio?</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Perfil de clientes por canal de origem e ticket médio associado.</p>
+                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Qualidade do
+                        Tráfego</span>
+                    <h2 class="text-base font-bold text-slate-800">Quais canais atraem compradores com maior fidelidade
+                        e ticket médio?</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Perfil de clientes por canal de origem e ticket médio
+                        associado.</p>
                 </div>
                 <div class="relative w-full my-2" style="height: 300px;">
                     <canvas id="canalRfmChart"></canvas>
@@ -320,13 +391,16 @@
             <div class="flex items-center justify-between gap-3 mb-4 pb-2 border-b border-slate-100">
                 <div>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Visão por Item</span>
-                    <h2 class="text-lg font-bold text-slate-900">Quais SKUs apresentam maior rentabilidade ou demandam descontinuação?</h2>
+                    <h2 class="text-lg font-bold text-slate-900">Quais SKUs apresentam maior rentabilidade ou demandam
+                        descontinuação?</h2>
                 </div>
-                <span id="product-count" class="text-xs font-mono bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full font-semibold"></span>
+                <span id="product-count"
+                    class="text-xs font-mono bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full font-semibold"></span>
             </div>
             <div class="overflow-x-auto max-h-[380px] overflow-y-auto">
                 <table class="min-w-full text-left text-xs whitespace-nowrap">
-                    <thead class="sticky top-0 uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-white shadow-xs">
+                    <thead
+                        class="sticky top-0 uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-white shadow-xs">
                         <tr>
                             <th class="px-3 py-2.5">SKU / Produto</th>
                             <th class="px-3 py-2.5 text-right">Rentabilidade Margem</th>
@@ -351,7 +425,8 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Framework de Priorização</span>
                 <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Matriz de Decisão: Impacto vs Complexidade</h2>
                 <p class="text-sm text-slate-600 mt-1">
-                    Avaliação técnica das iniciativas recomendadas. Cada ação foi quantificada considerando o valor em caixa recuperado versus o prazo e esforço de tecnologia demandados.
+                    Avaliação técnica das iniciativas recomendadas. Cada ação foi quantificada considerando o valor em
+                    caixa recuperado versus o prazo e esforço de tecnologia demandados.
                 </p>
             </div>
 
@@ -361,23 +436,30 @@
                 <div class="border-2 border-emerald-300 bg-emerald-50/40 rounded-xl p-4 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-0.5 bg-emerald-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">⚡ Quick Wins (Prioridade 1)</span>
+                            <span
+                                class="px-2.5 py-0.5 bg-emerald-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">⚡
+                                Quick Wins (Prioridade 1)</span>
                             <span class="text-xs text-emerald-700 font-semibold">Alto Impacto · Baixo Esforço</span>
                         </div>
                         <ul class="space-y-3 mt-3">
                             <li class="bg-white p-3 rounded-lg border border-emerald-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Automação de Rastreio (WISMO) no WhatsApp</strong>
+                                    <strong class="text-sm text-slate-900">Automação de Rastreio (WISMO) no
+                                        WhatsApp</strong>
                                     <span class="font-mono font-bold text-emerald-600 text-xs">R$ 138k / ano</span>
                                 </div>
-                                <p class="text-xs text-slate-600 mt-1">Integração de webhook com transportadoras para resolução automática de status de entrega.</p>
+                                <p class="text-xs text-slate-600 mt-1">Integração de webhook com transportadoras para
+                                    resolução automática de status de entrega.</p>
                             </li>
                             <li class="bg-white p-3 rounded-lg border border-emerald-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Corte de Frete Grátis em Pedidos Únicos &lt; R$ 199</strong>
-                                    <span class="font-mono font-bold text-emerald-600 text-xs">Estanca Margem Negativa</span>
+                                    <strong class="text-sm text-slate-900">Corte de Frete Grátis em Pedidos Únicos &lt;
+                                        R$ 199</strong>
+                                    <span class="font-mono font-bold text-emerald-600 text-xs">Estanca Margem
+                                        Negativa</span>
                                 </div>
-                                <p class="text-xs text-slate-600 mt-1">Reconfiguração de regra no checkout para eliminar transações unitárias com margem engolida pelo frete.</p>
+                                <p class="text-xs text-slate-600 mt-1">Reconfiguração de regra no checkout para eliminar
+                                    transações unitárias com margem engolida pelo frete.</p>
                             </li>
                         </ul>
                     </div>
@@ -387,23 +469,29 @@
                 <div class="border-2 border-blue-300 bg-blue-50/40 rounded-xl p-4 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="px-2.5 py-0.5 bg-blue-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">🚀 Estratégicos (Prioridade 2)</span>
+                            <span
+                                class="px-2.5 py-0.5 bg-blue-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">🚀
+                                Estratégicos (Prioridade 2)</span>
                             <span class="text-xs text-blue-700 font-semibold">Alto Impacto · Alto Esforço</span>
                         </div>
                         <ul class="space-y-3 mt-3">
                             <li class="bg-white p-3 rounded-lg border border-blue-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Realocação de Mídia Paga por ROAS & CAC</strong>
+                                    <strong class="text-sm text-slate-900">Realocação de Mídia Paga por ROAS &
+                                        CAC</strong>
                                     <span class="font-mono font-bold text-blue-600 text-xs">R$ 246,8k margem</span>
                                 </div>
-                                <p class="text-xs text-slate-600 mt-1">Migração de 30% do orçamento de canais deficitários para frentes com ROAS &gt; 3,8x.</p>
+                                <p class="text-xs text-slate-600 mt-1">Migração de 30% do orçamento de canais
+                                    deficitários para frentes com ROAS &gt; 3,8x.</p>
                             </li>
                             <li class="bg-white p-3 rounded-lg border border-blue-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Controle Ativo de Devoluções & Reversas</strong>
+                                    <strong class="text-sm text-slate-900">Controle Ativo de Devoluções &
+                                        Reversas</strong>
                                     <span class="font-mono font-bold text-blue-600 text-xs">R$ 304,6k blindados</span>
                                 </div>
-                                <p class="text-xs text-slate-600 mt-1">Melhoria de tabelas de medidas, fotos de produto e homologação de transportadoras de menor avaria.</p>
+                                <p class="text-xs text-slate-600 mt-1">Melhoria de tabelas de medidas, fotos de produto
+                                    e homologação de transportadoras de menor avaria.</p>
                             </li>
                         </ul>
                     </div>
@@ -412,7 +500,9 @@
                 <!-- Q3: Melhorias Táticas -->
                 <div class="border border-purple-200 bg-purple-50/30 rounded-xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="px-2.5 py-0.5 bg-purple-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">💡 Táticos (Prioridade 3)</span>
+                        <span
+                            class="px-2.5 py-0.5 bg-purple-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">💡
+                            Táticos (Prioridade 3)</span>
                         <span class="text-xs text-purple-700 font-semibold">Médio Impacto · Baixo Esforço</span>
                     </div>
                     <div class="bg-white p-3 rounded-lg border border-purple-200 shadow-xs mt-3">
@@ -420,14 +510,17 @@
                             <strong class="text-sm text-slate-900">Bundles Promocionais de Moda + Beleza</strong>
                             <span class="font-mono font-bold text-purple-600 text-xs">1.100+ peças giradas</span>
                         </div>
-                        <p class="text-xs text-slate-600 mt-1">Agrupamento de itens com cobertura &gt; 150 meses com produtos líderes de cosméticos para liberar capital.</p>
+                        <p class="text-xs text-slate-600 mt-1">Agrupamento de itens com cobertura &gt; 150 meses com
+                            produtos líderes de cosméticos para liberar capital.</p>
                     </div>
                 </div>
 
                 <!-- Q4: Monitoramento Contínuo -->
                 <div class="border border-slate-300 bg-slate-50 rounded-xl p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="px-2.5 py-0.5 bg-slate-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">⏳ Monitorar (Prioridade 4)</span>
+                        <span
+                            class="px-2.5 py-0.5 bg-slate-600 text-white rounded-full text-[11px] font-extrabold tracking-wide uppercase">⏳
+                            Monitorar (Prioridade 4)</span>
                         <span class="text-xs text-slate-600 font-semibold">Reposição Crítica</span>
                     </div>
                     <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-xs mt-3">
@@ -435,7 +528,8 @@
                             <strong class="text-sm text-slate-900">Reabastecimento Prioritário de Rupturas</strong>
                             <span class="font-mono font-bold text-slate-700 text-xs">R$ 75,5k receita</span>
                         </div>
-                        <p class="text-xs text-slate-600 mt-1">Ajuste de lead times de compra nos fornecedores de itens de alto faturamento esgotados.</p>
+                        <p class="text-xs text-slate-600 mt-1">Ajuste de lead times de compra nos fornecedores de itens
+                            de alto faturamento esgotados.</p>
                     </div>
                 </div>
             </div>
@@ -446,21 +540,26 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-lg font-bold text-slate-900">Detalhamento dos Business Cases</h3>
-                    <p class="text-xs text-slate-500">Clique sobre cada iniciativa para expandir as premissas, memória de cálculo e benefícios qualitativos.</p>
+                    <p class="text-xs text-slate-500">Clique sobre cada iniciativa para expandir as premissas, memória
+                        de cálculo e benefícios qualitativos.</p>
                 </div>
-                <button onclick="toggleAllAccordions()" class="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition">
+                <button onclick="toggleAllAccordions()"
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition">
                     Expandir / Recolher Todos
                 </button>
             </div>
 
             <!-- Caso 1: WISMO -->
             <div class="card overflow-hidden">
-                <button onclick="toggleAccordion('case-wismo')" class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
+                <button onclick="toggleAccordion('case-wismo')"
+                    class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-blue-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Atendimento ao Cliente (CX)</span>
-                            <h4 class="text-base font-bold text-slate-900">Automação de Rastreio (WISMO) via WhatsApp Chatbot</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Atendimento ao
+                                Cliente (CX)</span>
+                            <h4 class="text-base font-bold text-slate-900">Automação de Rastreio (WISMO) via WhatsApp
+                                Chatbot</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -468,10 +567,14 @@
                             <span class="text-xs text-slate-400 block">Saving Projetado</span>
                             <strong class="font-mono text-base text-blue-600 font-bold">R$ 138.000 / ano</strong>
                         </div>
-                        <svg id="case-icon-case-wismo" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg id="case-icon-case-wismo" class="w-5 h-5 text-slate-400 transform transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </button>
-                <div id="case-content-case-wismo" class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                <div id="case-content-case-wismo"
+                    class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
                             <span class="text-xs text-slate-400 block font-medium">Demanda Atual de WISMO</span>
@@ -488,7 +591,10 @@
                     </div>
                     <div class="bg-blue-50/60 border border-blue-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
                         <strong class="text-blue-900 block mb-1">Racional & Memória de Cálculo:</strong>
-                        Economia Mensal = <em>Volume WISMO (2.190) × Taxa de Automação (75%) × (Custo Humano R$ 12,00 - Custo Bot R$ 1,50)</em> = <strong>R$ 17.246/mês</strong>, perfazendo <strong>R$ 128k a R$ 138k anuais</strong>. Investimento previsto em setup de R$ 30.000 gera <strong>payback em 2,6 meses</strong>.
+                        Economia Mensal = <em>Volume WISMO (2.190) × Taxa de Automação (75%) × (Custo Humano R$ 12,00 -
+                            Custo Bot R$ 1,50)</em> = <strong>R$ 17.246/mês</strong>, perfazendo <strong>R$ 128k a R$
+                            138k anuais</strong>. Investimento previsto em setup de R$ 30.000 gera <strong>payback em
+                            2,6 meses</strong>.
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
                         <div>
@@ -500,7 +606,8 @@
                         <div>
                             <strong class="text-slate-800 block mb-1">Riscos & Mitigações:</strong>
                             • Risco: Falha na sincronia de status da transportadora.<br>
-                            • Mitigação: Fallback automático com transbordo assistido para operador caso a API retorne código em aberto.
+                            • Mitigação: Fallback automático com transbordo assistido para operador caso a API retorne
+                            código em aberto.
                         </div>
                     </div>
                 </div>
@@ -508,12 +615,15 @@
 
             <!-- Caso 2: Frete Grátis -->
             <div class="card overflow-hidden">
-                <button onclick="toggleAccordion('case-frete')" class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
+                <button onclick="toggleAccordion('case-frete')"
+                    class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-red-600">Logística & Margem</span>
-                            <h4 class="text-base font-bold text-slate-900">Revisão da Política de Frete Grátis em Pedidos de Item Único &lt; R$ 199</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-red-600">Logística &
+                                Margem</span>
+                            <h4 class="text-base font-bold text-slate-900">Revisão da Política de Frete Grátis em
+                                Pedidos de Item Único &lt; R$ 199</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -521,13 +631,20 @@
                             <span class="text-xs text-slate-400 block">Impacto Direto</span>
                             <strong class="font-mono text-base text-red-600 font-bold">Estanca Margem Negativa</strong>
                         </div>
-                        <svg id="case-icon-case-frete" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg id="case-icon-case-frete" class="w-5 h-5 text-slate-400 transform transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </button>
-                <div id="case-content-case-frete" class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                <div id="case-content-case-frete"
+                    class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     <div class="bg-red-50/60 border border-red-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
                         <strong class="text-red-900 block mb-1">Racional & Diagnóstico:</strong>
-                        Identificamos mais de 450 pedidos onde o custo de frete (média de R$ 28,40) ultrapassou a margem de contribuição dos itens, gerando <strong>prejuízo líquido por venda realizada</strong>. A revisão institui frete grátis apenas para pedidos acima de R$ 199 ou compostos por 2 ou mais produtos.
+                        Identificamos mais de 450 pedidos onde o custo de frete (média de R$ 28,40) ultrapassou a margem
+                        de contribuição dos itens, gerando <strong>prejuízo líquido por venda realizada</strong>. A
+                        revisão institui frete grátis apenas para pedidos acima de R$ 199 ou compostos por 2 ou mais
+                        produtos.
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-600">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
@@ -536,7 +653,8 @@
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
                             <strong class="text-slate-800 block mb-1">Efeito Alavanca:</strong>
-                            Elevação estimada de 8% a 12% no ticket médio devido à busca do consumidor por itens adicionais para atingir a isenção.
+                            Elevação estimada de 8% a 12% no ticket médio devido à busca do consumidor por itens
+                            adicionais para atingir a isenção.
                         </div>
                     </div>
                 </div>
@@ -544,12 +662,15 @@
 
             <!-- Caso 3: Marketing -->
             <div class="card overflow-hidden">
-                <button onclick="toggleAccordion('case-marketing')" class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
+                <button onclick="toggleAccordion('case-marketing')"
+                    class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Growth & Performance</span>
-                            <h4 class="text-base font-bold text-slate-900">Otimização e Realocação Orçamentária por ROAS e Margem Real</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Growth &
+                                Performance</span>
+                            <h4 class="text-base font-bold text-slate-900">Otimização e Realocação Orçamentária por ROAS
+                                e Margem Real</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -557,25 +678,35 @@
                             <span class="text-xs text-slate-400 block">Margem Adicional</span>
                             <strong class="font-mono text-base text-emerald-600 font-bold">+ R$ 246.855</strong>
                         </div>
-                        <svg id="case-icon-case-marketing" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg id="case-icon-case-marketing" class="w-5 h-5 text-slate-400 transform transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </button>
-                <div id="case-content-case-marketing" class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
-                    <div class="bg-emerald-50/60 border border-emerald-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
+                <div id="case-content-case-marketing"
+                    class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    <div
+                        class="bg-emerald-50/60 border border-emerald-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
                         <strong class="text-emerald-900 block mb-1">Racional & Oportunidade:</strong>
-                        Canais como Google Ads e Instagram geram volumes consistentes com ROAS superior, enquanto campanhas dispersas operam com CAC elevado e margem unitária deficiente. A realocação de 30% do orçamento otimiza o resultado líquido sem exigir um único real de verba adicional.
+                        Canais como Google Ads e Instagram geram volumes consistentes com ROAS superior, enquanto
+                        campanhas dispersas operam com CAC elevado e margem unitária deficiente. A realocação de 30% do
+                        orçamento otimiza o resultado líquido sem exigir um único real de verba adicional.
                     </div>
                 </div>
             </div>
 
             <!-- Caso 4: Bundles -->
             <div class="card overflow-hidden">
-                <button onclick="toggleAccordion('case-bundles')" class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
+                <button onclick="toggleAccordion('case-bundles')"
+                    class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-purple-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600">Estoque & Merchandising</span>
-                            <h4 class="text-base font-bold text-slate-900">Bundles Promocionais de Giro de Estoque Estagnado (Moda + Beleza)</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600">Estoque &
+                                Merchandising</span>
+                            <h4 class="text-base font-bold text-slate-900">Bundles Promocionais de Giro de Estoque
+                                Estagnado (Moda + Beleza)</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -583,25 +714,36 @@
                             <span class="text-xs text-slate-400 block">Capital Liberado</span>
                             <strong class="font-mono text-base text-purple-600 font-bold">1.100+ peças</strong>
                         </div>
-                        <svg id="case-icon-case-bundles" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg id="case-icon-case-bundles" class="w-5 h-5 text-slate-400 transform transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </button>
-                <div id="case-content-case-bundles" class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
-                    <div class="bg-purple-50/60 border border-purple-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
+                <div id="case-content-case-bundles"
+                    class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    <div
+                        class="bg-purple-50/60 border border-purple-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
                         <strong class="text-purple-900 block mb-1">Racional de Giro:</strong>
-                        Mais de 1.100 peças de Moda apresentam giro inferior a 0,05x e cobertura superior a 150 meses. A montagem de kits promocionais combinando esses itens com cosméticos de alta demanda (Beleza) permite escoar o estoque retido sem necessidade de liquidações agressivas que degradam a percepção de valor.
+                        Mais de 1.100 peças de Moda apresentam giro inferior a 0,05x e cobertura superior a 150 meses. A
+                        montagem de kits promocionais combinando esses itens com cosméticos de alta demanda (Beleza)
+                        permite escoar o estoque retido sem necessidade de liquidações agressivas que degradam a
+                        percepção de valor.
                     </div>
                 </div>
             </div>
 
             <!-- Caso 5: Devoluções & Avarias -->
             <div class="card overflow-hidden">
-                <button onclick="toggleAccordion('case-devolucoes')" class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
+                <button onclick="toggleAccordion('case-devolucoes')"
+                    class="w-full text-left p-5 flex items-center justify-between bg-white hover:bg-slate-50/80 transition-colors">
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-rose-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Operações & Logística Reversa</span>
-                            <h4 class="text-base font-bold text-slate-900">Programa de Redução de Devoluções & Avarias Logísticas</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Operações &
+                                Logística Reversa</span>
+                            <h4 class="text-base font-bold text-slate-900">Programa de Redução de Devoluções & Avarias
+                                Logísticas</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -609,13 +751,21 @@
                             <span class="text-xs text-slate-400 block">Receita Protegida</span>
                             <strong class="font-mono text-base text-rose-600 font-bold">R$ 304.637</strong>
                         </div>
-                        <svg id="case-icon-case-devolucoes" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg id="case-icon-case-devolucoes"
+                            class="w-5 h-5 text-slate-400 transform transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </button>
-                <div id="case-content-case-devolucoes" class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                <div id="case-content-case-devolucoes"
+                    class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
                         <strong class="text-rose-900 block mb-1">Diagnóstico Operacional:</strong>
-                        Taxas de devolução superiores a 15% em categorias específicas decorrem de divergência de modelagem e danos na malha de transporte. A auditoria inclui padronização de medidas nas páginas de produto, reforço na embalagem primária e substituição de transportadoras com índice de avaria acima de 2%.
+                        Taxas de devolução superiores a 15% em categorias específicas decorrem de divergência de
+                        modelagem e danos na malha de transporte. A auditoria inclui padronização de medidas nas páginas
+                        de produto, reforço na embalagem primária e substituição de transportadoras com índice de avaria
+                        acima de 2%.
                     </div>
                 </div>
             </div>
@@ -628,21 +778,27 @@
     <!-- ==================================================================== -->
     <div id="panel-roadmap" class="tab-panel hidden space-y-6">
         <div class="card p-6">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 pb-3 border-b border-slate-100">
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 pb-3 border-b border-slate-100">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Acompanhamento e Governança</span>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-0.5">Roadmap de Implementação das Iniciativas</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Controle de entregas, horizonte de tempo, metas financeiras e áreas proprietárias.</p>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Acompanhamento e
+                        Governança</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mt-0.5">Roadmap de Implementação das Iniciativas
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Controle de entregas, horizonte de tempo, metas financeiras
+                        e áreas proprietárias.</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-xs font-semibold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full">Meta Total: R$ 754,8k</span>
+                    <span class="text-xs font-semibold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full">Meta
+                        Total: R$ 754,8k</span>
                 </div>
             </div>
 
             <!-- Tabela de Governança com as 5 Iniciativas -->
             <div class="overflow-x-auto mb-8">
                 <table class="min-w-full text-left text-xs whitespace-nowrap">
-                    <thead class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50/80 font-bold">
+                    <thead
+                        class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50/80 font-bold">
                         <tr>
                             <th class="px-4 py-3">Iniciativa</th>
                             <th class="px-4 py-3">Área Líder</th>
@@ -654,42 +810,67 @@
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700">
                         <tr class="hover:bg-slate-50/80">
-                            <td class="px-4 py-3.5 font-bold text-slate-900">1. Corte de Frete Grátis em Itens Únicos &lt; R$ 199</td>
-                            <td class="px-4 py-3.5"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Logística / E-commerce</span></td>
+                            <td class="px-4 py-3.5 font-bold text-slate-900">1. Corte de Frete Grátis em Itens Únicos
+                                &lt; R$ 199</td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Logística /
+                                    E-commerce</span></td>
                             <td class="px-4 py-3.5 font-mono">Q1 / Sem 1-2</td>
-                            <td class="px-4 py-3.5"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[11px]">Concluído</span></td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[11px]">Concluído</span>
+                            </td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-emerald-700">Estanca perda</td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-emerald-600">100%</td>
                         </tr>
                         <tr class="hover:bg-slate-50/80">
-                            <td class="px-4 py-3.5 font-bold text-slate-900">2. Chatbot WhatsApp de Rastreio (WISMO)</td>
-                            <td class="px-4 py-3.5"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">CX & Atendimento</span></td>
+                            <td class="px-4 py-3.5 font-bold text-slate-900">2. Chatbot WhatsApp de Rastreio (WISMO)
+                            </td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">CX &
+                                    Atendimento</span></td>
                             <td class="px-4 py-3.5 font-mono">Q1 / Sem 3-6</td>
-                            <td class="px-4 py-3.5"><span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full font-bold text-[11px]">Em Homologação</span></td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full font-bold text-[11px]">Em
+                                    Homologação</span></td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-blue-700">R$ 138.000</td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-blue-600">75%</td>
                         </tr>
                         <tr class="hover:bg-slate-50/80">
-                            <td class="px-4 py-3.5 font-bold text-slate-900">3. Bundles Promocionais de Vestuário + Beleza</td>
-                            <td class="px-4 py-3.5"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Comercial / Estoque</span></td>
+                            <td class="px-4 py-3.5 font-bold text-slate-900">3. Bundles Promocionais de Vestuário +
+                                Beleza</td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Comercial /
+                                    Estoque</span></td>
                             <td class="px-4 py-3.5 font-mono">Q1 / Sem 4-8</td>
-                            <td class="px-4 py-3.5"><span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[11px]">Em Andamento</span></td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[11px]">Em
+                                    Andamento</span></td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-purple-700">1.100 peças</td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-amber-600">40%</td>
                         </tr>
                         <tr class="hover:bg-slate-50/80">
-                            <td class="px-4 py-3.5 font-bold text-slate-900">4. Rebalanceamento de Mídia por ROAS/CAC</td>
-                            <td class="px-4 py-3.5"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Growth / Marketing</span></td>
+                            <td class="px-4 py-3.5 font-bold text-slate-900">4. Rebalanceamento de Mídia por ROAS/CAC
+                            </td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Growth /
+                                    Marketing</span></td>
                             <td class="px-4 py-3.5 font-mono">Q2 / Mês 1-2</td>
-                            <td class="px-4 py-3.5"><span class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">Planejamento</span></td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">Planejamento</span>
+                            </td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-emerald-700">R$ 246.855</td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-slate-500">15%</td>
                         </tr>
                         <tr class="hover:bg-slate-50/80">
-                            <td class="px-4 py-3.5 font-bold text-slate-900">5. Programa de Redução de Devoluções & Avarias</td>
-                            <td class="px-4 py-3.5"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Operações & Logística</span></td>
+                            <td class="px-4 py-3.5 font-bold text-slate-900">5. Programa de Redução de Devoluções &
+                                Avarias</td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">Operações &
+                                    Logística</span></td>
                             <td class="px-4 py-3.5 font-mono">Q2-Q3</td>
-                            <td class="px-4 py-3.5"><span class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">Planejamento</span></td>
+                            <td class="px-4 py-3.5"><span
+                                    class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">Planejamento</span>
+                            </td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-blue-700">R$ 304.637</td>
                             <td class="px-4 py-3.5 text-right font-mono font-bold text-slate-500">5%</td>
                         </tr>
@@ -699,27 +880,31 @@
 
             <!-- Linha do Tempo Estratégica (Timeline Visual) -->
             <div class="border-t border-slate-100 pt-6">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6">Fases de Implementação & Marcos</h3>
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6">Fases de Implementação &
+                    Marcos</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
                     <div class="border-l-2 border-emerald-500 pl-4 py-1">
                         <span class="text-xs font-mono font-bold text-emerald-600 uppercase">Fase 1 · Mês 1</span>
                         <h4 class="text-base font-bold text-slate-900 mt-0.5">Estancamento & Quick Wins</h4>
                         <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Corte de frete grátis em pedidos unitários; lançamento dos kits promocionais Moda + Beleza; contratação do canal oficial de WhatsApp.
+                            Corte de frete grátis em pedidos unitários; lançamento dos kits promocionais Moda + Beleza;
+                            contratação do canal oficial de WhatsApp.
                         </p>
                     </div>
                     <div class="border-l-2 border-blue-500 pl-4 py-1">
                         <span class="text-xs font-mono font-bold text-blue-600 uppercase">Fase 2 · Mês 2–3</span>
                         <h4 class="text-base font-bold text-slate-900 mt-0.5">Automação & Mídia Eficiente</h4>
                         <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Go-live do Bot WISMO absorvendo 75% dos chamados; migração orçamentária dos canais de baixo ROAS; parametrização de estoques de segurança.
+                            Go-live do Bot WISMO absorvendo 75% dos chamados; migração orçamentária dos canais de baixo
+                            ROAS; parametrização de estoques de segurança.
                         </p>
                     </div>
                     <div class="border-l-2 border-purple-500 pl-4 py-1">
                         <span class="text-xs font-mono font-bold text-purple-600 uppercase">Fase 3 · Mês 4+</span>
                         <h4 class="text-base font-bold text-slate-900 mt-0.5">Consolidação & LTV</h4>
                         <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Auditoria de reversas por transportadora; réguas de recompra para clientes em risco; captura total do EBITDA projetado (R$ 754,8k).
+                            Auditoria de reversas por transportadora; réguas de recompra para clientes em risco; captura
+                            total do EBITDA projetado (R$ 754,8k).
                         </p>
                     </div>
                 </div>
@@ -734,31 +919,41 @@
     <div id="panel-relatorio" class="tab-panel hidden space-y-6">
 
         <!-- Barra de Controles (Oculta na Impressão) -->
-        <div class="no-print bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div
+            class="no-print bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Módulo Integrado de Relatórios</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Módulo Integrado de
+                    Relatórios</span>
                 <h2 class="text-lg font-extrabold text-slate-900">Visão de Fechamento Periódico (MBR / WBR)</h2>
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
-                <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
-                    <button onclick="setReportGranularity('mes')" id="rep-btn-gran-mes" class="px-3 py-1.5 rounded-md bg-white text-emerald-800 shadow-xs transition font-bold">
+                <div
+                    class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
+                    <button onclick="setReportGranularity('mes')" id="rep-btn-gran-mes"
+                        class="px-3 py-1.5 rounded-md bg-white text-emerald-800 shadow-xs transition font-bold">
                         Mensal (MBR)
                     </button>
-                    <button onclick="setReportGranularity('semana')" id="rep-btn-gran-semana" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition font-medium">
+                    <button onclick="setReportGranularity('semana')" id="rep-btn-gran-semana"
+                        class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition font-medium">
                         Semanal (WBR)
                     </button>
                 </div>
 
                 <div class="flex items-center gap-2 bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs">
                     <label for="report-period-select" class="font-semibold text-slate-500">Período:</label>
-                    <select id="report-period-select" onchange="onReportPeriodChange(this.value)" class="font-bold text-slate-800 bg-transparent focus:outline-none cursor-pointer">
+                    <select id="report-period-select" onchange="onReportPeriodChange(this.value)"
+                        class="font-bold text-slate-800 bg-transparent focus:outline-none cursor-pointer">
                         <option value="">Carregando períodos...</option>
                     </select>
                 </div>
 
-                <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 shadow transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                <button onclick="window.print()"
+                    class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 shadow transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
                     Imprimir / PDF
                 </button>
             </div>
@@ -767,14 +962,19 @@
         <!-- Documento Executivo de Relatório -->
         <div id="report-printable-area" class="space-y-6">
             <!-- Cabeçalho Institucional Preservado na Impressão via ID rep-print-header -->
-            <header id="rep-print-header" class="border-b-2 border-slate-900 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-2">
+            <header id="rep-print-header"
+                class="border-b-2 border-slate-900 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-2">
                 <div>
-                    <span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Vértice Retail · Relatório de Fechamento Operacional</span>
-                    <h2 id="rep-doc-title" class="text-2xl font-extrabold text-slate-900">Monthly Business Review (MBR)</h2>
+                    <span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Vértice Retail · Relatório
+                        de Fechamento Operacional</span>
+                    <h2 id="rep-doc-title" class="text-2xl font-extrabold text-slate-900">Monthly Business Review (MBR)
+                    </h2>
                     <div class="flex items-center gap-3 text-xs text-slate-600 mt-1">
-                        <span>Período Analisado: <strong id="rep-doc-cur-period" class="font-mono text-slate-900 font-bold">-</strong></span>
+                        <span>Período Analisado: <strong id="rep-doc-cur-period"
+                                class="font-mono text-slate-900 font-bold">-</strong></span>
                         <span>•</span>
-                        <span>Comparativo Base: <strong id="rep-doc-prev-period" class="font-mono text-slate-900 font-bold">-</strong></span>
+                        <span>Comparativo Base: <strong id="rep-doc-prev-period"
+                                class="font-mono text-slate-900 font-bold">-</strong></span>
                     </div>
                 </div>
                 <div class="text-left md:text-right text-xs text-slate-500 font-mono">
@@ -805,7 +1005,8 @@
 
                 <div class="card p-3">
                     <span class="text-[11px] font-semibold text-slate-500 uppercase block">Pedidos Aprov.</span>
-                    <div id="rep-kpi-pedidos" class="text-base md:text-lg font-bold font-mono text-slate-900 mt-1">-</div>
+                    <div id="rep-kpi-pedidos" class="text-base md:text-lg font-bold font-mono text-slate-900 mt-1">-
+                    </div>
                     <div id="rep-kpi-pedidos-delta" class="text-[10px] font-mono mt-1 font-bold">-</div>
                 </div>
 
@@ -825,7 +1026,8 @@
             <!-- DRE Operacional Sintética do Período -->
             <div class="card p-5">
                 <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
-                    <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Demonstrativo Operacional Sintético (DRE do Período)</h3>
+                    <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Demonstrativo Operacional
+                        Sintético (DRE do Período)</h3>
                     <span class="text-[11px] text-slate-400 font-mono">Valores em Reais (BRL)</span>
                 </div>
                 <div class="overflow-x-auto">
@@ -839,10 +1041,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="card p-5 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Desempenho por Categoria no Período</h3>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Desempenho por
+                            Categoria no Período</h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-left text-xs whitespace-nowrap">
-                                <thead class="uppercase tracking-wider border-b border-slate-200 text-slate-500 font-bold">
+                                <thead
+                                    class="uppercase tracking-wider border-b border-slate-200 text-slate-500 font-bold">
                                     <tr>
                                         <th class="py-1.5">Categoria</th>
                                         <th class="py-1.5 text-right">Faturamento</th>
@@ -862,10 +1066,12 @@
 
                 <div class="card p-5 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Eficiência de Mídia por Canal no Período</h3>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Eficiência de Mídia
+                            por Canal no Período</h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-left text-xs whitespace-nowrap">
-                                <thead class="uppercase tracking-wider border-b border-slate-200 text-slate-500 font-bold">
+                                <thead
+                                    class="uppercase tracking-wider border-b border-slate-200 text-slate-500 font-bold">
                                     <tr>
                                         <th class="py-1.5">Canal</th>
                                         <th class="py-1.5 text-right">Investimento</th>
@@ -888,7 +1094,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="card p-5">
                     <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800">Top 5 SKUs em Faturamento</h3>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800">Top 5 SKUs em
+                            Faturamento</h3>
                         <span class="text-[10px] text-slate-400">Líderes do período</span>
                     </div>
                     <table class="min-w-full text-left text-xs whitespace-nowrap">
@@ -898,7 +1105,8 @@
 
                 <div class="card p-5">
                     <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-red-800">Top 5 SKUs de Menor Margem / Sangria</h3>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-red-800">Top 5 SKUs de Menor Margem /
+                            Sangria</h3>
                         <span class="text-[10px] text-slate-400">Atenção imediata</span>
                     </div>
                     <table class="min-w-full text-left text-xs whitespace-nowrap">
@@ -917,11 +1125,12 @@
 
 
     <!-- ================= WIDGET DO CHATBOT WHATSAPP ================= -->
-    <button id="chatbot-toggle-btn" onclick="toggleChatbotPopup()" 
+    <button id="chatbot-toggle-btn" onclick="toggleChatbotPopup()"
         class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group"
         title="Simular Atendimento WISMO">
         <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.983.538 1.839.814 2.796.814 3.18 0 5.768-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm9.969 5.766c0 5.517-4.483 10-10 10-1.684 0-3.268-.42-4.664-1.157l-5.336 1.398 1.423-5.207c-.896-1.464-1.423-3.181-1.423-5.034 0-5.517 4.483-10 10-10s10 4.483 10 10z"/>
+            <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.983.538 1.839.814 2.796.814 3.18 0 5.768-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm9.969 5.766c0 5.517-4.483 10-10 10-1.684 0-3.268-.42-4.664-1.157l-5.336 1.398 1.423-5.207c-.896-1.464-1.423-3.181-1.423-5.034 0-5.517 4.483-10 10-10s10 4.483 10 10z" />
         </svg>
         <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -929,13 +1138,14 @@
         </span>
     </button>
 
-    <div id="chatbot-popup-container" 
+    <div id="chatbot-popup-container"
         class="hidden fixed bottom-24 right-6 z-50 w-full max-w-[420px] h-[680px] max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-300 flex flex-col transition-all duration-300 transform scale-95 origin-bottom-right">
         <div class="bg-[#075e54] text-white px-4 py-2 flex items-center justify-between border-b border-emerald-800">
             <span class="text-xs font-semibold tracking-wide flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Simulação Chatbot (Ação 1)
             </span>
-            <button onclick="toggleChatbotPopup()" class="text-emerald-200 hover:text-white text-base font-bold leading-none p-1 rounded transition">
+            <button onclick="toggleChatbotPopup()"
+                class="text-emerald-200 hover:text-white text-base font-bold leading-none p-1 rounded transition">
                 ✕
             </button>
         </div>
@@ -946,4 +1156,5 @@
     <!-- ================= JAVASCRIPT PRINCIPAL ================= -->
     <script src="script.js" defer></script>
 </body>
+
 </html>
