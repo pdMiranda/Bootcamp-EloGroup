@@ -21,7 +21,7 @@
 
 <body class="min-h-screen p-4 md:p-6 lg:p-8">
 
-    <!-- ================= TOP HEADER (COM IDENTIFICADORES DE AUDITORIA E DATA DA BASE) ================= -->
+    <!-- ================= TOP HEADER ================= -->
     <header id="main-app-header" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
             <div class="flex items-center gap-2 mb-1">
@@ -33,6 +33,10 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                <span id="rigor-window" data-window-label>Carregando janela temporal...</span>
+            </div>
             <div class="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span id="rigor-source">Base Consolidada Auditada</span>
@@ -40,7 +44,7 @@
         </div>
     </header>
 
-    <!-- ================= BARRA DE NAVEGAÇÃO POR ABAS (5 ABAS COMPLETAS) ================= -->
+    <!-- ================= BARRA DE NAVEGAÇÃO POR ABAS ================= -->
     <nav
         class="flex items-center gap-1.5 overflow-x-auto bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm mb-6">
         <button onclick="switchTab('overview')" id="nav-btn-overview"
@@ -73,9 +77,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
             </svg>
-            Roadmap de Execução
+            Roadmap Executivo
+            <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">Gantt</span>
         </button>
-        <!-- ABA 5: RELATÓRIOS PERIÓDICOS -->
         <button onclick="switchTab('relatorio')" id="nav-btn-relatorio"
             class="tab-nav-btn px-4 py-2.5 text-xs md:text-sm font-semibold rounded-lg flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 border border-transparent hover:bg-slate-50">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +90,6 @@
             <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">WBR / MBR</span>
         </button>
     </nav>
-
 
     <!-- ==================================================================== -->
     <!-- ABA 1: VISÃO EXECUTIVA (OVERVIEW)                                    -->
@@ -112,8 +115,7 @@
         <!-- 4 Macro KPIs Executivos com Tooltips -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="card p-5 relative">
-                <div
-                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Receita Bruta Total <span id="tt-macro-rec"></span></span>
                 </div>
                 <div id="exec-kpi-receita" class="text-2xl font-bold font-mono text-slate-900">R$ 0,00</div>
@@ -121,8 +123,7 @@
             </div>
 
             <div class="card p-5 relative">
-                <div
-                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Margem Contribuição <span id="tt-macro-margem"></span></span>
                 </div>
                 <div id="exec-kpi-margem" class="text-2xl font-bold font-mono text-emerald-600">R$ 0,00</div>
@@ -130,8 +131,7 @@
             </div>
 
             <div class="card p-5 relative">
-                <div
-                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Recuperação EBITDA <span id="tt-macro-ebitda"></span></span>
                 </div>
                 <div id="exec-kpi-ebitda" class="text-2xl font-bold font-mono text-purple-700" data-impact-global="recuperacao_ebitda">Impacto na janela</div>
@@ -139,8 +139,7 @@
             </div>
 
             <div class="card p-5 relative">
-                <div
-                    class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+                <div class="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
                     <span class="flex items-center gap-1.5">Payback Estimado <span id="tt-macro-payback"></span></span>
                 </div>
                 <div id="exec-kpi-payback" class="text-2xl font-bold font-mono text-amber-600" data-impact-global="payback_global_meses">—</div>
@@ -148,7 +147,7 @@
             </div>
         </div>
 
-        <!-- 4 Alavancas Estratégicas Mapeadas (Vinculadas Dinamicamente aos Dados de Impacto) -->
+        <!-- 4 Alavancas Estratégicas Mapeadas -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div onclick="switchTab('oportunidades')"
                 class="card p-4 border-l-4 border-l-blue-500 cursor-pointer hover:bg-blue-50/20 group">
@@ -167,7 +166,7 @@
                     <span class="text-xs text-slate-400 group-hover:text-red-600">&rarr;</span>
                 </div>
                 <h4 class="text-sm font-bold text-slate-800 mb-1">Corte de Frete Grátis &lt; R$ 199</h4>
-                <p class="text-xs text-slate-600">Elimina <strong class="text-red-600 font-bold"><span data-json-path="modo_integrado.hipoteses.pedidos_margem_negativa" data-format="num">1.160</span> pedidos margem neg.</strong> salvando <strong class="font-mono text-red-700 font-bold" data-impact-action="frete" data-impact-field="valor">R$ 50,3k</strong>.</p>
+                <p class="text-xs text-slate-600">Elimina <strong class="text-red-600 font-bold"><span data-json-path="modo_integrado.hipoteses.pedidos_margem_negativa" data-format="num">1.160</span> pedidos</strong> salvando <strong class="font-mono text-red-700 font-bold" data-impact-action="frete" data-impact-field="valor">R$ 50,3k</strong>.</p>
             </div>
 
             <div onclick="switchTab('oportunidades')"
@@ -290,7 +289,6 @@
                 <div id="kpi-container" class="divide-y divide-slate-100"></div>
             </div>
 
-            <!-- Card Visual com Gráfico Dedicado para TODAS as áreas -->
             <div id="area-visual-card" class="card p-6 flex flex-col min-h-80">
                 <div class="mb-3">
                     <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Comportamento Visual da Área</span>
@@ -302,7 +300,7 @@
             </div>
         </section>
 
-        <!-- Diagnóstico Multidimensional por Categoria (3 Modos Interativos) -->
+        <!-- Diagnóstico Multidimensional por Categoria -->
         <div class="card p-6 overflow-hidden">
             <div
                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
@@ -329,7 +327,7 @@
             </div>
         </div>
 
-        <!-- Mídia & Canais de Aquisição (Baseado em Vendas Aprovadas) -->
+        <!-- Mídia & Canais de Aquisição -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="card p-6 flex flex-col justify-between">
                 <div class="flex items-center justify-between gap-3 mb-3">
@@ -390,7 +388,7 @@
 
 
     <!-- ==================================================================== -->
-    <!-- ABA 3: OPORTUNIDADES (5 CASOS RIGOROSAMENTE CONECTADOS AOS DADOS)     -->
+    <!-- ABA 3: OPORTUNIDADES (COM SELETOR DE CENÁRIOS E PROJEÇÃO GRÁFICA)     -->
     <!-- ==================================================================== -->
     <div id="panel-oportunidades" class="tab-panel hidden space-y-6">
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
@@ -398,7 +396,7 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Framework de Priorização</span>
                 <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Matriz de Decisão: Impacto vs Complexidade</h2>
                 <p class="text-sm text-slate-600 mt-1">
-                    Avaliação técnica das iniciativas recomendadas. Cada ação foi quantificada considerando o valor em caixa recuperado versus o prazo e esforço de tecnologia demandados.
+                    Avaliação técnica das iniciativas recomendadas. Alterne os cenários em cada oportunidade abaixo para simular premissas e comparar a projeção sem ação vs com implementação (<span data-window-label>janela temporal</span>).
                 </p>
             </div>
 
@@ -496,20 +494,12 @@
             </div>
         </div>
 
-        <!-- Síntese Dinâmica de Impacto Alimentada Diretamente pelo JSON -->
-        <div>
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Síntese Quantitativa por Iniciativa</span>
-            </div>
-            <div id="impact-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"></div>
-        </div>
-
-        <!-- ================= ACCORDIONS DETALHADOS DAS 5 OPORTUNIDADES ================= -->
+        <!-- ================= ACCORDIONS DETALHADOS COM PROJEÇÃO VISUAL & CENÁRIOS ================= -->
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900">Detalhamento das Oportunidades</h3>
-                    <p class="text-xs text-slate-500">Clique sobre cada iniciativa para expandir as premissas, memória de cálculo e benefícios qualitativos.</p>
+                    <h3 class="text-lg font-bold text-slate-900">Detalhamento das Oportunidades & Simulações</h3>
+                    <p class="text-xs text-slate-500">Selecione o cenário desejado em cada oportunidade para comparar a curva sem intervenção vs com a iniciativa.</p>
                 </div>
                 <button onclick="toggleAllAccordions()"
                     class="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition">
@@ -525,13 +515,13 @@
                         <span class="w-3 h-3 rounded-full bg-blue-500 shrink-0"></span>
                         <div>
                             <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Atendimento ao Cliente (CX)</span>
-                            <h4 class="text-base font-bold text-slate-900">Automação de Rastreio (WISMO) via WhatsApp Chatbot</h4>
+                            <h4 class="text-base font-bold text-slate-900">1. Automação de Rastreio (WISMO) via WhatsApp Chatbot</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden sm:block">
                             <span class="text-xs text-slate-400 block">Payback estimado</span>
-                            <strong class="font-mono text-base text-blue-600 font-bold" data-impact-action="wismo" data-impact-field="payback">12,76 meses</strong>
+                            <strong id="wismo-payback" class="font-mono text-base text-blue-600 font-bold" data-impact-action="wismo" data-impact-field="payback">12,76 meses</strong>
                         </div>
                         <svg id="case-icon-case-wismo" class="w-5 h-5 text-slate-400 transform transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -541,58 +531,49 @@
                 </button>
                 <div id="case-content-case-wismo"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    
+                    <!-- Barra de Seleção de Cenário -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-2">
+                            <label for="select-cenario-wismo" class="text-xs font-bold text-slate-700">Simular Perfil / Cenário:</label>
+                            <select id="select-cenario-wismo" onchange="alterarCenarioOportunidade('wismo', this.value)"
+                                class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-slate-50 font-bold text-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500"></select>
+                        </div>
+                        <span id="wismo-badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 self-start sm:self-auto">Payback: 12,8 meses</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Demanda Atual de WISMO</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-wismo-percentual>30,5%</span> dos chamados (<span data-json-path="modo_integrado.hipoteses.atendimento_h5_h6.wismo_qtd" data-format="num">3.835</span> tickets)</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Setup</span>
+                            <strong id="wismo-capex" class="text-slate-800 font-mono text-sm">R$ 30.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Custo Unitário Humano</span>
-                            <strong class="text-slate-800 font-mono text-sm">R$ 12,00 / atendimento</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Benefício Mensal</span>
+                            <strong id="wismo-beneficio" class="text-slate-800 font-mono text-sm">R$ 2.350,98 / mês</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Custo Unitário do Bot</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-json-path="modo_integrado.oportunidades.parametros.wismo_custo_bot" data-format="brl">R$ 2,00</span> / sessão ativa</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Impacto na Janela</span>
+                            <strong id="wismo-valor" class="text-blue-700 font-mono text-sm font-bold">R$ 30.201</strong>
                         </div>
                     </div>
-                    <div class="bg-blue-50/60 border border-blue-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
-                        <strong class="text-blue-900 block mb-1">Racional & Memória de Cálculo:</strong>
-                        Economia no recorte = <em>tickets migrados × (custo evitado humano - custo bot)</em> =
-                        <strong data-impact-action="wismo" data-impact-field="valor">R$ 30.201</strong>. O custo de tickets WISMO manuais registrado na janela é de
-                        <strong data-json-path="modo_integrado.hipoteses.atendimento_h5_h6.wismo_custo" data-format="brl">R$ 55.725</strong>. A meta transfere 75% dos chamados elegíveis para autoatendimento.
+
+                    <!-- Gráfico Comparativo 12 Meses -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <div class="mb-2">
+                            <h5 class="font-bold text-slate-800 text-xs md:text-sm">Projeção 12 Meses: Status Quo (Sem Ação) vs Fluxo Líquido da Iniciativa</h5>
+                            <p class="text-[11px] text-slate-500">Compara o custo manual repetitivo acumulado contra o fluxo líquido da solução (Capex amortizado mês a mês até a inflexão do payback).</p>
+                        </div>
+                        <div class="relative w-full" style="height: 210px;">
+                            <canvas id="chart-opp-wismo"></canvas>
+                        </div>
                     </div>
-                    <table class="w-full text-xs text-left bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <thead class="bg-blue-50 text-blue-900">
-                            <tr>
-                                <th class="px-3 py-2">Premissa Auditada</th>
-                                <th class="px-3 py-2 text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-mono">
-                            <tr>
-                                <td class="px-3 py-2">Investimento de setup (Capex)</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="wismo" data-impact-field="capex">R$ 30.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2">Benefício mensal estimado</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="wismo" data-impact-field="beneficio-mensal">R$ 2.350,98</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2 font-bold">Ganho consolidado na janela</td>
-                                <td class="px-3 py-2 text-right font-bold text-blue-700" data-impact-action="wismo" data-impact-field="valor">R$ 30.201</td>
-                            </tr>
-                            <tr class="font-bold">
-                                <td class="px-3 py-2">Payback estimado</td>
-                                <td class="px-3 py-2 text-right text-blue-700" data-impact-action="wismo" data-impact-field="payback">12,76 meses</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
                         <div>
                             <strong class="text-slate-800 block mb-1">Benefícios Qualitativos:</strong>
                             • Resposta de rastreio em segundos, 24 horas por dia.<br>
-                            • Desoneração da equipe humana para tratamento de ocorrências críticas e trocas.<br>
-                            • Acompanhamento contínuo de taxas de contenção, abandono e transferência.
+                            • Desoneração da equipe humana para tratamento de ocorrências críticas.<br>
+                            • Redução drástica do TMA e filas no WhatsApp.
                         </div>
                         <div>
                             <strong class="text-slate-800 block mb-1">Riscos & Mitigações:</strong>
@@ -611,13 +592,13 @@
                         <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
                         <div>
                             <span class="text-[11px] font-bold uppercase tracking-wider text-red-600">Logística & Margem</span>
-                            <h4 class="text-base font-bold text-slate-900">Revisão da Política de Frete Grátis em Pedidos de Item Único &lt; R$ 199</h4>
+                            <h4 class="text-base font-bold text-slate-900">2. Revisão da Política de Frete Grátis em Pedidos de Item Único &lt; R$ 199</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden sm:block">
                             <span class="text-xs text-slate-400 block">Payback estimado</span>
-                            <strong class="font-mono text-base text-red-600 font-bold" data-impact-action="frete" data-impact-field="payback">3,06 meses</strong>
+                            <strong id="frete-payback" class="font-mono text-base text-red-600 font-bold" data-impact-action="frete" data-impact-field="payback">3,06 meses</strong>
                         </div>
                         <svg id="case-icon-case-frete" class="w-5 h-5 text-slate-400 transform transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -627,50 +608,41 @@
                 </button>
                 <div id="case-content-case-frete"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-2">
+                            <label for="select-cenario-frete" class="text-xs font-bold text-slate-700">Simular Perfil / Cenário:</label>
+                            <select id="select-cenario-frete" onchange="alterarCenarioOportunidade('frete', this.value)"
+                                class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-slate-50 font-bold text-red-700 focus:outline-none focus:ring-1 focus:ring-red-500"></select>
+                        </div>
+                        <span id="frete-badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 self-start sm:self-auto">Payback: 3,1 meses</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Pedidos com Margem Negativa</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-json-path="modo_integrado.hipoteses.pedidos_margem_negativa" data-format="num">1.160</span> pedidos</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Regra & Checkout</span>
+                            <strong id="frete-capex" class="text-slate-800 font-mono text-sm">R$ 12.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Frete Identificado na Janela</span>
-                            <strong class="text-slate-800 font-mono text-sm" data-impact-action="frete" data-impact-field="valor">R$ 50.296,79</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Benefício Mensal</span>
+                            <strong id="frete-beneficio" class="text-slate-800 font-mono text-sm">R$ 3.915,37 / mês</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Regra Proposta (Teto)</span>
-                            <strong class="text-slate-800 font-mono text-sm">&lt; <span data-json-path="modo_integrado.oportunidades.parametros.frete_teto_valor" data-format="brl">R$ 199</span> (ou 2+ itens)</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Impacto na Janela</span>
+                            <strong id="frete-valor" class="text-red-700 font-mono text-sm font-bold">R$ 50.296,79</strong>
                         </div>
                     </div>
-                    <div class="bg-red-50/60 border border-red-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
-                        <strong class="text-red-900 block mb-1">Racional & Diagnóstico:</strong>
-                        Identificados pedidos unitários abaixo do teto estipulado em que o custo de entrega superou a margem bruta de produto. O benefício corresponde à retenção direta do frete anteriormente subsidiado nestas compras individuais.
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <div class="mb-2">
+                            <h5 class="font-bold text-slate-800 text-xs md:text-sm">Projeção 12 Meses: Erosão Logística Inercial vs Proteção de Margem</h5>
+                            <p class="text-[11px] text-slate-500">Evidencia a margem que seria drenada pelo frete unitário sem intervenção contra a recuperação cumulativa das regras de checkout.</p>
+                        </div>
+                        <div class="relative w-full" style="height: 210px;">
+                            <canvas id="chart-opp-frete"></canvas>
+                        </div>
                     </div>
-                    <table class="w-full text-xs text-left bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <thead class="bg-red-50 text-red-900">
-                            <tr>
-                                <th class="px-3 py-2">Premissa Auditada</th>
-                                <th class="px-3 py-2 text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-mono">
-                            <tr>
-                                <td class="px-3 py-2">Implementação de checkout e teste A/B (Capex)</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="frete" data-impact-field="capex">R$ 12.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2">Benefício mensal estimado</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="frete" data-impact-field="beneficio-mensal">R$ 3.915,37</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2 font-bold">Impacto acumulado na janela</td>
-                                <td class="px-3 py-2 text-right font-bold text-red-700" data-impact-action="frete" data-impact-field="valor">R$ 50.296,79</td>
-                            </tr>
-                            <tr class="font-bold">
-                                <td class="px-3 py-2">Payback estimado</td>
-                                <td class="px-3 py-2 text-right text-red-700" data-impact-action="frete" data-impact-field="payback">3,06 meses</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
                         <div>
                             <strong class="text-slate-800 block mb-1">Plano de Controle:</strong>
@@ -678,7 +650,7 @@
                         </div>
                         <div>
                             <strong class="text-slate-800 block mb-1">Risco & Mitigação:</strong>
-                            Queda de conversão em praças de frete elevado; adoção de faixas de subsídio escalonado para pedidos com dois ou mais itens.
+                            Queda de conversão em praças de frete elevado; adoção de gatilho "adicione mais R$ X para ter frete grátis".
                         </div>
                     </div>
                 </div>
@@ -692,13 +664,13 @@
                         <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></span>
                         <div>
                             <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Growth & Performance</span>
-                            <h4 class="text-base font-bold text-slate-900">Otimização e Realocação Orçamentária por ROAS e Margem Real</h4>
+                            <h4 class="text-base font-bold text-slate-900">3. Otimização e Realocação Orçamentária por ROAS e Margem Real</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden sm:block">
                             <span class="text-xs text-slate-400 block">Payback estimado</span>
-                            <strong class="font-mono text-base text-emerald-600 font-bold" data-impact-action="midia" data-impact-field="payback">0,28 meses</strong>
+                            <strong id="marketing-payback" class="font-mono text-base text-emerald-600 font-bold" data-impact-action="midia" data-impact-field="payback">0,28 meses</strong>
                         </div>
                         <svg id="case-icon-case-marketing" class="w-5 h-5 text-slate-400 transform transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -708,58 +680,38 @@
                 </button>
                 <div id="case-content-case-marketing"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-2">
+                            <label for="select-cenario-marketing" class="text-xs font-bold text-slate-700">Simular Perfil / Cenário:</label>
+                            <select id="select-cenario-marketing" onchange="alterarCenarioOportunidade('marketing', this.value)"
+                                class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-slate-50 font-bold text-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-500"></select>
+                        </div>
+                        <span id="marketing-badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 self-start sm:self-auto">Payback: 0,3 meses</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Melhor ROAS</span>
-                            <strong class="text-slate-800 font-mono text-sm">Influenciador: 7,52x</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Governança & Tags</span>
+                            <strong id="marketing-capex" class="text-slate-800 font-mono text-sm">R$ 25.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Menor ROAS</span>
-                            <strong class="text-slate-800 font-mono text-sm">Marketplace: 2,92x</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Benefício Mensal</span>
+                            <strong id="marketing-beneficio" class="text-slate-800 font-mono text-sm">R$ 87.902,99 / mês</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Taxa de Realocação</span>
-                            <strong class="text-slate-800 font-mono text-sm" data-json-path="modo_integrado.oportunidades.parametros.midia_tx_realocacao" data-format="pct">30%</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Ganho na Janela</span>
+                            <strong id="marketing-valor" class="text-emerald-700 font-mono text-sm font-bold">R$ 246.855</strong>
                         </div>
                     </div>
-                    <div class="bg-emerald-50/60 border border-emerald-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
-                        <strong class="text-emerald-900 block mb-1">Racional & Oportunidade:</strong>
-                        O ROAS é cruzado com margem de contribuição retida e CAC real. A realocação proposta migra verba de canais com baixo retorno para campanhas eficientes, validando a incrementalidade com coortes de controle.
-                    </div>
-                    <table class="w-full text-xs text-left bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <thead class="bg-emerald-50 text-emerald-900">
-                            <tr>
-                                <th class="px-3 py-2">Premissa Auditada</th>
-                                <th class="px-3 py-2 text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-mono">
-                            <tr>
-                                <td class="px-3 py-2">Instrumentação analítica e governança de mídia (Capex)</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="midia" data-impact-field="capex">R$ 25.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2">Benefício mensal estimado</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="midia" data-impact-field="beneficio-mensal">R$ 87.902,99</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2 font-bold">Ganho consolidado na janela</td>
-                                <td class="px-3 py-2 text-right font-bold text-emerald-700" data-impact-action="midia" data-impact-field="valor">R$ 246.855</td>
-                            </tr>
-                            <tr class="font-bold">
-                                <td class="px-3 py-2">Payback estimado</td>
-                                <td class="px-3 py-2 text-right text-emerald-700" data-impact-action="midia" data-impact-field="payback">0,28 meses</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Memória de Cálculo:</strong>
-                            Realocação de 30% da verba com ganho conservador de 5% sobre a eficiência de receita.
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <div class="mb-2">
+                            <h5 class="font-bold text-slate-800 text-xs md:text-sm">Projeção 12 Meses: Desperdício de Mídia vs Retorno Incremental da Realocação</h5>
+                            <p class="text-[11px] text-slate-500">Evidencia a margem adicional líquida trazida ao realocar verba de canais deficitários para canais com ROAS &gt; 3,8x.</p>
                         </div>
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Riscos & Mitigações:</strong>
-                            Saturação de canais de nicho; limitação do remanejamento por etapas semanais com monitoramento de frequência.
+                        <div class="relative w-full" style="height: 210px;">
+                            <canvas id="chart-opp-marketing"></canvas>
                         </div>
                     </div>
                 </div>
@@ -773,13 +725,13 @@
                         <span class="w-3 h-3 rounded-full bg-purple-500 shrink-0"></span>
                         <div>
                             <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600">Estoque & Merchandising</span>
-                            <h4 class="text-base font-bold text-slate-900">Bundles Promocionais de Giro de Estoque Estagnado (Moda + Beleza)</h4>
+                            <h4 class="text-base font-bold text-slate-900">4. Bundles Promocionais de Giro de Estoque Estagnado (Moda + Beleza)</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden sm:block">
                             <span class="text-xs text-slate-400 block">Payback estimado</span>
-                            <strong class="font-mono text-base text-purple-600 font-bold" data-impact-action="bundles" data-impact-field="payback">0,09 meses</strong>
+                            <strong id="bundles-payback" class="font-mono text-base text-purple-600 font-bold" data-impact-action="bundles" data-impact-field="payback">0,09 meses</strong>
                         </div>
                         <svg id="case-icon-case-bundles" class="w-5 h-5 text-slate-400 transform transition-transform"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -789,58 +741,38 @@
                 </button>
                 <div id="case-content-case-bundles"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-2">
+                            <label for="select-cenario-bundles" class="text-xs font-bold text-slate-700">Simular Perfil / Cenário:</label>
+                            <select id="select-cenario-bundles" onchange="alterarCenarioOportunidade('bundles', this.value)"
+                                class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-slate-50 font-bold text-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-500"></select>
+                        </div>
+                        <span id="bundles-badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 self-start sm:self-auto">Payback: 0,1 meses</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Excesso Parado em Moda</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-bundles-unidades>11.883</span> unidades</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Criação de Kits</span>
+                            <strong id="bundles-capex" class="text-slate-800 font-mono text-sm">R$ 18.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">SKUs Acima do Limite de Giro</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-json-path="modo_integrado.hipoteses.sobre_estoque_h4.length" data-format="num">11</span> SKUs</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Liberação Mensal de Caixa</span>
+                            <strong id="bundles-beneficio" class="text-slate-800 font-mono text-sm">R$ 204.379,75 / mês</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Critério Técnico</span>
-                            <strong class="text-slate-800 font-mono text-sm">Disponível &gt; 1.000 un</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capital Desrepresado</span>
+                            <strong id="bundles-valor" class="text-purple-700 font-mono text-sm font-bold">R$ 613.139</strong>
                         </div>
                     </div>
-                    <div class="bg-purple-50/60 border border-purple-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
-                        <strong class="text-purple-900 block mb-1">Racional de Giro:</strong>
-                        Estoque estagnado com cobertura desbalanceada. Os kits cross-category associam itens de vestuário parados a produtos de Beleza de alto giro, acelerando a desimobilização de capital de giro sem gerar sangria de margem.
-                    </div>
-                    <table class="w-full text-xs text-left bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <thead class="bg-purple-50 text-purple-900">
-                            <tr>
-                                <th class="px-3 py-2">Premissa Auditada</th>
-                                <th class="px-3 py-2 text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-mono">
-                            <tr>
-                                <td class="px-3 py-2">Criação de bundles no ERP e campanhas de ativação (Capex)</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="bundles" data-impact-field="capex">R$ 18.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2">Benefício mensal estimado</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="bundles" data-impact-field="beneficio-mensal">R$ 204.379,75</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2 font-bold">Capital desrepresado na janela</td>
-                                <td class="px-3 py-2 text-right font-bold text-purple-700" data-impact-action="bundles" data-impact-field="valor">R$ 613.139</td>
-                            </tr>
-                            <tr class="font-bold">
-                                <td class="px-3 py-2">Payback estimado</td>
-                                <td class="px-3 py-2 text-right text-purple-700" data-impact-action="bundles" data-impact-field="payback">0,09 meses</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Memória de Cálculo:</strong>
-                            Meta de giro de 20% do capital parado amortizada ao longo de 3 meses de campanha.
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <div class="mb-2">
+                            <h5 class="font-bold text-slate-800 text-xs md:text-sm">Projeção 12 Meses: Capital Parado no Armazém vs Caixa Desrepresado</h5>
+                            <p class="text-[11px] text-slate-500">Projeção do escoamento do excesso de vestuário e sua conversão em caixa livre operacional ao invés de depreciação física.</p>
                         </div>
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Riscos & Mitigações:</strong>
-                            Canibalização de produtos de catálogo regular; trava de margem mínima para kits elegíveis.
+                        <div class="relative w-full" style="height: 210px;">
+                            <canvas id="chart-opp-bundles"></canvas>
                         </div>
                     </div>
                 </div>
@@ -854,13 +786,13 @@
                         <span class="w-3 h-3 rounded-full bg-rose-500 shrink-0"></span>
                         <div>
                             <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Operações & Logística Reversa</span>
-                            <h4 class="text-base font-bold text-slate-900">Programa de Redução de Devoluções & Avarias Logísticas</h4>
+                            <h4 class="text-base font-bold text-slate-900">5. Programa de Redução de Devoluções & Avarias Logísticas</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="text-right hidden sm:block">
                             <span class="text-xs text-slate-400 block">Payback estimado</span>
-                            <strong class="font-mono text-base text-rose-600 font-bold" data-impact-action="devolucoes" data-impact-field="payback">3,80 meses</strong>
+                            <strong id="devolucoes-payback" class="font-mono text-base text-rose-600 font-bold" data-impact-action="devolucoes" data-impact-field="payback">3,80 meses</strong>
                         </div>
                         <svg id="case-icon-case-devolucoes"
                             class="w-5 h-5 text-slate-400 transform transition-transform" fill="none"
@@ -871,101 +803,223 @@
                 </button>
                 <div id="case-content-case-devolucoes"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-2">
+                            <label for="select-cenario-devolucoes" class="text-xs font-bold text-slate-700">Simular Perfil / Cenário:</label>
+                            <select id="select-cenario-devolucoes" onchange="alterarCenarioOportunidade('devolucoes', this.value)"
+                                class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs bg-slate-50 font-bold text-rose-700 focus:outline-none focus:ring-1 focus:ring-rose-500"></select>
+                        </div>
+                        <span id="devolucoes-badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 self-start sm:self-auto">Payback: 3,8 meses</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Pedidos Devolvidos</span>
-                            <strong class="text-slate-800 font-mono text-sm"><span data-devolucoes-pedidos>4.127</span> pedidos</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Auditoria & Embalagem</span>
+                            <strong id="devolucoes-capex" class="text-slate-800 font-mono text-sm">R$ 45.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Taxa no Recorte</span>
-                            <strong class="text-slate-800 font-mono text-sm" data-json-path="modo_integrado.kpis.operacoes.taxa_devolucao_pct" data-format="pct">14,9%</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Benefício Mensal</span>
+                            <strong id="devolucoes-beneficio" class="text-slate-800 font-mono text-sm">R$ 11.857,30 / mês</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Receita Afetada</span>
-                            <strong class="text-slate-800 font-mono text-sm" data-impact-global="receita_afetada_devolucoes">R$ 3,06M</strong>
+                            <span class="text-xs text-slate-400 block font-medium">Margem Protegida</span>
+                            <strong id="devolucoes-valor" class="text-rose-700 font-mono text-sm font-bold">R$ 152.319</strong>
                         </div>
                     </div>
-                    <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-lg text-slate-700 leading-relaxed">
-                        <strong class="text-rose-900 block mb-1">Diagnóstico Operacional:</strong>
-                        Foram registrados <strong><span data-devolucoes-pedidos>4.127</span> pedidos devolvidos</strong>, comprometendo margem de contribuição e gerando frete reverso. A ação foca na redução de 10% das trocas por tamanho e avaria em transporte.
-                    </div>
-                    <table class="w-full text-xs text-left bg-white border border-slate-200 rounded-lg overflow-hidden">
-                        <thead class="bg-rose-50 text-rose-900">
-                            <tr>
-                                <th class="px-3 py-2">Premissa Auditada</th>
-                                <th class="px-3 py-2 text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-mono">
-                            <tr>
-                                <td class="px-3 py-2">Diagnóstico de medidas, reforço de embalagem e auditoria (Capex)</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="devolucoes" data-impact-field="capex">R$ 45.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2">Benefício mensal estimado</td>
-                                <td class="px-3 py-2 text-right" data-impact-action="devolucoes" data-impact-field="beneficio-mensal">R$ 11.857,30</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 py-2 font-bold">Margem protegida na janela</td>
-                                <td class="px-3 py-2 text-right font-bold text-rose-700" data-impact-action="devolucoes" data-impact-field="valor">R$ 152.319</td>
-                            </tr>
-                            <tr class="font-bold">
-                                <td class="px-3 py-2">Payback estimado</td>
-                                <td class="px-3 py-2 text-right text-rose-700" data-impact-action="devolucoes" data-impact-field="payback">3,80 meses</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-600">
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Memória de Cálculo:</strong>
-                            Meta de recuperação direta de 10% da margem perdida em pedidos devolvidos.
+
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <div class="mb-2">
+                            <h5 class="font-bold text-slate-800 text-xs md:text-sm">Projeção 12 Meses: Sangria de Reversa Inercial vs Margem Preservada</h5>
+                            <p class="text-[11px] text-slate-500">Comprova a contenção dos custos de frete reverso e estornos de produtos avariados mês a mês.</p>
                         </div>
-                        <div>
-                            <strong class="text-slate-800 block mb-1">Riscos & Mitigações:</strong>
-                            Rigidez excessiva em processos de troca; acompanhamento estrito de CSAT de devolução e recompra.
+                        <div class="relative w-full" style="height: 210px;">
+                            <canvas id="chart-opp-devolucoes"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Seção de Análise de Sensibilidade & Cenários de Estresse -->
-        <div class="card p-6">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
-                <div>
-                    <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">Análise de Sensibilidade</span>
-                    <h3 class="text-lg font-bold text-slate-900">Simulação de Cenários &amp; Estresse Operacional</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Modelagem com variações paramétricas de deflexão, devoluções, capex e impacto no EBITDA.</p>
+        <!-- Auditoria de Cenários Globais (Consolidada em Card Retrátil) -->
+        <div class="card p-5 bg-slate-50/60 border border-slate-200">
+            <details class="cursor-pointer group">
+                <summary class="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider select-none">
+                    <span>Auditoria de Cenários Globais & Sensibilidade Paramétrica</span>
+                    <span class="text-blue-600 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="mt-4 pt-3 border-t border-slate-200">
+                    <div id="scenarios-rigor" class="overflow-x-auto text-xs [&>table]:min-w-full [&>table]:text-left [&>table_thead]:bg-slate-100 [&>table_thead_th]:px-3 [&>table_thead_th]:py-2 [&>table_tbody_td]:px-3 [&>table_tbody_td]:py-2 [&>table_tbody_td]:font-mono"></div>
                 </div>
-            </div>
-            <div id="scenarios-rigor" class="overflow-x-auto text-xs [&>table]:min-w-full [&>table]:text-left [&>table_thead]:bg-slate-50/80 [&>table_thead_th]:px-3 [&>table_thead_th]:py-2.5 [&>table_thead_th]:text-slate-500 [&>table_thead_th]:uppercase [&>table_thead_th]:tracking-wider [&>table_thead_th]:border-b [&>table_thead_th]:border-slate-200 [&>table_tbody]:divide-y [&>table_tbody]:divide-slate-100 [&>table_tbody_tr]:hover:bg-slate-50/80 [&>table_tbody_td]:px-3 [&>table_tbody_td]:py-2.5 [&>table_tbody_td]:font-mono [&>table_tbody_td]:text-slate-700">
-                <p class="text-xs text-slate-400">Carregando cenários modelados...</p>
-            </div>
+            </details>
         </div>
     </div>
 
 
     <!-- ==================================================================== -->
-    <!-- ABA 4: ROADMAP DE EXECUÇÃO (TABELA CONECTADA DINAMICAMENTE AO JSON)  -->
+    <!-- ABA 4: ROADMAP EXECUTIVO (GANTT CORPORATIVO & GOVERNANÇA)             -->
     <!-- ==================================================================== -->
     <div id="panel-roadmap" class="tab-panel hidden space-y-6">
+        
+        <!-- VISUAL GANTT CORPORATIVO EMPRESARIAL -->
         <div class="card p-6">
-            <div
-                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 pb-3 border-b border-slate-100">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 pb-3 border-b border-slate-100">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Acompanhamento e Governança</span>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-0.5">Roadmap de Implementação das Iniciativas</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Controle de entregas, horizonte de tempo, metas financeiras e áreas proprietárias.</p>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Cronograma Visual de Implementação</span>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-0.5">Roadmap Estratégico (Timeline Gantt)</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Sequenciamento temporal por horizonte, dependências operacionais e checkpoints de governança.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-semibold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-                        Meta Total: <strong data-impact-global="recuperacao_ebitda">impacto na janela</strong>
+                        Meta Total: <strong data-impact-global="recuperacao_ebitda">Impacto na Janela</strong>
                     </span>
                 </div>
             </div>
 
-            <!-- Tabela de Governança com as 5 Iniciativas (Populada via script.js em #roadmap-tbody) -->
-            <div class="overflow-x-auto mb-8">
+            <!-- Grade Visual de Gantt (Estilo Jira / Linear) -->
+            <div class="overflow-x-auto">
+                <div class="min-w-[760px]">
+                    <!-- Cabeçalho de Escala Temporal (Meses 1 a 6) -->
+                    <div class="grid grid-cols-12 text-[11px] font-bold text-slate-500 uppercase tracking-wider pb-2 border-b border-slate-200">
+                        <div class="col-span-4 text-slate-700">Iniciativa / Domínio</div>
+                        <div class="col-span-4 text-center bg-slate-50 rounded py-1 border border-slate-200/60">Trimestre 1 (Meses 1 a 3)</div>
+                        <div class="col-span-4 text-center bg-slate-50 rounded py-1 border border-slate-200/60 ml-1">Trimestre 2 (Meses 4 a 6)</div>
+                    </div>
+                    <div class="grid grid-cols-12 text-[10px] font-mono text-slate-400 py-1.5 border-b border-slate-100 text-center">
+                        <div class="col-span-4 text-left font-sans text-xs text-slate-400">Escala Semanal &bull; Entregas</div>
+                        <div class="col-span-1">Mês 1</div>
+                        <div class="col-span-1">Mês 2</div>
+                        <div class="col-span-1">Mês 3</div>
+                        <div class="col-span-1 border-r border-slate-200">Revisão</div>
+                        <div class="col-span-1">Mês 4</div>
+                        <div class="col-span-1">Mês 5</div>
+                        <div class="col-span-1">Mês 6</div>
+                        <div class="col-span-1 font-bold text-blue-600">LTV</div>
+                    </div>
+
+                    <!-- Barras de Iniciativas no Gantt -->
+                    <div class="divide-y divide-slate-100 mt-2 space-y-3">
+                        <!-- 1. Frete Grátis -->
+                        <div class="grid grid-cols-12 items-center py-2 group hover:bg-slate-50/60 rounded-lg transition">
+                            <div class="col-span-4 pr-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                                    <strong class="text-xs text-slate-800">1. Corte Frete Grátis &lt; R$ 199</strong>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">Logística / Checkout &bull; Q1 Sem 1-2</span>
+                            </div>
+                            <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
+                                <div class="h-6 rounded-md bg-gradient-to-r from-red-500 to-red-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 28%; margin-left: 0%;">
+                                    Sem 1–2 (Estancamento)
+                                </div>
+                                <span class="absolute right-3 text-[10px] font-mono font-bold text-red-700">R$ 50,3k</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. WISMO WhatsApp -->
+                        <div class="grid grid-cols-12 items-center py-2 group hover:bg-slate-50/60 rounded-lg transition">
+                            <div class="col-span-4 pr-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                    <strong class="text-xs text-slate-800">2. Chatbot WhatsApp (WISMO)</strong>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">CX & Atendimento &bull; Q1 Sem 3-6</span>
+                            </div>
+                            <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
+                                <div class="h-6 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 35%; margin-left: 12%;">
+                                    Sem 3–6 (Go-live Bot)
+                                </div>
+                                <span class="absolute right-3 text-[10px] font-mono font-bold text-blue-700">R$ 30,2k</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. Bundles Moda + Beleza -->
+                        <div class="grid grid-cols-12 items-center py-2 group hover:bg-slate-50/60 rounded-lg transition">
+                            <div class="col-span-4 pr-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                                    <strong class="text-xs text-slate-800">3. Bundles Moda + Beleza</strong>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">Comercial / Estoque &bull; Q1 Sem 4-8</span>
+                            </div>
+                            <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
+                                <div class="h-6 rounded-md bg-gradient-to-r from-purple-500 to-purple-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 38%; margin-left: 18%;">
+                                    Sem 4–8 (Giro Estoque)
+                                </div>
+                                <span class="absolute right-3 text-[10px] font-mono font-bold text-purple-700">11.883 un</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. Rebalanceamento Mídia -->
+                        <div class="grid grid-cols-12 items-center py-2 group hover:bg-slate-50/60 rounded-lg transition">
+                            <div class="col-span-4 pr-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                    <strong class="text-xs text-slate-800">4. Rebalanceamento de Mídia</strong>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">Growth / Mídia &bull; Q2 Mês 1-2</span>
+                            </div>
+                            <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
+                                <div class="h-6 rounded-md bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 45%; margin-left: 35%;">
+                                    Mês 2–4 (ROAS & CAC)
+                                </div>
+                                <span class="absolute right-3 text-[10px] font-mono font-bold text-emerald-700">R$ 246,8k</span>
+                            </div>
+                        </div>
+
+                        <!-- 5. Devoluções & Avarias -->
+                        <div class="grid grid-cols-12 items-center py-2 group hover:bg-slate-50/60 rounded-lg transition">
+                            <div class="col-span-4 pr-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                                    <strong class="text-xs text-slate-800">5. Redução de Devoluções & Reversa</strong>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">Operações & Logística &bull; Q2-Q3</span>
+                            </div>
+                            <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
+                                <div class="h-6 rounded-md bg-gradient-to-r from-rose-500 to-rose-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 48%; margin-left: 50%;">
+                                    Mês 3–6 (SLA & Reversa)
+                                </div>
+                                <span class="absolute right-3 text-[10px] font-mono font-bold text-rose-700">R$ 152,3k</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkpoints e Marcos Estratégicos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-5 border-t border-slate-100">
+                <div class="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                        <strong class="text-xs text-emerald-900 uppercase tracking-wide">Marco 1 &bull; Mês 1</strong>
+                    </div>
+                    <p class="text-xs text-emerald-800 mt-1 font-semibold">Estancamento de Sangria Imediata</p>
+                    <p class="text-[11px] text-emerald-700 mt-0.5">Regra de frete ativa no checkout e kits de Moda + Beleza publicados no catálogo.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-blue-50/60 border border-blue-200">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                        <strong class="text-xs text-blue-900 uppercase tracking-wide">Marco 2 &bull; Mês 2</strong>
+                    </div>
+                    <p class="text-xs text-blue-800 mt-1 font-semibold">Automação de Atendimento & Mídia</p>
+                    <p class="text-[11px] text-blue-700 mt-0.5">Go-live do Bot WISMO absorvendo 75% dos chamados e realocação orçamentária dos canais de baixo ROAS.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-600"></span>
+                        <strong class="text-xs text-purple-900 uppercase tracking-wide">Marco 3 &bull; Mês 4+</strong>
+                    </div>
+                    <p class="text-xs text-purple-800 mt-1 font-semibold">Consolidação Operacional & LTV</p>
+                    <p class="text-[11px] text-purple-700 mt-0.5">Auditoria contínua de reversas por transportadora e réguas ativas de retenção para clientes em risco.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de Governança com as 5 Iniciativas -->
+        <div class="card p-6">
+            <h3 class="text-base font-bold text-slate-900 mb-3">Matriz de Governança & Execução</h3>
+            <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-xs whitespace-nowrap">
                     <thead
                         class="uppercase tracking-wider border-b-2 border-slate-200 text-slate-500 bg-slate-50/80 font-bold">
@@ -978,38 +1032,8 @@
                             <th class="px-4 py-3 text-right">Progresso</th>
                         </tr>
                     </thead>
-                    <tbody id="roadmap-tbody" class="divide-y divide-slate-100 text-slate-700">
-                        <!-- Carregado dinamicamente a partir do objeto roadmap gerado em process_data.py -->
-                    </tbody>
+                    <tbody id="roadmap-tbody" class="divide-y divide-slate-100 text-slate-700"></tbody>
                 </table>
-            </div>
-
-            <!-- Linha do Tempo Estratégica (Timeline Visual) -->
-            <div class="border-t border-slate-100 pt-6">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6">Fases de Implementação & Marcos</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-                    <div class="border-l-2 border-emerald-500 pl-4 py-1">
-                        <span class="text-xs font-mono font-bold text-emerald-600 uppercase">Fase 1 · Mês 1</span>
-                        <h4 class="text-base font-bold text-slate-900 mt-0.5">Estancamento & Quick Wins</h4>
-                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Corte de frete grátis em pedidos unitários; lançamento dos kits promocionais Moda + Beleza; contratação do canal oficial de WhatsApp.
-                        </p>
-                    </div>
-                    <div class="border-l-2 border-blue-500 pl-4 py-1">
-                        <span class="text-xs font-mono font-bold text-blue-600 uppercase">Fase 2 · Mês 2–3</span>
-                        <h4 class="text-base font-bold text-slate-900 mt-0.5">Automação & Mídia Eficiente</h4>
-                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Go-live do Bot WISMO absorvendo chamados repetitivos; migração orçamentária dos canais de baixo ROAS; parametrização de estoques de segurança.
-                        </p>
-                    </div>
-                    <div class="border-l-2 border-purple-500 pl-4 py-1">
-                        <span class="text-xs font-mono font-bold text-purple-600 uppercase">Fase 3 · Mês 4+</span>
-                        <h4 class="text-base font-bold text-slate-900 mt-0.5">Consolidação & LTV</h4>
-                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Auditoria de reversas por transportadora; réguas de recompra para clientes em risco; captura total do impacto quantificado na janela (<strong class="font-mono text-purple-700" data-impact-global="recuperacao_ebitda">EBITDA</strong>).
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1020,7 +1044,6 @@
     <!-- ==================================================================== -->
     <div id="panel-relatorio" class="tab-panel hidden space-y-6">
 
-        <!-- Barra de Controles (Oculta na Impressão) -->
         <div
             class="no-print bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -1060,9 +1083,7 @@
             </div>
         </div>
 
-        <!-- Documento Executivo de Relatório -->
         <div id="report-printable-area" class="space-y-6">
-            <!-- Cabeçalho Institucional Preservado na Impressão via ID rep-print-header -->
             <header id="rep-print-header"
                 class="border-b-2 border-slate-900 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-2">
                 <div>
@@ -1084,7 +1105,6 @@
                 </div>
             </header>
 
-            <!-- Grade de 6 KPIs com Deltas vs T-1 -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 <div class="card p-3">
                     <span class="text-[11px] font-semibold text-slate-500 uppercase block">Receita Bruta</span>
@@ -1123,7 +1143,6 @@
                 </div>
             </div>
 
-            <!-- DRE Operacional Sintética do Período -->
             <div class="card p-5">
                 <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
                     <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Demonstrativo Operacional Sintético (DRE do Período)</h3>
@@ -1136,7 +1155,6 @@
                 </div>
             </div>
 
-            <!-- Desempenho por Categoria & Eficiência de Mídia -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="card p-5 flex flex-col justify-between">
                     <div>
@@ -1187,7 +1205,6 @@
                 </div>
             </div>
 
-            <!-- SKUs de Destaque no Período -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="card p-5">
                     <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-2">
