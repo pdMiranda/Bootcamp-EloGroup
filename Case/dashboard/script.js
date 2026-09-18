@@ -60,12 +60,65 @@ let selectedGranularity = 'mes';
 let selectedArea = 'comercial';
 let activeReportGranularity = 'mes';
 
+// Estado global dos cenários ativos por oportunidade
+let activeOppScenarios = {
+    wismo: 'Base',
+    frete: 'Base',
+    marketing: 'Base',
+    bundles: 'Base',
+    devolucoes: 'Base'
+};
+
 const mapeamentoAcoes = {
     wismo: ['wismo', 'automação wismo', 'automacao wismo'],
     frete: ['frete', 'política de frete', 'politica de frete', 'corte frete'],
     marketing: ['marketing', 'mídia', 'midia', 'realocação marketing', 'otimização de mídia'],
     bundles: ['bundles', 'capital em bundles', 'moda+beleza', 'moda + beleza'],
     devolucoes: ['devoluções', 'devolucoes', 'redução devoluções', 'reducao devolucoes']
+};
+
+// Descrições técnicas e auditadas de cada perfil (vinculadas ao process_data.py)
+const descricoesCenarios = {
+    wismo: {
+        'Base': 'Premissa padrão: 75% dos chamados manuais transferidos para bot WhatsApp (R$ 2,00/sessão vs R$ 12,00/humano) com Capex de setup de R$ 30.000.',
+        'Pessimista (Estresse)': 'Cenário de estresse: Adoção reduzida para apenas 30% dos chamados e Capex inflado para R$ 45.000 devido a atrasos de homologação.',
+        'Conservador': 'Hipótese prudente: 50% de deflexão automática para o bot com Capex de R$ 35.000, mantendo ampla equipe humana de retaguarda.',
+        'Agressivo (Alta Eficiência)': 'Automação plena: 90% de contenção no WhatsApp com Capex enxuto de R$ 25.000 e integração fluida de rastreio.',
+        'Foco em CX': 'Prioridade em CSAT: 60% de automação com Capex de R$ 50.000 (transbordo prioritário para agente humano).',
+        'Proteção de Caixa (Cash Crunch)': 'Setup emergencial mínimo: Capex reduzido a R$ 10.000 e 80% de deflexão forçada para estancar despesas imediatas.'
+    },
+    frete: {
+        'Base': 'Eliminação de frete grátis em pedidos unitários com valor < R$ 199 onde o custo de entrega supera a margem bruta. Capex de R$ 12.000.',
+        'Pessimista (Estresse)': 'Teto rebaixado para < R$ 149 para conter risco de abandono de carrinho, recuperando volume menor de frete subsidiado.',
+        'Conservador': 'Teto conservador de < R$ 149 e Capex de R$ 12.000, limitando impacto na conversão de praças de frete intermediário.',
+        'Agressivo (Alta Eficiência)': 'Teto elevado para < R$ 249, eliminando todo subsídio em pedidos individuais com margem unitária comprimida.',
+        'Foco em CX': 'Teto suave de < R$ 129 com tolerância a subsídio parcial para evitar atrito no fechamento da compra.',
+        'Proteção de Caixa (Cash Crunch)': 'Teto estrito de < R$ 299 e Capex mínimo de R$ 5.000 para blindagem imediata do fluxo de caixa logístico.'
+    },
+    marketing: {
+        'Base': 'Realocação de 30% do orçamento de canais deficitários (ex: Marketplace 2,9x) para canais com ROAS > 3,8x (Influenciador 7,5x), ganho estimado de 5% e Capex de R$ 25.000.',
+        'Pessimista (Estresse)': 'Realocação de 30% da verba com ganho marginal contido em apenas 1% devido à saturação de audiência.',
+        'Conservador': 'Realocação cautelosa de 20% do orçamento com ganho marginal de 3% e Capex de R$ 25.000.',
+        'Agressivo (Alta Eficiência)': 'Realocação ampla de 30% com ganho de 8% em receita incremental via campanhas eficientes.',
+        'Foco em CX': 'Manutenção de canais institucionais e de marca, com ganho base e Capex de instrumentação analítica.',
+        'Proteção de Caixa (Cash Crunch)': 'Realocação emergencial de 50% de todo investimento pago exclusivamente para frentes com ROAS comprovado.'
+    },
+    bundles: {
+        'Base': 'Giro de 20% do capital parado em 11 SKUs de Moda (>1.000 un) via kits com Beleza em 3 meses. Capex de R$ 18.000 em catalogação.',
+        'Pessimista (Estresse)': 'Giro lento de 15% amortizado em 3 meses devido à menor elasticidade de vestuário.',
+        'Conservador': 'Giro controlado de 15% do excesso parado em 3 meses com Capex de R$ 18.000, preservando pisos de margem.',
+        'Agressivo (Alta Eficiência)': 'Desimobilização rápida de 30% do capital estagnado em 3 meses com forte ativação promocional de kits.',
+        'Foco em CX': 'Kits personalizados por perfil de cliente, mantendo giro de 20% em 3 meses com foco em percepção de valor.',
+        'Proteção de Caixa (Cash Crunch)': 'Liquidação acelerada de 40% do estoque parado em apenas 1,5 mês para injeção rápida de liquidez.'
+    },
+    devolucoes: {
+        'Base': 'Redução de 10% nas perdas com pedidos devolvidos (4.127 pedidos na janela) via padronização de tabelas e fotos. Capex de R$ 45.000.',
+        'Pessimista (Estresse)': 'Redução contida de apenas 3% com Capex de R$ 45.000 frente à inércia de avarias em transporte.',
+        'Conservador': 'Redução de 5% das devoluções e frete reverso com foco em inconsistências de numeração e modelagem.',
+        'Agressivo (Alta Eficiência)': 'Redução de 15% com revisão ampla de embalagens protetivas e homologação rigorosa de transportadoras.',
+        'Foco em CX': 'Redução de 12% com Capex de R$ 60.000 reforçando suporte prévio de troca e garantia simplificada.',
+        'Proteção de Caixa (Cash Crunch)': 'Estancamento direto das devoluções mais custosas com investimento mínimo de contenção.'
+    }
 };
 
 const kpiDictionary = {
@@ -109,7 +162,7 @@ function makeTooltip(kpiKey) {
     </span>`;
 }
 
-// ================= CONTROLE DE NAVEGAÇÃO POR ABAS =================
+// ================= CONTROLE DE NAVEGAÇÃO =================
 function switchTab(tabId) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
     document.querySelectorAll('.tab-nav-btn').forEach(b => {
@@ -133,7 +186,7 @@ function switchTab(tabId) {
     setTimeout(() => {
         if (tabId === 'diagnostico' && dashboardData) {
             renderArea(dashboardData.modo_integrado, selectedArea);
-            if (charts.canal) charts.canal.resize();
+            renderCanalChart(dashboardData.modo_integrado.canais || []);
             if (charts.canalRfm) charts.canalRfm.resize();
         } else if (tabId === 'overview') {
             if (charts.main) charts.main.resize();
@@ -192,7 +245,99 @@ function toggleChatbotPopup() {
     }
 }
 
-// ================= ABA 2: RENDERIZADOR COMPLETO POR ÁREA =================
+// ================= ABA 2: RENDERIZADOR POR ÁREA & CANAL (CORRIGIDO) =================
+function renderCanalChart(canaisData) {
+    const ctx = document.getElementById('canalChart');
+    if (!ctx) return;
+
+    if (charts.canal) {
+        try { charts.canal.destroy(); } catch(e) {}
+    }
+
+    const canalToggle = document.getElementById('canal_toggle')?.value || 'investimento_retorno';
+    const canalTitle = document.getElementById('canal-chart-title');
+
+    if (canalToggle === 'roas_cac') {
+        if (canalTitle) canalTitle.textContent = 'ROAS vs CAC por Canal de Aquisição';
+
+        charts.canal = new Chart(ctx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: canaisData.map(d => d.canal),
+                datasets: [
+                    {
+                        label: 'ROAS (x)',
+                        data: canaisData.map(d => d.roas || 0),
+                        backgroundColor: '#10b981',
+                        borderRadius: 4,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'CAC (R$)',
+                        data: canaisData.map(d => d.cac || 0),
+                        backgroundColor: '#ef4444',
+                        borderRadius: 4,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'ROAS' },
+                        ticks: { callback: (v) => Number(v).toFixed(1) + 'x' }
+                    },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'CAC Médio' },
+                        ticks: { callback: (v) => formatBRL(v) }
+                    }
+                }
+            }
+        });
+    } else {
+        if (canalTitle) canalTitle.textContent = 'Investimento vs Receita de Vendas';
+
+        charts.canal = new Chart(ctx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: canaisData.map(d => d.canal),
+                datasets: [
+                    {
+                        label: 'Investimento em Mídia',
+                        data: canaisData.map(d => d.investimento || 0),
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Receita de Vendas',
+                        data: canaisData.map(d => d.receita_bruta || d.receita_liquida || 0),
+                        backgroundColor: '#2563eb',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: { callback: (v) => formatBRL(v) }
+                    }
+                }
+            }
+        });
+    }
+}
+
 function renderArea(data, area) {
     const kpis = data.kpis;
     const impact = data.impacto;
@@ -316,7 +461,7 @@ function renderArea(data, area) {
     });
 }
 
-// ================= ABA 3: PROJEÇÕES & SELEÇÃO DE CENÁRIOS POR OPORTUNIDADE =================
+// ================= ABA 3: CENÁRIOS, PREMISSAS & MATRIZ 2X2 DINÂMICA =================
 function popularSeletoresCenariosOportunidades(data) {
     const cenarios = getPathRigor(data, 'modo_integrado.cenarios', {});
     const nomes = Object.keys(cenarios);
@@ -337,6 +482,8 @@ function popularSeletoresCenariosOportunidades(data) {
 
 function alterarCenarioOportunidade(oppKey, cenarioNome) {
     if (!dashboardData) return;
+    activeOppScenarios[oppKey] = cenarioNome;
+
     const cenarios = getPathRigor(dashboardData, 'modo_integrado.cenarios', {});
     const targetCenario = cenarios[cenarioNome] || cenarios['Base'];
     if (!targetCenario) return;
@@ -353,6 +500,7 @@ function alterarCenarioOportunidade(oppKey, cenarioNome) {
     const valorJanela = action.valor ?? 0;
     const payback = action.payback_meses;
 
+    // Atualiza campos do card da oportunidade
     const capexEl = document.getElementById(`${oppKey}-capex`);
     if (capexEl) capexEl.textContent = formatBRLRigor(capex);
 
@@ -368,7 +516,35 @@ function alterarCenarioOportunidade(oppKey, cenarioNome) {
     const badgeStatus = document.getElementById(`${oppKey}-badge-status`);
     if (badgeStatus) badgeStatus.textContent = `Payback: ${formatPaybackRigor(payback)}`;
 
+    // Exibe a descrição exata das premissas consideradas no perfil selecionado
+    const descEl = document.getElementById(`${oppKey}-cenario-desc`);
+    if (descEl && descricoesCenarios[oppKey]) {
+        descEl.innerHTML = `<strong>Premissas do Perfil "${cenarioNome}":</strong> ${descricoesCenarios[oppKey][cenarioNome] || 'Premissas específicas parametrizadas em process_data.py.'}`;
+    }
+
+    // Atualiza a Matriz 2x2 de Decisão de forma sincronizada com o perfil ativo
+    const matrizValEl = document.getElementById(`matriz-val-${oppKey}`);
+    if (matrizValEl) {
+        if (oppKey === 'bundles') {
+            matrizValEl.textContent = `${formatBRLRigor(valorJanela)} capital`;
+        } else {
+            matrizValEl.textContent = `${formatBRLRigor(valorJanela)} na janela`;
+        }
+    }
+
+    // Atualiza os valores dos cards de alavanca na Aba 1
+    const kpiValEl = document.getElementById(`kpi-card-val-${oppKey}`);
+    if (kpiValEl) kpiValEl.textContent = formatBRLRigor(valorJanela);
+
+    const kpiPayEl = document.getElementById(`kpi-card-pay-${oppKey}`);
+    if (kpiPayEl) kpiPayEl.textContent = formatPaybackRigor(payback);
+
+    // Atualiza badges do Gantt
+    const ganttValEl = document.getElementById(`gantt-val-${oppKey}`);
+    if (ganttValEl) ganttValEl.textContent = formatBRLRigor(valorJanela);
+
     renderizarGraficoOportunidade(oppKey, capex, beneficioMensal, payback);
+    atualizarRoadmapDinamico();
 }
 
 function renderizarGraficoOportunidade(oppKey, capex, beneficioMensal, payback) {
@@ -381,21 +557,16 @@ function renderizarGraficoOportunidade(oppKey, capex, beneficioMensal, payback) 
 
     const meses = Array.from({ length: 13 }, (_, i) => `Mês ${i}`);
 
-    // Inércia mensal com base nos diagnósticos reais do process_data.py
     const inerciaMensalMap = {
-        wismo: 4336.57,      // Custo manual de tickets WISMO sem automação
-        frete: 3914.14,      // Frete deficitário subsidiado em pedidos unitários
-        marketing: 19200.0,  // Margem subótima em canais de baixo retorno
-        bundles: 25000.0,    // Custo de oportunidade de capital parado no estoque
-        devolucoes: 11857.30 // Margem operacional destruída por trocas e avarias
+        wismo: 4336.57,
+        frete: 3914.14,
+        marketing: 19200.0,
+        bundles: 25000.0,
+        devolucoes: 11857.30
     };
 
     const inercia = inerciaMensalMap[oppKey] || (beneficioMensal * 0.8);
-
-    // Curva 1: Status Quo (Inércia / Sem ação)
     const semAcao = meses.map((_, i) => -(inercia * i));
-
-    // Curva 2: Com Iniciativa (Amortização de Capex + Lucro Líquido Acumulado)
     const comAcao = meses.map((_, i) => -capex + (beneficioMensal * i));
 
     const colorMap = {
@@ -459,7 +630,91 @@ function renderizarGraficoOportunidade(oppKey, capex, beneficioMensal, payback) 
     });
 }
 
-// ================= ABA 5: LÓGICA DO RELATÓRIO EXECUTIVO =================
+// ================= ABA 4: ROADMAP 30–60–90 DIAS SINCRONIZADO =================
+function atualizarRoadmapDinamico() {
+    const tbody = document.getElementById('roadmap-tbody');
+    if (!tbody || !dashboardData) return;
+
+    const cenarios = getPathRigor(dashboardData, 'modo_integrado.cenarios', {});
+    
+    const roadmapConfig = [
+        {
+            key: 'frete',
+            nome: '1. Corte de Frete Grátis em Pedidos Únicos < R$ 199',
+            area: 'Logística / Checkout',
+            horizonte: '0 a 30 dias (Dias 1–15)',
+            status: 'Execução Imediata',
+            progresso: 0
+        },
+        {
+            key: 'wismo',
+            nome: '2. Automação de Rastreio (WISMO) no WhatsApp',
+            area: 'CX & Atendimento',
+            horizonte: '31 a 60 dias (Dias 15–45)',
+            status: 'Planejamento / Setup',
+            progresso: 0
+        },
+        {
+            key: 'bundles',
+            nome: '3. Bundles Promocionais de Moda + Beleza',
+            area: 'Comercial / Estoque',
+            horizonte: '31 a 60 dias (Dias 20–60)',
+            status: 'Planejamento / Catálogo',
+            progresso: 0
+        },
+        {
+            key: 'marketing',
+            nome: '4. Rebalanceamento de Mídia por ROAS & CAC',
+            area: 'Growth / Mídia',
+            horizonte: '31 a 60 dias (Dias 30–60)',
+            status: 'Planejamento / Governança',
+            progresso: 0
+        },
+        {
+            key: 'devolucoes',
+            nome: '5. Programa de Redução de Devoluções & Avarias',
+            area: 'Operações & Logística Reversa',
+            horizonte: '61 a 90+ dias (Dias 45–90+)',
+            status: 'Diagnóstico de Fornecedores',
+            progresso: 0
+        }
+    ];
+
+    let totalGanhoAtivo = 0;
+
+    tbody.innerHTML = roadmapConfig.map(item => {
+        const cenarioAtivo = activeOppScenarios[item.key] || 'Base';
+        const targetCenario = cenarios[cenarioAtivo] || cenarios['Base'];
+        const patterns = mapeamentoAcoes[item.key] || [];
+
+        let valor = 0;
+        if (targetCenario && targetCenario.acoes) {
+            const action = targetCenario.acoes.find(a => {
+                const name = (a.nome || a.iniciativa || '').toLowerCase();
+                return patterns.some(p => name.includes(p.toLowerCase()));
+            });
+            if (action) valor = action.valor || 0;
+        }
+
+        totalGanhoAtivo += valor;
+
+        return `
+            <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="px-4 py-3 font-semibold text-slate-900">${item.nome}</td>
+                <td class="px-4 py-3"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">${item.area}</span></td>
+                <td class="px-4 py-3 font-mono font-semibold text-blue-700">${item.horizonte}</td>
+                <td class="px-4 py-3"><span class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">${item.status}</span></td>
+                <td class="px-4 py-3 text-right font-mono font-bold text-emerald-700">${formatBRLRigor(valor)}</td>
+                <td class="px-4 py-3 text-right font-mono font-bold text-slate-500">${item.progresso}%</td>
+            </tr>
+        `;
+    }).join('');
+
+    const metaTotalEl = document.getElementById('roadmap-meta-total');
+    if (metaTotalEl) metaTotalEl.textContent = formatBRLRigor(totalGanhoAtivo);
+}
+
+// ================= ABA 5: RELATÓRIOS PERIÓDICOS =================
 function initReportSection() {
     populateReportPeriods();
 }
@@ -658,7 +913,7 @@ function renderReportSnapshot(periodKey) {
     });
 }
 
-// ================= INICIALIZAÇÃO GERAL DO DASHBOARD =================
+// ================= INICIALIZAÇÃO GERAL =================
 async function init() {
     document.getElementById('tt-macro-rec').innerHTML = makeTooltip('receita_bruta');
     document.getElementById('tt-macro-margem').innerHTML = makeTooltip('margem_contribuicao');
@@ -697,6 +952,7 @@ async function init() {
     renderDashboard(selectedGranularity);
     renderRigorExtensions(dashboardData);
     popularSeletoresCenariosOportunidades(dashboardData);
+    atualizarRoadmapDinamico();
 }
 
 function renderDashboard(granularity = selectedGranularity) {
@@ -811,26 +1067,9 @@ function renderDashboard(granularity = selectedGranularity) {
     });
 
     renderArea(data, selectedArea);
+    renderCanalChart(data.canais || []);
 
-    // Gráficos de Canais
-    const canaisData = data.canais || [];
-    charts.canal = new Chart(document.getElementById('canalChart').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: canaisData.map(d => d.canal),
-            datasets: [
-                { label: 'Investimento em Mídia', data: canaisData.map(d => d.investimento), backgroundColor: '#f59e0b' },
-                { label: 'Receita Efetivada de Vendas', data: canaisData.map(d => d.receita_liquida), backgroundColor: '#2563eb' }
-            ]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { x: { beginAtZero: true, ticks: { callback: (v) => formatBRL(v) } } }
-        }
-    });
-
+    // Gráfico de Segmentos RFM por Canal e Ticket Médio
     charts.canalRfm = new Chart(document.getElementById('canalRfmChart').getContext('2d'), {
         type: 'bar',
         data: {
@@ -978,8 +1217,6 @@ function renderRigorExtensions(data) {
     if (!data) return;
     renderJsonPathPlaceholders(data);
     renderRigorHeader(data);
-    renderDynamicRoadmap(data);
-    renderImpactDetailPlaceholders(data);
     renderReportRigorMeta(data);
     renderScenariosRigor(data);
     renderExtraMetrics(data);
@@ -1026,57 +1263,6 @@ function renderRigorHeader(data) {
         const updatedAt = getPathRigor(data, 'meta.atualizado_em', null);
         source.textContent = updatedAt ? `Atualizado em ${new Date(updatedAt).toLocaleDateString('pt-BR')}` : 'Base Consolidada Auditada';
     }
-}
-
-function renderDynamicRoadmap(data) {
-    const tbody = document.getElementById('roadmap-tbody');
-    if (!tbody) return;
-
-    let roadmap = getPathRigor(data, 'modo_integrado.roadmap', []) || [];
-
-    if (!roadmap.length) {
-        const actions = getPathRigor(data, 'modo_integrado.impacto.acoes', []) || [];
-        roadmap = actions.map((action, index) => ({
-            ordem: index + 1,
-            iniciativa: action.iniciativa || action.nome,
-            area: action.area || '—',
-            horizonte: '—',
-            status: 'Planejamento',
-            ganho_na_janela: action.valor,
-            progresso_pct: 0
-        }));
-    }
-
-    tbody.innerHTML = roadmap.map((item) => {
-        const title = item.iniciativa || item.nome || '—';
-        const ordem = item.ordem || '';
-        const area = item.area || '—';
-        const horizonte = item.horizonte || '—';
-        const status = item.status || 'Planejamento';
-        const ganho = item.ganho_na_janela ?? item.valor ?? null;
-        const progresso = item.progresso_pct ?? 0;
-
-        return `
-            <tr class="hover:bg-slate-50/80 transition-colors">
-                <td class="px-4 py-3 font-semibold text-slate-900">${ordem ? `${ordem}. ` : ''}${title}</td>
-                <td class="px-4 py-3"><span class="px-2 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">${area}</span></td>
-                <td class="px-4 py-3 font-mono">${horizonte}</td>
-                <td class="px-4 py-3"><span class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-full font-bold text-[11px]">${status}</span></td>
-                <td class="px-4 py-3 text-right font-mono font-bold text-emerald-700">${formatBRLRigor(ganho)}</td>
-                <td class="px-4 py-3 text-right font-mono font-bold text-slate-500">${formatPctRigor(progresso)}</td>
-            </tr>
-        `;
-    }).join('');
-}
-
-function renderImpactDetailPlaceholders(data) {
-    const impact = getPathRigor(data, 'modo_integrado.impacto', {}) || {};
-
-    document.querySelectorAll('[data-impact-global]').forEach((el) => {
-        const key = el.getAttribute('data-impact-global');
-        const value = impact[key];
-        el.textContent = String(key).toLowerCase().includes('payback') ? formatPaybackRigor(value) : formatBRLRigor(value);
-    });
 }
 
 function renderReportRigorMeta(data) {
@@ -1129,7 +1315,12 @@ document.getElementById('area_toggle')?.addEventListener('change', (e) => {
     if (dashboardData) renderArea(dashboardData.modo_integrado, selectedArea);
 });
 document.getElementById('secondary_toggle')?.addEventListener('change', () => renderDashboard(selectedGranularity));
-document.getElementById('canal_toggle')?.addEventListener('change', () => renderDashboard(selectedGranularity));
+
+// Alternador de canal corrigido
+document.getElementById('canal_toggle')?.addEventListener('change', () => {
+    if (dashboardData) renderCanalChart(dashboardData.modo_integrado.canais || []);
+});
+
 document.getElementById('categoria_view_toggle')?.addEventListener('change', () => {
     if (dashboardData) renderCategoryTable(dashboardData.modo_integrado);
 });
