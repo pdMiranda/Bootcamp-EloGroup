@@ -125,7 +125,7 @@ const kpiDictionary = {
     receita_bruta: { title: "Receita Bruta", desc: "Faturamento bruto total antes de deduções e devoluções.", formula: "∑ (Preço de Venda × Quantidade)" },
     margem_contribuicao: { title: "Margem de Contribuição", desc: "Sobra financeira das vendas após dedução de CMV, frete e devoluções.", formula: "Receita Líquida - (CMV + Frete + Devoluções)" },
     ebitda_potencial: { title: "Recuperação EBITDA", desc: "Ganho operacional direto projetado com as 4 alavancas prioritárias.", formula: "∑ (Economias + Redução de Sangrias)" },
-    payback: { title: "Payback Médio", desc: "Meses necessários para que as economias geradas paguem o setup.", formula: "Investimento Total ÷ Economia Mensal" },
+    payback: { title: "Payback Médio", desc: "Média dos meses estimados para recuperação do investimento em cada oportunidade.", formula: "∑ Payback das Oportunidades ÷ Quantidade de Oportunidades" },
     pedidos_aprovados: { title: "Pedidos Aprovados", desc: "Volume de transações com pagamento confirmado.", formula: "Contagem distinta de order_id aprovados" },
     ticket_medio: { title: "Ticket Médio", desc: "Gasto médio por pedido aprovado.", formula: "Receita Bruta ÷ Pedidos Aprovados" },
     taxa_conversao: { title: "Taxa de Conversão", desc: "Percentual de cliques convertidos em compras.", formula: "(Conversões ÷ Cliques) × 100" },
@@ -245,6 +245,14 @@ function toggleChatbotPopup() {
     }
 }
 
+function toggleGovernancePopup() {
+    const popup = document.getElementById('governance-popup');
+    const trigger = document.querySelector('.governance-trigger');
+    if (!popup) return;
+    const isHidden = popup.classList.toggle('hidden');
+    if (trigger) trigger.setAttribute('aria-expanded', String(!isHidden));
+}
+
 // ================= ABA 2: RENDERIZADOR POR ÁREA & CANAL (CORRIGIDO) =================
 function renderCanalChart(canaisData) {
     const ctx = document.getElementById('canalChart');
@@ -342,8 +350,8 @@ function renderArea(data, area) {
     const kpis = data.kpis;
     const impact = data.impacto;
     const areaTitles = {
-        comercial: 'Comercial & Faturamento', margem: 'Margem & Custos Unitários', marketing: 'Marketing & Eficiência', 
-        clientes: 'Base de Clientes & Retenção', operacoes: 'Operações & Logística', atendimento: 'Atendimento & CX', 
+        comercial: 'Comercial e Faturamento', margem: 'Margem e Custos Unitários', marketing: 'Marketing e Eficiência', 
+        clientes: 'Base de Clientes e Retenção', operacoes: 'Operações e Logística', atendimento: 'Atendimento e CX', 
         impacto: 'Impacto Financeiro Consolidado'
     };
 
@@ -480,6 +488,36 @@ function popularSeletoresCenariosOportunidades(data) {
     });
 }
 
+function atualizarResumoExecutivoPorOportunidades() {
+    if (!dashboardData) return;
+
+    const cenarios = getPathRigor(dashboardData, 'modo_integrado.cenarios', {});
+    let recuperacaoEbitda = 0;
+    const paybacksEstimados = [];
+
+    Object.entries(activeOppScenarios).forEach(([oppKey, cenarioNome]) => {
+        const cenario = cenarios[cenarioNome] || cenarios.Base;
+        const patterns = mapeamentoAcoes[oppKey] || [];
+        const action = cenario?.acoes?.find(a => {
+            const name = (a.nome || a.iniciativa || '').toLowerCase();
+            return patterns.some(pattern => name.includes(pattern.toLowerCase()));
+        });
+        if (!action) return;
+        recuperacaoEbitda += Number(action.valor || 0);
+        if (Number.isFinite(Number(action.payback_meses))) {
+            paybacksEstimados.push(Number(action.payback_meses));
+        }
+    });
+
+    const payback = paybacksEstimados.length
+        ? paybacksEstimados.reduce((total, value) => total + value, 0) / paybacksEstimados.length
+        : null;
+    const ebitdaEl = document.getElementById('exec-kpi-ebitda');
+    const paybackEl = document.getElementById('exec-kpi-payback');
+    if (ebitdaEl) ebitdaEl.textContent = formatBRLRigor(recuperacaoEbitda);
+    if (paybackEl) paybackEl.textContent = formatPaybackRigor(payback);
+}
+
 function alterarCenarioOportunidade(oppKey, cenarioNome) {
     if (!dashboardData) return;
     activeOppScenarios[oppKey] = cenarioNome;
@@ -544,6 +582,7 @@ function alterarCenarioOportunidade(oppKey, cenarioNome) {
     if (ganttValEl) ganttValEl.textContent = formatBRLRigor(valorJanela);
 
     renderizarGraficoOportunidade(oppKey, capex, beneficioMensal, payback);
+    atualizarResumoExecutivoPorOportunidades();
     atualizarRoadmapDinamico();
 }
 
@@ -649,7 +688,7 @@ function atualizarRoadmapDinamico() {
         {
             key: 'wismo',
             nome: '2. Automação de Rastreio (WISMO) no WhatsApp',
-            area: 'CX & Atendimento',
+            area: 'CX e Atendimento',
             horizonte: '31 a 60 dias (Dias 15–45)',
             status: 'Planejamento / Setup',
             progresso: 0
@@ -664,7 +703,7 @@ function atualizarRoadmapDinamico() {
         },
         {
             key: 'marketing',
-            nome: '4. Rebalanceamento de Mídia por ROAS & CAC',
+            nome: '4. Rebalanceamento de Mídia por ROAS e CAC',
             area: 'Growth / Mídia',
             horizonte: '31 a 60 dias (Dias 30–60)',
             status: 'Planejamento / Governança',
@@ -672,8 +711,8 @@ function atualizarRoadmapDinamico() {
         },
         {
             key: 'devolucoes',
-            nome: '5. Programa de Redução de Devoluções & Avarias',
-            area: 'Operações & Logística Reversa',
+            nome: '5. Programa de Redução de Devoluções',
+            area: 'Operações e Logística Reversa',
             horizonte: '61 a 90+ dias (Dias 45–90+)',
             status: 'Diagnóstico de Fornecedores',
             progresso: 0
@@ -820,7 +859,7 @@ function renderReportSnapshot(periodKey) {
             <td class="py-1 text-right text-slate-500">- ${formatPct(dre.custo_frete / recBruta)}</td>
         </tr>
         <tr class="text-red-600">
-            <td class="py-1 pl-4">(-) Perdas com Devoluções & Frete Reverso</td>
+            <td class="py-1 pl-4">(-) Perdas com Devoluções e Frete Reverso</td>
             <td class="py-1 text-right">- ${formatBRL(dre.perda_devolucoes)}</td>
             <td class="py-1 text-right text-slate-500">- ${formatPct(dre.perda_devolucoes / recBruta)}</td>
         </tr>
@@ -974,8 +1013,7 @@ function renderDashboard(granularity = selectedGranularity) {
     document.getElementById('exec-kpi-margem').textContent = formatBRL(kpiMargem.margem_contribuicao);
     document.getElementById('exec-kpi-margem-pct').textContent = `${formatPctRigor(kpiMargem.margem_pct_percentual ?? kpiMargem.margem_pct)} de retenção sobre faturamento`;
 
-    document.getElementById('exec-kpi-ebitda').textContent = formatBRL(kpiImpacto.recuperacao_ebitda);
-    document.getElementById('exec-kpi-payback').textContent = formatPaybackRigor(kpiImpacto.payback_global_meses ?? kpiImpacto.payback_meses);
+    atualizarResumoExecutivoPorOportunidades();
 
     // Gráfico Temporal Principal
     const ctxMain = document.getElementById('mainChart').getContext('2d');
@@ -1121,7 +1159,7 @@ function renderCategoryTable(data) {
     const subtitleCat = document.getElementById('cat-table-subtitle');
 
     if (catView === 'sangria') {
-        titleCat.textContent = 'Diagnóstico de Margem & Sangria Comercial por Categoria';
+        titleCat.textContent = 'Diagnóstico de Margem e Sangria Comercial por Categoria';
         subtitleCat.textContent = 'Mapeia descontos excessivos, fretes absorvidos e pedidos com margem negativa.';
         theadCat.innerHTML = `
             <tr>
@@ -1148,7 +1186,7 @@ function renderCategoryTable(data) {
                 <td class="px-3 py-3 text-right font-mono text-red-600 font-semibold">${formatBRL(c.receita_perdida)}</td>
             </tr>`).join('');
     } else if (catView === 'turnover') {
-        titleCat.textContent = 'Eficiência de Capital & Giro de Estoque por Categoria';
+        titleCat.textContent = 'Eficiência de Capital e Giro de Estoque por Categoria';
         subtitleCat.textContent = 'Identifica estoque estagnado, tempo de cobertura e capital imobilizado no armazém.';
         theadCat.innerHTML = `
             <tr>
@@ -1177,7 +1215,7 @@ function renderCategoryTable(data) {
                 <td class="px-3 py-3 text-right font-mono text-slate-600">${formatNum((c.volume_total_m3 || 0).toFixed(0))}</td>
             </tr>`).join('');
     } else {
-        titleCat.textContent = 'Saúde Operacional & Ruptura por Categoria';
+        titleCat.textContent = 'Saúde Operacional e Ruptura por Categoria';
         subtitleCat.textContent = 'Diagnóstico cruzado de faturamento, perda por falta de produto e índice de trocas.';
         theadCat.innerHTML = `
             <tr>

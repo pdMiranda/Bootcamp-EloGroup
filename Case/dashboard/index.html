@@ -22,7 +22,7 @@
 <body class="min-h-screen p-4 md:p-6 lg:p-8">
 
     <!-- ================= TOP HEADER ================= -->
-    <header id="main-app-header" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <header id="main-app-header" class="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
             <div class="flex items-center gap-2 mb-1">
                 <span class="w-3 h-3 rounded-full bg-blue-600"></span>
@@ -33,13 +33,52 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-            <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
-                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                <span id="rigor-window" data-window-label>Carregando janela temporal...</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
+            <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span id="rigor-source">Base Consolidada Auditada</span>
+                <button type="button" onclick="toggleGovernancePopup()" aria-expanded="false" aria-controls="governance-popup"
+                    class="governance-trigger ml-1 border-l border-emerald-200 pl-2 text-emerald-800 hover:text-emerald-950"
+                    title="Abrir governança de uso de IA">Governança</button>
+            </div>
+            <div id="governance-popup" class="governance-popup hidden" role="dialog" aria-modal="true" aria-labelledby="governance-title"
+                onclick="toggleGovernancePopup()">
+                <div class="governance-dialog" onclick="event.stopPropagation()">
+                    <div class="flex items-start justify-between gap-4 border-b border-slate-200 pb-3">
+                        <div>
+                            <h2 id="governance-title" class="text-base font-extrabold text-slate-900">Governança de IA: Gestão de Riscos e Diretrizes de Uso</h2>
+                            <p class="mt-2 text-xs leading-relaxed text-slate-600">A <strong>governança de inteligência artificial</strong> é indispensável para alinhar a inovação tecnológica à segurança corporativa, assegurando que o uso de ferramentas de IA ocorra de forma ética, controlada e eficiente.</p>
+                        </div>
+                        <button type="button" onclick="toggleGovernancePopup()" class="shrink-0 text-xl leading-none text-slate-400 hover:text-slate-700" aria-label="Fechar governança">&times;</button>
+                    </div>
+
+                    <h3 class="mt-4 text-sm font-bold text-slate-900">Principais Riscos e Controles</h3>
+                    <div class="mt-2 space-y-2 text-xs leading-relaxed text-slate-600">
+                        <p><strong class="text-slate-900">Privacidade e Dados:</strong> O uso inadequado de ferramentas públicas pode expor dados confidenciais da empresa ou de clientes. <em>Controle:</em> adoção de ambientes fechados (enterprise) e termos de uso que garantam a não utilização dos dados para treinamento externo.</p>
+                        <p><strong class="text-slate-900">Vieses:</strong> Modelos treinados com dados históricos tendem a reproduzir ou amplificar preconceitos e discriminações. <em>Controle:</em> auditorias regulares e diversificação das bases de dados.</p>
+                        <p><strong class="text-slate-900">Alucinações:</strong> A IA pode gerar informações falsas, imprecisas ou inventadas com aparência de alta veracidade. <em>Controle:</em> validação humana obrigatória (<em>human-in-the-loop</em>).</p>
+                        <p><strong class="text-slate-900">Adoção pelo Time:</strong> Resistência cultural ou uso superficial e desordenado prejudicam o ROI e geram riscos operacionais. <em>Controle:</em> treinamento contínuo e diretrizes claras de integração aos fluxos de trabalho.</p>
+                    </div>
+
+                    <h3 class="mt-4 text-sm font-bold text-slate-900">DOs e DON'Ts no Uso de IA</h3>
+                    <div class="mt-2 grid gap-3 text-xs leading-relaxed md:grid-cols-2">
+                        <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-slate-700">
+                            <strong class="text-emerald-800">DOs (O que fazer)</strong>
+                            <ul class="mt-1 list-disc space-y-1 pl-4">
+                                <li><strong>Valide sempre:</strong> cheque fatos, códigos e referências geradas antes de aplicá-los em produções ou decisões críticas.</li>
+                                <li><strong>Utilize canais oficiais:</strong> empregue assinaturas corporativas e plataformas homologadas pela segurança da informação.</li>
+                                <li><strong>Documente o uso:</strong> seja transparente sobre onde e como a IA foi utilizada nos processos e entregas.</li>
+                            </ul>
+                        </div>
+                        <div class="rounded-lg border border-red-200 bg-red-50 p-3 text-slate-700">
+                            <strong class="text-red-800">DON'Ts (O que não fazer)</strong>
+                            <ul class="mt-1 list-disc space-y-1 pl-4">
+                                <li><strong>Não insira dados sensíveis:</strong> nunca alimente ferramentas gratuitas com senhas, segredos comerciais, propriedade intelectual ou dados protegidos pela LGPD.</li>
+                                <li><strong>Não terceirize o pensamento crítico:</strong> evite aceitar respostas do modelo de forma passiva ou acrítica.</li>
+                                <li><strong>Não ignore as políticas internas:</strong> desconsiderar compliance expõe a empresa a falhas de segurança e passivos regulatórios.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -227,7 +266,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="card p-6 flex flex-col justify-between">
                 <div>
-                    <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">Retenção & Base</span>
+                    <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">Retenção e Base</span>
                     <h3 class="text-base font-bold text-slate-800 mt-1">Qual a concentração da nossa base entre clientes fiéis e clientes em risco?</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Segmentação RFM sobre os compradores ativos.</p>
                 </div>
@@ -266,17 +305,17 @@
                     class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                     <div>
                         <span class="text-xs text-blue-600 uppercase font-bold tracking-wider">Painel Tático</span>
-                        <h2 class="text-lg font-bold text-slate-900">Métricas & Diagnóstico Departamental</h2>
+                        <h2 class="text-lg font-bold text-slate-900">Métricas e Diagnóstico Departamental</h2>
                     </div>
                     <select
                         class="border border-slate-300 rounded-lg px-3 py-1.5 bg-white text-xs font-semibold text-slate-700 shadow-xs cursor-pointer"
                         id="area_toggle">
-                        <option value="comercial">Comercial & Faturamento</option>
-                        <option value="margem">Margem & Custos Unitários</option>
-                        <option value="marketing">Marketing & Eficiência de Mídia</option>
-                        <option value="clientes">Base de Clientes & Retenção</option>
-                        <option value="operacoes">Operações, Estoque & Logística</option>
-                        <option value="atendimento">Atendimento & Satisfação (CX)</option>
+                        <option value="comercial">Comercial e Faturamento</option>
+                        <option value="margem">Margem e Custos Unitários</option>
+                        <option value="marketing">Marketing e Eficiência de Mídia</option>
+                        <option value="clientes">Base de Clientes e Retenção</option>
+                        <option value="operacoes">Operações, Estoque e Logística</option>
+                        <option value="atendimento">Atendimento e Satisfação (CX)</option>
                         <option value="impacto">Impacto Financeiro Consolidado</option>
                     </select>
                 </div>
@@ -286,7 +325,7 @@
             <div id="area-visual-card" class="card p-6 flex flex-col min-h-80">
                 <div class="mb-3">
                     <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Comportamento Visual da Área</span>
-                    <h2 id="area-chart-title" class="text-lg font-bold text-slate-900">Comercial & Faturamento</h2>
+                    <h2 id="area-chart-title" class="text-lg font-bold text-slate-900">Comercial e Faturamento</h2>
                 </div>
                 <div class="flex-1 relative min-h-64" style="height: 280px;">
                     <canvas id="areaChart"></canvas>
@@ -306,9 +345,9 @@
                 <select
                     class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs bg-white text-slate-700 font-semibold shadow-xs"
                     id="categoria_view_toggle">
-                    <option value="saude">Saúde Operacional & Ruptura</option>
-                    <option value="sangria">Diagnóstico de Margem & Sangria Comercial</option>
-                    <option value="turnover">Eficiência de Capital & Giro de Estoque</option>
+                    <option value="saude">Saúde Operacional e Ruptura</option>
+                    <option value="sangria">Diagnóstico de Margem e Sangria Comercial</option>
+                    <option value="turnover">Eficiência de Capital e Giro de Estoque</option>
                 </select>
             </div>
             <div class="overflow-x-auto">
@@ -435,14 +474,14 @@
                         <ul class="space-y-3 mt-3">
                             <li class="bg-white p-3 rounded-lg border border-blue-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Realocação de Mídia Paga por ROAS & CAC</strong>
+                                    <strong class="text-sm text-slate-900">Realocação de Mídia Paga por ROAS e CAC</strong>
                                     <span id="matriz-val-marketing" class="font-mono font-bold text-blue-600 text-xs">R$ 246,8k margem</span>
                                 </div>
                                 <p class="text-xs text-slate-600 mt-1">Migração de orçamento de canais deficitários para frentes com ROAS &gt; 3,8x.</p>
                             </li>
                             <li class="bg-white p-3 rounded-lg border border-blue-200 shadow-xs">
                                 <div class="flex justify-between items-start">
-                                    <strong class="text-sm text-slate-900">Controle Ativo de Devoluções & Reversas</strong>
+                                    <strong class="text-sm text-slate-900">Controle Ativo de Devoluções e Reversas</strong>
                                     <span id="matriz-val-devolucoes" class="font-mono font-bold text-blue-600 text-xs">R$ 152,3k margem</span>
                                 </div>
                                 <p class="text-xs text-slate-600 mt-1">Padronização de medidas, fotos de produto e homologação de transportadoras de menor avaria.</p>
@@ -491,7 +530,7 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900">Detalhamento Técnico das Oportunidades & Origem dos Dados</h3>
+                    <h3 class="text-lg font-bold text-slate-900">Detalhamento Técnico das Oportunidades</h3>
                     <p class="text-xs text-slate-500">Cada seção demonstra a origem analítica nas tabelas transacionais e detalha as premissas parametrizadas de cada perfil.</p>
                 </div>
                 <button onclick="toggleAllAccordions()"
@@ -527,7 +566,7 @@
                     
                     <!-- Bloco de Origem Técnica dos Dados -->
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <span class="text-xs font-bold text-blue-800 uppercase tracking-wide block">Origem Analítica & Metodologia de Cálculo</span>
+                        <span class="text-xs font-bold text-blue-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
                         <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>Fonte de Dados:</strong> Tabela <code class="bg-slate-100 px-1 rounded font-mono">atendimento.csv</code> filtrada pela categoria de problema <em>"Onde está meu pedido?"</em> e cruzada com os custos operacionais por canal de atendimento.<br>
                                 <strong>Fórmula de Cálculo:</strong> Economia = Tickets Manuais Elegíveis * Taxa de Automação * (Custo Humano Unitário - Custo do Bot Unitário).<br>
@@ -584,7 +623,7 @@
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-red-600">Logística & Margem</span>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-red-600">Logística e Margem</span>
                             <h4 class="text-base font-bold text-slate-900">2. Revisão da Política de Frete Grátis em Pedidos de Item Único &lt; R$ 199</h4>
                         </div>
                     </div>
@@ -603,7 +642,7 @@
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <span class="text-xs font-bold text-red-800 uppercase tracking-wide block">Origem Analítica & Metodologia de Cálculo</span>
+                        <span class="text-xs font-bold text-red-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
                         <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>Fonte de Dados:</strong> Tabela transacional <code class="bg-slate-100 px-1 rounded font-mono">vendas.csv</code>.<br>
                             <strong>Fórmula de Cálculo:</strong> Filtragem de transações onde <code class="bg-slate-100 px-1 rounded font-mono">quantidade == 1</code>, <code class="bg-slate-100 px-1 rounded font-mono">receita_bruta < teto_cenario</code> e <code class="bg-slate-100 px-1 rounded font-mono">custo_frete > margem_contribuicao</code>. A soma do frete nestas transações compõe a economia de margem estancada.<br>
@@ -627,7 +666,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Capex de Regra & Checkout</span>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Regra e Checkout</span>
                             <strong id="frete-capex" class="text-slate-800 font-mono text-sm">R$ 12.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
@@ -659,7 +698,7 @@
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Growth & Performance</span>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Growth e Performance</span>
                             <h4 class="text-base font-bold text-slate-900">3. Otimização e Realocação Orçamentária por ROAS e Margem Real</h4>
                         </div>
                     </div>
@@ -678,7 +717,7 @@
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <span class="text-xs font-bold text-emerald-800 uppercase tracking-wide block">Origem Analítica & Metodologia de Cálculo</span>
+                        <span class="text-xs font-bold text-emerald-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
                         <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>Fonte de Dados:</strong> Tabela <code class="bg-slate-100 px-1 rounded font-mono">marketing.csv</code> cruzada com <code class="bg-slate-100 px-1 rounded font-mono">vendas.csv</code> por canal de aquisição.<br>
                             <strong>Fórmula de Cálculo:</strong> Economia = Investimento Total de Mídia * Taxa de Realocação * Ganho Marginal Estimado.<br>
@@ -734,7 +773,7 @@
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-purple-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600">Estoque & Merchandising</span>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600">Estoque e Merchandising</span>
                             <h4 class="text-base font-bold text-slate-900">4. Bundles Promocionais de Giro de Estoque Estagnado (Moda + Beleza)</h4>
                         </div>
                     </div>
@@ -753,7 +792,7 @@
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <span class="text-xs font-bold text-purple-800 uppercase tracking-wide block">Origem Analítica & Metodologia de Cálculo</span>
+                        <span class="text-xs font-bold text-purple-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
                         <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>Fonte de Dados:</strong> Tabela <code class="bg-slate-100 px-1 rounded font-mono">estoque.csv</code> cruzada com <code class="bg-slate-100 px-1 rounded font-mono">vendas.csv</code>.<br>
                             <strong>Fórmula de Cálculo:</strong> Capital Parado = somatório de (Estoque Disponível * Custo Unitário) para SKUs de Moda com saldo > 1.000 unidades. O benefício mensal simula o giro de uma fração percentual desse estoque parada em 3 meses.<br>
@@ -809,8 +848,8 @@
                     <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-rose-500 shrink-0"></span>
                         <div>
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Operações & Logística Reversa</span>
-                            <h4 class="text-base font-bold text-slate-900">5. Programa de Redução de Devoluções & Avarias Logísticas</h4>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Operações e Logística Reversa</span>
+                            <h4 class="text-base font-bold text-slate-900">5. Programa de Redução de Devoluções e Avarias Logísticas</h4>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
@@ -829,7 +868,7 @@
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
-                        <span class="text-xs font-bold text-rose-800 uppercase tracking-wide block">Origem Analítica & Metodologia de Cálculo</span>
+                        <span class="text-xs font-bold text-rose-800 uppercase tracking-wide block">Origem Analítica</span>
                         <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>Fonte de Dados:</strong> Flag <code class="bg-slate-100 px-1 rounded font-mono">devolvido == True</code> em <code class="bg-slate-100 px-1 rounded font-mono">vendas.csv</code> somando margem de contribuição e custo de frete reverso.<br>
                             <strong>Fórmula de Cálculo:</strong> Proteção = somatória (Margem dos Pedidos Devolvidos) * Taxa de Redução de Trocas.<br>
@@ -853,7 +892,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
-                            <span class="text-xs text-slate-400 block font-medium">Capex de Auditoria & Embalagem</span>
+                            <span class="text-xs text-slate-400 block font-medium">Capex de Auditoria e Embalagem</span>
                             <strong id="devolucoes-capex" class="text-slate-800 font-mono text-sm">R$ 45.000</strong>
                         </div>
                         <div class="bg-white p-3 rounded-lg border border-slate-200">
@@ -883,7 +922,7 @@
         <div class="card p-5 bg-slate-50/60 border border-slate-200">
             <details class="cursor-pointer group">
                 <summary class="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider select-none">
-                    <span>Auditoria de Cenários Globais & Sensibilidade Paramétrica</span>
+                    <span>Auditoria de Cenários Globais e Sensibilidade Paramétrica</span>
                     <span class="text-blue-600 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <div class="mt-4 pt-3 border-t border-slate-200">
@@ -960,7 +999,7 @@
                                     <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
                                     <strong class="text-xs text-slate-800">2. Chatbot WhatsApp (WISMO)</strong>
                                 </div>
-                                <span class="text-[10px] text-slate-400 block pl-4.5">CX & Atendimento &bull; Horizonte 60d</span>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">CX e Atendimento &bull; Horizonte 60d</span>
                             </div>
                             <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
                                 <div class="h-6 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 32%; margin-left: 15%;">
@@ -1009,9 +1048,9 @@
                             <div class="col-span-4 pr-3">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                                    <strong class="text-xs text-slate-800">5. Redução de Devoluções & Reversa</strong>
+                                    <strong class="text-xs text-slate-800">5. Redução de Devoluções e Reversa</strong>
                                 </div>
-                                <span class="text-[10px] text-slate-400 block pl-4.5">Operações & Logística &bull; Horizonte 90+</span>
+                                <span class="text-[10px] text-slate-400 block pl-4.5">Operações e Logística &bull; Horizonte 90+</span>
                             </div>
                             <div class="col-span-8 relative h-8 bg-slate-50 rounded-lg flex items-center p-1 border border-slate-100">
                                 <div class="h-6 rounded-md bg-gradient-to-r from-rose-500 to-rose-600 text-white text-[10px] font-mono font-bold flex items-center px-2.5 shadow-xs" style="width: 45%; margin-left: 50%;">
@@ -1039,7 +1078,7 @@
                         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
                         <strong class="text-xs text-blue-900 uppercase tracking-wide">Marco 60 Dias</strong>
                     </div>
-                    <p class="text-xs text-blue-800 mt-1 font-semibold">Automação & Realocação de Verba</p>
+                    <p class="text-xs text-blue-800 mt-1 font-semibold">Automação e Realocação de Verba</p>
                     <p class="text-[11px] text-blue-700 mt-0.5">Bot WISMO em produção atingindo a meta de deflexão e migração orçamentária para canais eficientes.</p>
                 </div>
                 <div class="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200">
@@ -1047,7 +1086,7 @@
                         <span class="w-2 h-2 rounded-full bg-purple-600"></span>
                         <strong class="text-xs text-purple-900 uppercase tracking-wide">Marco 90 Dias</strong>
                     </div>
-                    <p class="text-xs text-purple-800 mt-1 font-semibold">Consolidação de Margem & SLA</p>
+                    <p class="text-xs text-purple-800 mt-1 font-semibold">Consolidação de Margem e SLA</p>
                     <p class="text-[11px] text-purple-700 mt-0.5">Auditoria concluída de transportadoras, embalagens reforçadas e estabilização de devoluções.</p>
                 </div>
             </div>
@@ -1055,7 +1094,7 @@
 
         <!-- Tabela de Governança com Horizontes 30-60-90 -->
         <div class="card p-6">
-            <h3 class="text-base font-bold text-slate-900 mb-3">Matriz de Governança & Execução (Horizontes 30–60–90)</h3>
+            <h3 class="text-base font-bold text-slate-900 mb-3">Matriz de Governança e Execução (Horizontes 30–60–90)</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-xs whitespace-nowrap">
                     <thead
