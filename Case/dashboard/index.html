@@ -563,6 +563,11 @@
                 </button>
                 <div id="case-content-case-wismo"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+
+                    <div class="bg-white p-3.5 rounded-xl border border-blue-100 space-y-2">
+                        <span class="text-xs font-bold text-blue-800 uppercase tracking-wide block">Contexto que originou a oportunidade</span>
+                        <p class="text-xs text-slate-600 leading-relaxed">Na janela analisada <strong data-context="wismo-percentual">—</strong> dos <strong data-context="atendimento-volume">—</strong> tickets de atendimento estão relacionados a “Onde está meu pedido?”. Esse grupo concentra <strong data-context="wismo-custo">—</strong> em custo operacional, indicando uma demanda repetitiva e elegível à automação de rastreio.</p>
+                    </div>
                     
                     <!-- Bloco de Origem Técnica dos Dados -->
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
@@ -640,6 +645,11 @@
                 </button>
                 <div id="case-content-case-frete"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+
+                    <div class="bg-white p-3.5 rounded-xl border border-red-100 space-y-2">
+                        <span class="text-xs font-bold text-red-800 uppercase tracking-wide block">Contexto que originou a oportunidade</span>
+                        <p class="text-xs text-slate-600 leading-relaxed">O frete grátis aparece em <strong data-context="frete-gratis-pedidos">—</strong> pedidos, com custo total de <strong data-context="frete-gratis-custo">—</strong>. Ao mesmo tempo, <strong data-context="frete-negativos">—</strong> pedidos apresentam margem negativa, sinalizando subsídio logístico que precisa ser revisado por faixa de valor e composição do carrinho.</p>
+                    </div>
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
                         <span class="text-xs font-bold text-red-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
@@ -715,6 +725,11 @@
                 </button>
                 <div id="case-content-case-marketing"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+
+                    <div class="bg-white p-3.5 rounded-xl border border-emerald-100 space-y-2">
+                        <span class="text-xs font-bold text-emerald-800 uppercase tracking-wide block">Contexto que originou a oportunidade</span>
+                        <p class="text-xs text-slate-600 leading-relaxed">A verba está distribuída em <strong data-context="marketing-canais">—</strong> canais de aquisição, com ROAS entre <strong data-context="marketing-roas-min">—</strong> e <strong data-context="marketing-roas-max">—</strong>. Essa dispersão entre canais de eficiência desigual cria espaço para realocação orçamentária orientada por ROAS e margem real.</p>
+                    </div>
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
                         <span class="text-xs font-bold text-emerald-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
@@ -790,6 +805,11 @@
                 </button>
                 <div id="case-content-case-bundles"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+
+                    <div class="bg-white p-3.5 rounded-xl border border-purple-100 space-y-2">
+                        <span class="text-xs font-bold text-purple-800 uppercase tracking-wide block">Contexto que originou a oportunidade</span>
+                        <p class="text-xs text-slate-600 leading-relaxed">Foram identificados <strong data-context="bundles-skus">—</strong> SKUs de Moda com mais de 1.000 unidades paradas, somando <strong data-context="bundles-unidades">—</strong> peças. A categoria tem giro de <strong data-context="bundles-giro">—</strong> e cobertura estimada de <strong data-context="bundles-cobertura">—</strong> meses, cenário compatível com uma estratégia de bundles para liberar capital.</p>
+                    </div>
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
                         <span class="text-xs font-bold text-purple-800 uppercase tracking-wide block">Origem Analítica e Metodologia de Cálculo</span>
@@ -866,6 +886,11 @@
                 </button>
                 <div id="case-content-case-devolucoes"
                     class="accordion-content hidden border-t border-slate-100 bg-slate-50/60 p-5 space-y-4 text-xs md:text-sm">
+
+                    <div class="bg-white p-3.5 rounded-xl border border-rose-100 space-y-2">
+                        <span class="text-xs font-bold text-rose-800 uppercase tracking-wide block">Contexto que originou a oportunidade</span>
+                        <p class="text-xs text-slate-600 leading-relaxed"><strong data-context="devolucoes-percentual">—</strong> dos pedidos foram devolvidos na janela, representando <strong data-context="devolucoes-pedidos">—</strong> ocorrências e <strong data-context="devolucoes-margem">—</strong> em margem perdida. A recorrência dessa sangria fundamenta ações de prevenção, embalagem e revisão de transportadoras.</p>
+                    </div>
                     
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
                         <span class="text-xs font-bold text-rose-800 uppercase tracking-wide block">Origem Analítica</span>
@@ -926,6 +951,7 @@
                     <span class="text-blue-600 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <div class="mt-4 pt-3 border-t border-slate-200">
+                    <p class="mb-3 text-[11px] leading-relaxed text-slate-500">Cada linha representa a adoção conjunta das cinco oportunidades no cenário selecionado. Os valores são derivados das ações detalhadas, e o Payback Médio é a média dos paybacks individuais.</p>
                     <div id="scenarios-rigor" class="overflow-x-auto text-xs [&>table]:min-w-full [&>table]:text-left [&>table_thead]:bg-slate-100 [&>table_thead_th]:px-3 [&>table_thead_th]:py-2 [&>table_tbody_td]:px-3 [&>table_tbody_td]:py-2 [&>table_tbody_td]:font-mono"></div>
                 </div>
             </details>

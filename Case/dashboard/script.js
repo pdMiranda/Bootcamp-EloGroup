@@ -1254,6 +1254,7 @@ function renderCategoryTable(data) {
 function renderRigorExtensions(data) {
     if (!data) return;
     renderJsonPathPlaceholders(data);
+    renderOpportunityContexts(data);
     renderRigorHeader(data);
     renderReportRigorMeta(data);
     renderScenariosRigor(data);
@@ -1289,6 +1290,57 @@ function renderJsonPathPlaceholders(data) {
     });
 }
 
+function renderOpportunityContexts(data) {
+    const modoIntegrado = getPathRigor(data, 'modo_integrado', {}) || {};
+    const kpis = modoIntegrado.kpis || {};
+    const hipoteses = modoIntegrado.hipoteses || {};
+    const atendimento = kpis.atendimento || {};
+    const atendimentoContexto = hipoteses.atendimento_h5_h6 || {};
+    const volumeAtendimento = Number(atendimento.volume_total || 0);
+    const wismoQuantidade = Number(atendimentoContexto.wismo_qtd || 0);
+    const wismoPercentual = volumeAtendimento > 0 ? wismoQuantidade / volumeAtendimento : null;
+
+    const setContext = (key, value) => {
+        document.querySelectorAll(`[data-context="${key}"]`).forEach(el => {
+            el.textContent = value;
+        });
+    };
+
+    setContext('wismo-percentual', formatPctRigor(wismoPercentual));
+    setContext('atendimento-volume', formatNum(volumeAtendimento));
+    setContext('wismo-custo', formatBRLRigor(atendimentoContexto.wismo_custo));
+
+    const analiseFrete = Array.isArray(modoIntegrado.analise_frete) ? modoIntegrado.analise_frete : [];
+    const pedidosFreteGratis = analiseFrete.reduce((total, item) => total + Number(item.pedidos_frete_gratis || 0), 0);
+    const custoFreteTotal = analiseFrete.reduce((total, item) => total + Number(item.custo_frete_total || 0), 0);
+    const categorias = Array.isArray(modoIntegrado.saude_categorias) ? modoIntegrado.saude_categorias : [];
+    const pedidosMargemNegativa = categorias.reduce((total, item) => total + Number(item.pedidos_margem_neg || 0), 0);
+    setContext('frete-gratis-pedidos', formatNum(pedidosFreteGratis));
+    setContext('frete-gratis-custo', formatBRLRigor(custoFreteTotal));
+    setContext('frete-negativos', formatNum(pedidosMargemNegativa));
+
+    const canais = Array.isArray(modoIntegrado.canais) ? modoIntegrado.canais : [];
+    const roas = canais.map(item => Number(item.roas)).filter(Number.isFinite);
+    setContext('marketing-canais', formatNum(canais.length));
+    setContext('marketing-roas-min', roas.length ? `${Math.min(...roas).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}x` : '—');
+    setContext('marketing-roas-max', roas.length ? `${Math.max(...roas).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}x` : '—');
+
+    const estoqueBundles = Array.isArray(hipoteses.sobre_estoque_h4) ? hipoteses.sobre_estoque_h4 : [];
+    const unidadesBundles = estoqueBundles.reduce((total, item) => total + Number(item.estoque_disponivel || 0), 0);
+    const moda = categorias.find(item => item.categoria === 'Moda') || {};
+    setContext('bundles-skus', formatNum(estoqueBundles.length));
+    setContext('bundles-unidades', formatNum(unidadesBundles));
+    setContext('bundles-giro', `${Number(moda.giro_estoque || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}x`);
+    setContext('bundles-cobertura', Number(moda.meses_cobertura || 0).toLocaleString('pt-BR', { maximumFractionDigits: 1 }));
+
+    const pedidosDevolvidos = categorias.reduce((total, item) => total + Number(item.pedidos_devolvidos || 0), 0);
+    const pedidosTotais = Number(kpis.comercial?.pedidos_aprovados || 0);
+    const taxaDevolucao = pedidosTotais > 0 ? pedidosDevolvidos / pedidosTotais : kpis.operacoes?.taxa_devolucao;
+    setContext('devolucoes-percentual', formatPctRigor(taxaDevolucao));
+    setContext('devolucoes-pedidos', formatNum(pedidosDevolvidos));
+    setContext('devolucoes-margem', formatBRLRigor(atendimentoContexto.margem_perdida));
+}
+
 function renderRigorHeader(data) {
     const windowLabel = windowLabelRigor(data);
     const rigorWindow = document.getElementById('rigor-window');
@@ -1316,13 +1368,30 @@ function renderScenariosRigor(data) {
 
     const cenarios = getPathRigor(data, 'modo_integrado.cenarios', null);
     if (cenarios && typeof cenarios === 'object') {
-        const rows = Object.entries(cenarios).map(([name, c]) => ({
-            'Cenário': name,
-            'Recuperação EBITDA': formatBRLRigor(c.resumo.recuperacao_ebitda),
-            'Economia Opex': formatBRLRigor(c.resumo.economia_opex_total),
-            'Capital Liberado': formatBRLRigor(c.resumo.capital_desrepresado),
-            'Payback': formatPaybackRigor(c.resumo.payback_global_meses)
-        }));
+        const rows = Object.entries(cenarios).map(([name, c]) => {
+            const acoes = Array.isArray(c.acoes) ? c.acoes : [];
+            const bundles = acoes.filter(action => {
+                const label = `${action.nome || ''} ${action.iniciativa || ''}`.toLowerCase();
+                return label.includes('bundle') || label.includes('capital em');
+            });
+            const capitalLiberado = bundles.reduce((total, action) => total + Number(action.valor || 0), 0);
+            const recuperacaoEbitda = acoes.reduce((total, action) => total + Number(action.valor || 0), 0);
+            const paybacks = acoes
+                .map(action => Number(action.payback_meses))
+                .filter(payback => Number.isFinite(payback));
+            const paybackMedio = paybacks.length
+                ? paybacks.reduce((total, payback) => total + payback, 0) / paybacks.length
+                : null;
+
+            return {
+                'Cenário': name,
+                'Oportunidades': acoes.length,
+                'Recuperação EBITDA': formatBRLRigor(recuperacaoEbitda),
+                'Economia Opex': formatBRLRigor(recuperacaoEbitda - capitalLiberado),
+                'Capital Liberado': formatBRLRigor(capitalLiberado),
+                'Payback Médio': formatPaybackRigor(paybackMedio)
+            };
+        });
 
         const keys = Object.keys(rows[0]);
         container.innerHTML = `
