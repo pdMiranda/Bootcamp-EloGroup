@@ -1,7 +1,64 @@
-        const formatBRL = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
-        const formatNum = (v) => new Intl.NumberFormat('pt-BR').format(v || 0);
-        const formatPct = (v) => ((v || 0) * 100).toFixed(1) + '%';
-        const formatPts = (v) => ((v || 0) * 100).toFixed(1) + ' p.p.';
+function formatBRL(v) {
+    if (v === null || v === undefined || isNaN(v)) return 'R$ 0,00';
+    return Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function formatNum(v) {
+    if (v === null || v === undefined || isNaN(v)) return '0';
+    return Number(v).toLocaleString('pt-BR');
+}
+
+function formatPct(v) {
+    if (v === null || v === undefined || isNaN(v)) return '0,0%';
+    const n = Number(v);
+    const normalized = Math.abs(n) <= 1 ? n : n / 100;
+    return normalized.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+}
+
+function formatPts(v) {
+    if (v === null || v === undefined || isNaN(v)) return '0,0 p.p.';
+    const n = Number(v);
+    const pts = Math.abs(n) <= 1 ? n * 100 : n;
+    return `${pts.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} p.p.`;
+}
+
+function formatBRLRigor(v) {
+    if (v === null || v === undefined || isNaN(v)) return '—';
+    return formatBRL(v);
+}
+
+function formatPaybackRigor(v) {
+    if (v === null || v === undefined || isNaN(v) || !isFinite(v)) return '—';
+    return `${Number(v).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} meses`;
+}
+
+function formatPctRigor(v) {
+    if (v === null || v === undefined || isNaN(v)) return '—';
+
+    const n = Number(v);
+
+    // Se vier decimal (0.1487), mantém.
+    // Se vier percentual cheio (14.87), normaliza para decimal.
+    const normalized = Math.abs(n) <= 1 ? n : n / 100;
+
+    return formatPct(normalized);
+}
+
+function getPathRigor(obj, path, fallback = null) {
+    if (!obj || !path) return fallback;
+
+    return String(path).split('.').reduce((acc, key) => {
+        if (acc == null) return fallback;
+        return acc[key] !== undefined && acc[key] !== null ? acc[key] : fallback;
+    }, obj);
+}
+
+function formatDateRigor(value) {
+    if (!value) return '';
+
+    const d = new Date(value);
+    return isNaN(d) ? value : d.toLocaleDateString('pt-BR');
+}
 
         let dashboardData = null;
         let charts = {};
@@ -134,7 +191,7 @@
                     ['receita_bruta', 'Receita bruta', formatBRL(kpis.comercial.receita_bruta)],
                     ['pedidos_aprovados', 'Pedidos aprovados', formatNum(kpis.comercial.pedidos_aprovados)],
                     ['ticket_medio', 'Ticket médio', formatBRL(kpis.comercial.ticket_medio)],
-                    ['taxa_conversao', 'Taxa de conversão', formatPct(kpis.comercial.taxa_conversao)]
+                    ['taxa_conversao', 'Taxa de conversão', formatPctRigor(kpis.comercial.taxa_conversao_pct ?? kpis.comercial.taxa_conversao)]
                 ],
                 margem: [
                     ['margem_contribuicao', 'Margem de contribuição', formatBRL(kpis.margem.margem_contribuicao)],
@@ -170,7 +227,7 @@
                     ['ebitda_potencial', 'EBITDA Potencial', formatBRL(impact.recuperacao_ebitda)],
                     ['ebitda_potencial', 'Economia estimada', formatBRL(impact.economia_estimada)],
                     ['receita_bruta', 'Receita protegida', formatBRL(impact.receita_protegida)],
-                    ['payback', 'Payback médio', `${(impact.payback_meses || 2.6).toFixed(1)} meses`]
+                    ['payback', 'Payback médio', formatPaybackRigor(impact.payback_global_meses ?? impact.payback_meses)]
                 ]
             }[area] || [];
 
@@ -495,6 +552,7 @@
 
             dashboardData = await response.json();
             renderDashboard(selectedGranularity);
+            renderRigorExtensions(dashboardData);
         }
 
         function renderDashboard(granularity = selectedGranularity) {
@@ -516,10 +574,10 @@
             document.getElementById('exec-kpi-pedidos').textContent = `${formatNum(kpiComercial.pedidos_aprovados)} pedidos faturados`;
 
             document.getElementById('exec-kpi-margem').textContent = formatBRL(kpiMargem.margem_contribuicao);
-            document.getElementById('exec-kpi-margem-pct').textContent = `${formatPct(kpiMargem.margem_pct)} de retenção sobre faturamento`;
+            document.getElementById('exec-kpi-margem-pct').textContent = `${formatPctRigor(kpiMargem.margem_pct_percentual ?? kpiMargem.margem_pct)} de retenção sobre faturamento`;
 
             document.getElementById('exec-kpi-ebitda').textContent = formatBRL(kpiImpacto.recuperacao_ebitda);
-            document.getElementById('exec-kpi-payback').textContent = `${(kpiImpacto.payback_meses || 2.6).toFixed(1)} meses`;
+            document.getElementById('exec-kpi-payback').textContent = formatPaybackRigor(kpiImpacto.payback_global_meses ?? kpiImpacto.payback_meses);
 
             // 2. Gráfico Temporal Principal com Storytelling e Métricas Dinâmicas
             const ctxMain = document.getElementById('mainChart').getContext('2d');
@@ -767,7 +825,7 @@
                     labels: data.impacto.acoes.map(a => a.nome),
                     datasets: [{
                         data: data.impacto.acoes.map(a => a.valor),
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'],
                         borderRadius: 4
                     }]
                 },
@@ -1007,3 +1065,398 @@
         document.getElementById('canal_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
         document.getElementById('categoria_view_toggle').addEventListener('change', () => renderDashboard(selectedGranularity));
         document.addEventListener('DOMContentLoaded', init);
+
+function renderRigorExtensions(data) {
+    if (!data) return;
+
+    renderJsonPathPlaceholders(data);
+    renderRigorHeader(data);
+    renderDynamicImpactCards(data);
+    renderDynamicRoadmap(data);
+    renderImpactDetailPlaceholders(data);
+    renderReportRigorMeta(data);
+    renderScenariosRigor(data);
+    renderExtraMetrics(data);
+}
+
+function windowLabelRigor(data) {
+    const inicio = getPathRigor(
+        data,
+        'meta.janela_vendas_inicio',
+        getPathRigor(data, 'modo_integrado.vendas_iniciadas_em', '')
+    );
+
+    const fim = getPathRigor(
+        data,
+        'meta.janela_vendas_fim',
+        getPathRigor(data, 'modo_integrado.vendas_encerradas_em', '')
+    );
+
+    const meses = getPathRigor(
+        data,
+        'meta.janela_meses',
+        getPathRigor(data, 'modo_integrado.janela_meses', null)
+    );
+
+    let label = '';
+
+    if (inicio && fim) {
+        label += `Janela canônica: ${formatDateRigor(inicio)} a ${formatDateRigor(fim)}`;
+    }
+
+    if (meses !== null && meses !== undefined && meses !== '') {
+        const mesesFmt = Number(meses).toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+        label += `${label ? ' · ' : ''}${mesesFmt} meses`;
+    }
+
+    return label || 'Janela canônica não informada';
+}
+
+function formatAutoRigor(format, value) {
+    if (format === 'brl') return formatBRLRigor(value);
+    if (format === 'payback') return formatPaybackRigor(value);
+    if (format === 'pct') return formatPctRigor(value);
+    if (format === 'date') return formatDateRigor(value);
+
+    if (format === 'num') {
+        if (value === null || value === undefined || isNaN(value)) return '—';
+        return formatNum(value);
+    }
+
+    if (value === null || value === undefined) return '—';
+
+    return String(value);
+}
+
+function renderJsonPathPlaceholders(data) {
+    document.querySelectorAll('[data-json-path]').forEach((el) => {
+        const path = el.getAttribute('data-json-path');
+        const format = el.getAttribute('data-format') || '';
+        const value = getPathRigor(data, path, null);
+
+        el.textContent = formatAutoRigor(format, value);
+    });
+}
+
+function renderRigorHeader(data) {
+    const windowLabel = windowLabelRigor(data);
+
+    const rigorWindow = document.getElementById('rigor-window');
+    if (rigorWindow) {
+        rigorWindow.textContent = windowLabel;
+    }
+
+    document.querySelectorAll('[data-window-label]').forEach((el) => {
+        el.textContent = windowLabel;
+    });
+
+    const source = document.getElementById('rigor-source');
+    if (source) {
+        const updatedAt = getPathRigor(data, 'meta.atualizado_em', null);
+        const date = updatedAt ? new Date(updatedAt) : new Date();
+        source.textContent = `Atualizado em ${date.toLocaleString('pt-BR')}`;
+    }
+}
+
+function findImpactActionRigor(data, patterns) {
+    const actions = getPathRigor(data, 'modo_integrado.impacto.acoes', []) || [];
+
+    for (const pattern of patterns) {
+        const found = actions.find((a) => {
+            const name = (a.nome || a.iniciativa || '').toLowerCase();
+            return name.includes(pattern.toLowerCase());
+        });
+
+        if (found) return found;
+    }
+
+    return null;
+}
+
+function renderDynamicImpactCards(data) {
+    const container = document.getElementById('impact-cards-grid');
+    if (!container) return;
+
+    const actions = getPathRigor(data, 'modo_integrado.impacto.acoes', []) || [];
+
+    if (!actions.length) {
+        container.innerHTML = `
+            <div class="card p-4 text-sm text-slate-500">
+                Sem iniciativas disponíveis no JSON.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = actions.map((action, index) => {
+        const title = action.iniciativa || action.nome || '—';
+        const area = action.area || '';
+
+        return `
+            <div class="card p-5">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    Ação ${index + 1}
+                </p>
+
+                <h3 class="text-sm font-bold text-slate-800 mt-1">
+                    ${title}
+                </h3>
+
+                ${area ? `<p class="text-xs text-slate-500 mt-1">${area}</p>` : ''}
+
+                <div class="mt-3 space-y-1 text-sm">
+                    <p>
+                        <span class="text-slate-500">Valor na janela:</span>
+                        <strong>${formatBRLRigor(action.valor)}</strong>
+                    </p>
+
+                    <p>
+                        <span class="text-slate-500">Capex:</span>
+                        <strong>${formatBRLRigor(action.investimento ?? action.capex)}</strong>
+                    </p>
+
+                    <p>
+                        <span class="text-slate-500">Benefício mensal:</span>
+                        <strong>${formatBRLRigor(action.beneficio_mensal)}</strong>
+                    </p>
+
+                    <p>
+                        <span class="text-slate-500">Payback:</span>
+                        <strong>${formatPaybackRigor(action.payback_meses)}</strong>
+                    </p>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderDynamicRoadmap(data) {
+    const tbody = document.getElementById('roadmap-tbody');
+    if (!tbody) return;
+
+    let roadmap = getPathRigor(data, 'modo_integrado.roadmap', []) || [];
+
+    if (!roadmap.length) {
+        const actions = getPathRigor(data, 'modo_integrado.impacto.acoes', []) || [];
+
+        roadmap = actions.map((action, index) => ({
+            ordem: index + 1,
+            iniciativa: action.iniciativa || action.nome,
+            area: action.area || '—',
+            horizonte: '—',
+            status: 'Planejamento',
+            ganho_na_janela: action.valor,
+            progresso_pct: 0
+        }));
+    }
+
+    tbody.innerHTML = roadmap.map((item) => {
+        const title = item.iniciativa || item.nome || '—';
+        const ordem = item.ordem || '';
+        const area = item.area || '—';
+        const horizonte = item.horizonte || '—';
+        const status = item.status || '—';
+        const ganho = item.ganho_na_janela ?? item.valor ?? null;
+        const progresso = item.progresso_pct ?? 0;
+
+        return `
+            <tr>
+                <td class="px-3 py-2 font-semibold text-slate-800">
+                    ${ordem ? `${ordem}. ` : ''}${title}
+                </td>
+                <td class="px-3 py-2">${area}</td>
+                <td class="px-3 py-2">${horizonte}</td>
+                <td class="px-3 py-2">${status}</td>
+                <td class="px-3 py-2 font-mono">${formatBRLRigor(ganho)}</td>
+                <td class="px-3 py-2">${formatPctRigor(progresso)}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function renderImpactDetailPlaceholders(data) {
+    const impact = getPathRigor(data, 'modo_integrado.impacto', {}) || {};
+
+    // Placeholders globais do impacto
+    document.querySelectorAll('[data-impact-global]').forEach((el) => {
+        const key = el.getAttribute('data-impact-global');
+        const value = impact[key];
+
+        if (String(key).toLowerCase().includes('payback')) {
+            el.textContent = formatPaybackRigor(value);
+        } else {
+            el.textContent = formatBRLRigor(value);
+        }
+    });
+
+    const actionMap = {
+        wismo: ['wismo', 'automação wismo', 'automacao wismo'],
+        frete: ['frete', 'política de frete', 'politica de frete', 'corte frete'],
+        midia: ['marketing', 'mídia', 'midia', 'realocação marketing', 'otimização de mídia'],
+        bundles: ['bundles', 'capital em bundles', 'moda+beleza', 'moda + beleza'],
+        devolucoes: ['devoluções', 'devolucoes', 'redução devoluções', 'reducao devolucoes']
+    };
+
+    Object.entries(actionMap).forEach(([key, patterns]) => {
+        const action = findImpactActionRigor(data, patterns);
+        if (!action) return;
+
+        const fields = {
+            'valor': action.valor,
+            'valor-janela': action.valor,
+            'investimento': action.investimento ?? action.capex,
+            'capex': action.investimento ?? action.capex,
+            'beneficio-mensal': action.beneficio_mensal,
+            'payback': action.payback_meses
+        };
+
+        document.querySelectorAll(`[data-impact-action="${key}"]`).forEach((el) => {
+            const field = el.getAttribute('data-impact-field');
+
+            if (!(field in fields)) return;
+
+            if (field === 'payback') {
+                el.textContent = formatPaybackRigor(fields[field]);
+            } else {
+                el.textContent = formatBRLRigor(fields[field]);
+            }
+        });
+    });
+}
+
+function renderReportRigorMeta(data) {
+    const windowEl = document.getElementById('rep-doc-window');
+    if (windowEl) {
+        windowEl.textContent = windowLabelRigor(data);
+    }
+
+    const emissaoEl = document.getElementById('rep-doc-emissao');
+    if (emissaoEl) {
+        emissaoEl.textContent = new Date().toLocaleDateString('pt-BR');
+    }
+}
+
+function simpleTableRigor(rows) {
+    if (!rows.length) {
+        return '<p class="text-sm text-slate-500">Sem dados.</p>';
+    }
+
+    const keys = Object.keys(rows[0]);
+
+    const thead = `
+        <tr>
+            ${keys.map((k) => `<th>${k}</th>`).join('')}
+        </tr>
+    `;
+
+    const tbody = rows.map((row) => {
+        return `
+            <tr>
+                ${keys.map((k) => `<td>${formatScenarioValueRigor(k, row[k])}</td>`).join('')}
+            </tr>
+        `;
+    }).join('');
+
+    return `
+        <table>
+            <thead>${thead}</thead>
+            <tbody>${tbody}</tbody>
+        </table>
+    `;
+}
+
+function formatScenarioValueRigor(key, value) {
+    if (value === null || value === undefined) return '—';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') return '—';
+
+    const k = String(key).toLowerCase();
+
+    if (k.includes('payback')) {
+        return formatPaybackRigor(value);
+    }
+
+    if (k.includes('(%)')) {
+        return formatPctRigor(value);
+    }
+
+    if (
+        k.includes('r$') ||
+        k.includes('receita') ||
+        k.includes('ebitda') ||
+        k.includes('economia') ||
+        k.includes('capital') ||
+        k.includes('margem')
+    ) {
+        return formatBRLRigor(value);
+    }
+
+    if (k.includes('min') || k.includes('sla')) {
+        return Number(value).toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+    }
+
+    return Number(value).toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+}
+
+function renderScenariosRigor(data) {
+    const container = document.getElementById('scenarios-rigor');
+    if (!container) return;
+
+    const simuladorScenarios = getPathRigor(data, 'modo_integrado.previsoes_simulador.cenarios', null);
+
+    if (Array.isArray(simuladorScenarios) && simuladorScenarios.length) {
+        container.innerHTML = simpleTableRigor(simuladorScenarios);
+        return;
+    }
+
+    const cenarios = getPathRigor(data, 'modo_integrado.cenarios', null);
+
+    if (cenarios && typeof cenarios === 'object' && !Array.isArray(cenarios)) {
+        const rows = Object.entries(cenarios).map(([name, c]) => {
+            const resumo = c.resumo || c;
+
+            return {
+                'Cenário': name,
+                'Recuperação EBITDA': resumo.recuperacao_ebitda,
+                'Economia Opex': resumo.economia_opex_total,
+                'Capital Desrepresado': resumo.capital_desrepresado,
+                'Payback Global': resumo.payback_global_meses,
+                'Receita Protegida': resumo.receita_protegida
+            };
+        });
+
+        container.innerHTML = simpleTableRigor(rows);
+        return;
+    }
+
+    container.innerHTML = `
+        <p class="text-sm text-slate-500">
+            Sem cenários disponíveis no JSON.
+        </p>
+    `;
+}
+
+function renderExtraMetrics(data) {
+    // Unidades de estoque para bundles
+    const excess = getPathRigor(data, 'modo_integrado.hipoteses.sobre_estoque_h4', []) || [];
+    const bundleUnits = excess.reduce((acc, item) => acc + Number(item.estoque_disponivel || 0), 0);
+
+    document.querySelectorAll('[data-bundles-unidades]').forEach((el) => {
+        el.textContent = formatNum(bundleUnits);
+    });
+
+    // Pedidos devolvidos somando a série temporal mensal
+    const periods = getPathRigor(data, 'modo_integrado.temporal.mes', []) || [];
+    const pedidosDev = periods.reduce((acc, p) => acc + Number(p.pedidos_devolvidos || 0), 0);
+
+    document.querySelectorAll('[data-devolucoes-pedidos]').forEach((el) => {
+        el.textContent = formatNum(pedidosDev);
+    });
+
+    // Percentual WISMO
+    const wismoPct = getPathRigor(data, 'modo_integrado.kpis.produtividade.potencial_automacao_wismo_pct', null);
+
+    document.querySelectorAll('[data-wismo-percentual]').forEach((el) => {
+        el.textContent = formatPctRigor(wismoPct);
+    });
+}
