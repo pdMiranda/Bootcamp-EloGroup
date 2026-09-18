@@ -29,7 +29,7 @@
             churn_pct: { title: "Índice de Risco / Churn", desc: "Percentual de clientes em inatividade prolongada.", formula: "(Clientes em Risco ÷ Total Clientes) × 100" },
             taxa_devolucao: { title: "Taxa de Devolução", desc: "Percentual de pedidos com devolução ou estorno.", formula: "(Pedidos Devolvidos ÷ Total Pedidos) × 100" },
             ruptura_pct: { title: "Índice de Ruptura", desc: "Itens com saldo zerado no estoque físico.", formula: "(SKUs Zerados ÷ Total SKUs) × 100" },
-            giro_estoque: { title: "Giro de Estoque", desc: "Velocidade de renovação do inventário.", formula: "Unidades Vendidas ÷ Estoque Físico Médio" },
+            giro_estoque: { title: "Giro de Estoque", desc: "Velocidade de renovação do inventário na janela temporal das vendas.", formula: "Unidades Vendidas na janela ÷ Estoque Físico na janela" },
             lead_time_medio: { title: "Lead Time de Reposição", desc: "Dias decorridos entre o pedido de compra e entrega no armazém.", formula: "Média de dias de reposição" },
             volume_total: { title: "Volume de Chamados (SAC)", desc: "Total de tickets abertos no atendimento.", formula: "Contagem de tickets" },
             sla_pct: { title: "Aderência ao SLA", desc: "Chamados finalizados dentro da meta de CX.", formula: "(Tickets no Prazo ÷ Total) × 100" },
